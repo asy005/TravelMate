@@ -1,0 +1,55 @@
+# ==============================
+# TravelMate - Root Git Ignore
+# ==============================
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+
+# ---------- Environment / Secrets ----------
+.env
+.env.*
+!.env.example
+
+# ---------- Node / Frontend ----------
+node_modules/
+dist/
+dist-ssr/
+build/
+
+# ---------- Logs ----------
+*.log
+
+# ---------- IDE / OS ----------
+.vscode/
+.idea/
+.DS_Store
+
+# ---------- Archives ----------
+*.zip
+
+# ---------- ML generated artifacts ----------
+*.pkl
+
+# ---------- Temporary files ----------
+*.tmp
+*.temp
+
+# ---------- Sensitive / local datasets ----------
+datasets/users.csv
+datasets/bookings.csv
+datasets/reviews.csv
+
+# ---------- ML training/evaluation data ----------
+datasets/ml/ml_train.csv
+datasets/ml/ml_test.csv
+
+# ---------- ML experiments ----------
+datasets/ml/experiments/
+
+# ---------- Local project inspection files ----------
+project_structure.txt
+query
