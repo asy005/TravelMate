@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 SEASON_MONTHS = {
@@ -103,20 +104,17 @@ def calculate_season_match(
         )
     )
 
-def destination_budget_level(
-    average_budget
-):
-
+def destination_budget_level(average_budget):
     if pd.isna(average_budget):
-        return "Medium"
+        return np.nan
 
-    if average_budget >= 3000:
-        return "High"
+    if average_budget <= 15000:
+        return 1
 
-    if average_budget >= 2000:
-        return "Medium"
+    if average_budget <= 40000:
+        return 2
 
-    return "Low"
+    return 3
 
 def calculate_budget_difference(
     user_budget,
@@ -147,15 +145,12 @@ def build_user_destination_features(
 ):
 
     df = destinations.copy()
+
     df["age"] = user_profile["age"]
 
-    df["travel_style"] = (
-        user_profile["travel_style"]
-    )
+    df["travel_style"] = user_profile["travel_style"]
 
-    df["budget"] = (
-        user_profile["budget"]
-    )
+    df["budget"] = user_profile["budget"]
 
     df["preferred_category"] = (
         user_profile["preferred_category"]
@@ -164,20 +159,26 @@ def build_user_destination_features(
     df["preferred_season"] = (
         user_profile["preferred_season"]
     )
+
     df["category_match"] = (
-        df["category"]
+        df["category"].fillna("").str.lower()
         ==
-        user_profile["preferred_category"]
+        str(user_profile["preferred_category"]).lower()
     ).astype(int)
-    df["budget_difference"] = (
-        df["average_budget"].apply(
-            lambda value:
-            calculate_budget_difference(
-                user_profile["budget"],
-                value
-            )
-        )
+
+    # Match the exact budget logic used during ML training
+    destination_budget_levels = (
+        df["average_budget"]
+        .apply(destination_budget_level)
     )
+
+    user_budget_levels = df["budget"].map(BUDGET_LEVELS)
+
+    df["budget_difference"] = (
+        user_budget_levels
+        - destination_budget_levels
+    ).abs()
+
     df["season_match"] = df.apply(
         lambda row:
         calculate_season_match(
@@ -187,14 +188,10 @@ def build_user_destination_features(
         axis=1
     )
 
-    user_budget_value = BUDGET_VALUES.get(
-        user_profile["budget"],
-        BUDGET_VALUES["Medium"]
-    )
-
+    # Match the exact feature definition used during ML training
     df["hotel_price_to_budget"] = (
         df["avg_hotel_price"]
-        / user_budget_value
+        / df["average_budget"].replace(0, np.nan)
     )
 
     df["hotel_rating_available"] = (
@@ -202,4 +199,5 @@ def build_user_destination_features(
         .notna()
         .astype(int)
     )
+
     return df, df[MODEL_FEATURES].copy()
