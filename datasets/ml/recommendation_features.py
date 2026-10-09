@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-
 SEASON_MONTHS = {
     "Summer": {3, 4, 5},
     "Monsoon": {6, 7, 8, 9},
@@ -8,19 +7,16 @@ SEASON_MONTHS = {
     "Spring": {2, 3, 4},
     "Autumn": {9, 10, 11},
 }
-
 BUDGET_LEVELS = {
     "Low": 1,
     "Medium": 2,
     "High": 3,
 }
-
 BUDGET_VALUES = {
     "Low": 2000,
     "Medium": 5000,
     "High": 10000,
 }
-
 MODEL_FEATURES = [
     "age",
     "travel_style",
@@ -56,53 +52,51 @@ MODEL_FEATURES = [
 ]
 
 def parse_season_range(value):
-
     if pd.isna(value):
         return set()
 
-    value = str(value).strip()
+    value = str(value).strip().lower()
 
-    if value in SEASON_MONTHS:
-        return SEASON_MONTHS[value]
+    if "all year" in value or value == "year":
+        return set(range(1, 13))
+
+    month_map = {
+        "jan": 1, "feb": 2, "mar": 3, "apr": 4,
+        "may": 5, "jun": 6, "jul": 7, "aug": 8,
+        "sep": 9, "oct": 10, "nov": 11, "dec": 12,
+    }
 
     parts = [
         part.strip()
-        for part in value.replace("–", "-").split("-")
+        for part in value.replace("/", "-").split("-")
     ]
 
-    months = set()
+    if len(parts) != 2:
+        return set()
 
-    for part in parts:
-        if part in SEASON_MONTHS:
-            months.update(
-                SEASON_MONTHS[part]
-            )
+    start = month_map.get(parts[0][:3])
+    end = month_map.get(parts[1][:3])
 
-    return months
+    if start is None or end is None:
+        return set()
 
-def calculate_season_match(
-    user_season,
-    destination_season
-):
+    if start <= end:
+        return set(range(start, end + 1))
 
-    user_months = parse_season_range(
-        user_season
+    return set(range(start, 13)) | set(range(1, end + 1))
+
+def calculate_season_match(user_season, destination_season):
+    user_months = SEASON_MONTHS.get(
+        str(user_season).strip().title(),
+        set()
     )
 
-    destination_months = parse_season_range(
-        destination_season
-    )
+    destination_months = parse_season_range(destination_season)
 
     if not user_months or not destination_months:
         return 0
 
-    return int(
-        bool(
-            user_months.intersection(
-                destination_months
-            )
-        )
-    )
+    return int(bool(user_months & destination_months))
 
 def destination_budget_level(average_budget):
     if pd.isna(average_budget):
@@ -166,7 +160,6 @@ def build_user_destination_features(
         str(user_profile["preferred_category"]).lower()
     ).astype(int)
 
-    # Match the exact budget logic used during ML training
     destination_budget_levels = (
         df["average_budget"]
         .apply(destination_budget_level)
@@ -188,7 +181,6 @@ def build_user_destination_features(
         axis=1
     )
 
-    # Match the exact feature definition used during ML training
     df["hotel_price_to_budget"] = (
         df["avg_hotel_price"]
         / df["average_budget"].replace(0, np.nan)
