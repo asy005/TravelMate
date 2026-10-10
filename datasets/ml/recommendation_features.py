@@ -7,16 +7,19 @@ SEASON_MONTHS = {
     "Spring": {2, 3, 4},
     "Autumn": {9, 10, 11},
 }
+
 BUDGET_LEVELS = {
     "Low": 1,
     "Medium": 2,
     "High": 3,
 }
+
 BUDGET_VALUES = {
     "Low": 2000,
     "Medium": 5000,
     "High": 10000,
 }
+
 MODEL_FEATURES = [
     "age",
     "travel_style",
@@ -87,16 +90,18 @@ def parse_season_range(value):
 
 def calculate_season_match(user_season, destination_season):
     user_months = SEASON_MONTHS.get(
-        str(user_season).strip().title(),
-        set()
+        str(user_season).strip().title(), set()
     )
+
+    if not user_months:
+        user_months = parse_season_range(user_season)
 
     destination_months = parse_season_range(destination_season)
 
     if not user_months or not destination_months:
         return 0
 
-    return int(bool(user_months & destination_months))
+    return len(user_months & destination_months) / len(user_months)
 
 def destination_budget_level(average_budget):
     if pd.isna(average_budget):
