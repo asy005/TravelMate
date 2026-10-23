@@ -33,7 +33,7 @@ def simple_activity_from_snippets(rag_result, limit=6):
 @router.post("/generate")
 def generate_plan(req: PlanRequest):
     days = max(1, min(14, req.days))
-    rag = query_knowledge_base(req.destination)
+    rag = query_knowledge_base(req.destination, destination_name=req.destination)
     activities = simple_activity_from_snippets(rag, limit=days*2)
 
     # fallback activities
