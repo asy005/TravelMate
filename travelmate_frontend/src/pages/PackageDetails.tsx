@@ -16,9 +16,13 @@ import {
 import { PageLoader } from "@/components/PageLoader";
 import { getPackageDetails, selectPackage } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
+import { ReviewsSection } from "@/components/ReviewsSection";
 
 const PLACEHOLDER_PHOTO =
   "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=80";
+
+const cleanLabel = (text?: string): string =>
+  text ? text.replace(/^\s*\[demo\]\s*/i, "").replace(/\[demo\]/gi, "").trim() : "";
 
 const PackageDetails = () => {
   const { id } = useParams();
@@ -104,10 +108,10 @@ const PackageDetails = () => {
         <Card className="p-6 bg-card/95 backdrop-blur-md border border-white/20 shadow-xl">
           <div className="flex items-start justify-between flex-wrap gap-2">
             <div>
-              <h1 className="text-3xl font-bold">{pkg.title}</h1>
+              <h1 className="text-3xl font-bold">{cleanLabel(pkg.title)}</h1>
               {pkg.partner_name && (
                 <p className="flex items-center gap-1 text-muted-foreground text-sm mt-1">
-                  <Building2 className="h-4 w-4" /> by {pkg.partner_name}
+                  <Building2 className="h-4 w-4" /> by {cleanLabel(pkg.partner_name)}
                 </p>
               )}
             </div>
@@ -182,6 +186,11 @@ const PackageDetails = () => {
             Booking isn't available for packages yet — selecting updates your trip plan and budget.
           </p>
         </Card>
+
+        {/* Guest Reviews (Phase 3) */}
+        <div className="mt-8">
+          <ReviewsSection entityType="package" entityId={pkg.id} />
+        </div>
       </div>
     </div>
   );

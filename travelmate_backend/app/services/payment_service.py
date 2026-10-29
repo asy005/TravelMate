@@ -1,53 +1,144 @@
 # app/services/payment_service.py
 """
-Razorpay integration, kept deliberately thin: this module only creates
-orders and verifies payment signatures. It does not know about bookings --
-booking_routes.py is what ties a Razorpay order/payment back to a specific
-Booking row, using the existing `status`/`payment_reference` fields
-(see the extension-point note in models/booking.py and booking_service.py).
-No new tables were needed to add this.
+Razorpay payment integration with safe demo simulation support.
+- Production safety: Demo payments are strictly prohibited in production,
+  regardless of configuration.
+- Real credentials: When valid Razorpay credentials are configured, standard
+  Razorpay order creation and HMAC-SHA256 signature verification run.
+- Placeholder detection: Missing or placeholder keys are detected without
+  calling the Razorpay API.
+- Simulated demo flow: When ENABLE_DEMO_PAYMENT is enabled in development/test,
+  orders and verifications follow an explicit simulated flow and are clearly
+  labelled as simulated.
 """
-import hmac
 import hashlib
+import hmac
+import time
+from typing import Optional
+
 import razorpay
 
 from app.config import settings
+
+PLACEHOLDER_KEY_PATTERNS = [
+    "your_key",
+    "placeholder",
+    "dummy",
+    "xxx",
+    "todo",
+    "rzp_test_your_key_id",
+    "your_secret",
+]
 
 
 class PaymentError(Exception):
     pass
 
 
+def is_razorpay_configured() -> bool:
+    """
+    Returns True only if both RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are set
+    and do not match placeholder patterns.
+    """
+    key_id = (settings.RAZORPAY_KEY_ID or "").strip()
+    key_secret = (settings.RAZORPAY_KEY_SECRET or "").strip()
+    if not key_id or not key_secret:
+        return False
+
+    key_id_lower = key_id.lower()
+    key_secret_lower = key_secret.lower()
+
+    for pattern in PLACEHOLDER_KEY_PATTERNS:
+        if pattern in key_id_lower or pattern in key_secret_lower:
+            return False
+
+    return True
+
+
+def is_demo_payment_allowed() -> bool:
+    """
+    Demo payment is only allowed in development or test environments, and only
+    when ENABLE_DEMO_PAYMENT is explicitly True. It is impossible in production.
+    """
+    env = (getattr(settings, "ENVIRONMENT", "") or "development").strip().lower()
+    if env in ("production", "prod"):
+        return False
+    return bool(getattr(settings, "ENABLE_DEMO_PAYMENT", False))
+
+
+def is_demo_order(order_id: Optional[str]) -> bool:
+    return bool(order_id and str(order_id).startswith("demo_order_"))
+
+
 def _client() -> razorpay.Client:
-    if not settings.RAZORPAY_KEY_ID or not settings.RAZORPAY_KEY_SECRET:
-        raise PaymentError("Razorpay is not configured (missing RAZORPAY_KEY_ID/RAZORPAY_KEY_SECRET).")
+    if not is_razorpay_configured():
+        raise PaymentError("Razorpay is not configured (missing or placeholder credentials).")
     return razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
 
 def create_order(amount_inr: float, receipt: str) -> dict:
     """
-    Amount is in INR (rupees); Razorpay expects the smallest currency unit
-    (paise), so we convert here -- callers always deal in rupees.
+    Creates either a real Razorpay order or a simulated demo order.
+    Amount is in INR (rupees); returned amount is in paise.
     """
-    client = _client()
     amount_paise = int(round(amount_inr * 100))
 
-    try:
-        order = client.order.create({
+    if is_razorpay_configured():
+        client = _client()
+        try:
+            order = client.order.create({
+                "amount": amount_paise,
+                "currency": "INR",
+                "receipt": receipt,
+                "payment_capture": 1,
+            })
+        except Exception as e:
+            raise PaymentError(f"Failed to create Razorpay order: {e}")
+
+        return {
+            "order_id": order["id"],
             "amount": amount_paise,
             "currency": "INR",
-            "receipt": receipt,
-            "payment_capture": 1,  # auto-capture on successful authorization
-        })
-    except Exception as e:  # razorpay raises its own error types; keep this generic and safe
-        raise PaymentError(f"Failed to create Razorpay order: {e}")
+            "key_id": settings.RAZORPAY_KEY_ID,
+            "is_demo": False,
+            "simulation_notice": None,
+        }
 
-    return {
-        "order_id": order["id"],
-        "amount": amount_paise,
-        "currency": "INR",
-        "key_id": settings.RAZORPAY_KEY_ID,
-    }
+    # If Razorpay is not configured, check if demo mode is permitted
+    if is_demo_payment_allowed():
+        demo_order_id = f"demo_order_{receipt}_{int(time.time())}"
+        return {
+            "order_id": demo_order_id,
+            "amount": amount_paise,
+            "currency": "INR",
+            "key_id": "demo_key_simulated",
+            "is_demo": True,
+            "simulation_notice": "SIMULATED PAYMENT: Demo mode active. No actual funds will be transferred.",
+        }
+
+    env = (getattr(settings, "ENVIRONMENT", "") or "development").strip().lower()
+    if env in ("production", "prod"):
+        raise PaymentError("Razorpay is not configured. Demo payments are strictly prohibited in production.")
+    raise PaymentError("Razorpay is not configured and ENABLE_DEMO_PAYMENT is disabled.")
+
+
+def verify_demo_payment(order_id: str, payment_id: str, signature: str) -> bool:
+    """
+    Verifies a simulated demo payment.
+    Requires demo mode to be permitted, payment_id to be explicitly demo-prefixed,
+    and signature to match the demo expected signature.
+    """
+    if not is_demo_payment_allowed():
+        raise PaymentError("Simulated payments are not permitted in this environment.")
+
+    if not is_demo_order(order_id):
+        return False
+
+    if not payment_id or not payment_id.startswith("demo_pay_"):
+        return False
+
+    expected_sig = f"demo_sig_{order_id}"
+    return hmac.compare_digest(expected_sig, signature)
 
 
 def verify_payment_signature(order_id: str, payment_id: str, signature: str) -> bool:
@@ -56,7 +147,10 @@ def verify_payment_signature(order_id: str, payment_id: str, signature: str) -> 
     "{order_id}|{payment_id}" using the account's key secret, compared to
     the signature returned by Razorpay's checkout callback.
     """
-    if not settings.RAZORPAY_KEY_SECRET:
+    if is_demo_order(order_id):
+        raise PaymentError("Cannot verify simulated demo order with real Razorpay verification.")
+
+    if not is_razorpay_configured() or not settings.RAZORPAY_KEY_SECRET:
         raise PaymentError("Razorpay is not configured (missing RAZORPAY_KEY_SECRET).")
 
     payload = f"{order_id}|{payment_id}".encode()

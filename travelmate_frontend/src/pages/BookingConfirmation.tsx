@@ -44,6 +44,35 @@ const BookingConfirmation = () => {
     setPayingNow(true);
 
     try {
+      const order = await createPaymentOrder(booking.booking_reference);
+
+      if (order.is_demo) {
+        toast({
+          title: "Demo Mode Payment",
+          description: order.simulation_notice || "Processing simulated payment for local development...",
+        });
+        try {
+          await verifyPayment(booking.booking_reference, {
+            razorpay_order_id: order.order_id,
+            razorpay_payment_id: `demo_pay_${Date.now()}`,
+            razorpay_signature: `demo_sig_${order.order_id}`,
+          });
+          toast({
+            title: "Simulated Payment Successful",
+            description: "Your booking is confirmed in demo mode. No actual charge was made.",
+          });
+        } catch {
+          toast({
+            title: "Payment could not be verified",
+            description: "Your booking is still saved as Pending Payment.",
+            variant: "destructive",
+          });
+        }
+        await refresh();
+        setPayingNow(false);
+        return;
+      }
+
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         toast({
@@ -54,8 +83,6 @@ const BookingConfirmation = () => {
         setPayingNow(false);
         return;
       }
-
-      const order = await createPaymentOrder(booking.booking_reference);
 
       const razorpay = new (window as any).Razorpay({
         key: order.key_id,
@@ -164,6 +191,14 @@ const BookingConfirmation = () => {
           {isConfirmed ? <CheckCircle2 className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
           {booking.status}
         </Badge>
+
+        {booking.is_simulated && (
+          <div className="mb-4">
+            <Badge variant="outline" className="border-amber-500 text-amber-700 bg-amber-50 dark:bg-amber-950/30">
+              Simulated Payment (Demo Mode)
+            </Badge>
+          </div>
+        )}
 
         <div className="text-left space-y-2 text-sm mb-4">
           <div className="flex justify-between">

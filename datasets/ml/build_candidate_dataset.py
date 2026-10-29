@@ -13,6 +13,9 @@ observed = pd.read_csv(
 )
 
 observed["interaction_observed"] = 1
+observed["interaction_label"] = pd.to_numeric(
+    observed["interaction_label"], errors="coerce"
+)
 
 user_cols = [
     "user_id", "age", "gender", "travel_style", "budget",

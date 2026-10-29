@@ -1,11 +1,11 @@
 from pathlib import Path
 import numpy as np
 import pandas as pd
+from recommendation_features import calculate_season_match
 
 BASE_DIR = Path(__file__).resolve().parent
 INPUT = BASE_DIR / "user_destination_candidates.csv"
 OUTPUT = BASE_DIR / "ml_training_features.csv"
-
 
 def parse_season_range(value):
     if pd.isna(value):
@@ -47,16 +47,11 @@ def parse_season_range(value):
 
     return set(range(start, 13)) | set(range(1, end + 1))
 
-
 def season_match(user_season, destination_season):
-    user_months = parse_season_range(user_season)
-    destination_months = parse_season_range(destination_season)
-
-    if not user_months or not destination_months:
-        return 0
-
-    return int(bool(user_months & destination_months))
-
+    return calculate_season_match(
+        user_season,
+        destination_season,
+    )
 
 df = pd.read_csv(
     INPUT,
@@ -66,7 +61,9 @@ df = pd.read_csv(
     },
 )
 
-df["interaction_target"] = df["interaction_observed"].astype(int)
+df["interaction_target"] = pd.to_numeric(
+    df["interaction_label"], errors="coerce"
+)
 
 df["category_match"] = (
     df["preferred_category"].fillna("").str.lower()
@@ -184,8 +181,9 @@ for col in categorical_features:
 assert len(features) == len(df)
 assert features["user_id"].notna().all()
 assert features["destination_id"].notna().all()
-assert set(features["interaction_target"].unique()) <= {0, 1}
-assert set(features["season_match"].unique()) <= {0, 1}
+known_targets = features["interaction_target"].dropna()
+assert set(known_targets.unique()).issubset({0, 1})
+assert features["season_match"].between(0, 1).all()
 
 features.to_csv(
     OUTPUT,
@@ -196,14 +194,11 @@ print("=" * 60)
 print("ML FEATURE DATASET")
 print("=" * 60)
 print(f"Shape: {features.shape}")
-print(
-    f"Positive samples: "
-    f"{(features['interaction_target'] == 1).sum()}"
-)
-print(
-    f"Unobserved samples: "
-    f"{(features['interaction_target'] == 0).sum()}"
-)
+
+print(f"Positive labels: {(features['interaction_target'] == 1).sum()}")
+print(f"Negative labels: {(features['interaction_target'] == 0).sum()}")
+print(f"Unknown labels: {features['interaction_target'].isna().sum()}")
+
 print(f"Unique users: {features['user_id'].nunique()}")
 print(
     f"Unique destinations: "

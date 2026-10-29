@@ -12,3 +12,12 @@ class Destination(Base):
     tags = Column(String(512), nullable=True)
     thumbnail_url = Column(String(512), nullable=True)
     avg_rating = Column(Float, default=5.0)
+
+    # Extended dataset columns
+    csv_destination_id = Column(String(32), nullable=True, index=True)
+    state = Column(String(128), nullable=True)
+    city = Column(String(128), nullable=True)
+    category = Column(String(64), nullable=True)
+    best_season = Column(String(64), nullable=True)
+    average_budget = Column(Float, nullable=True)
+    ideal_duration = Column(Integer, nullable=True)

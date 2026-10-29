@@ -17,6 +17,7 @@ from sqlalchemy.orm import Session
 from app.models.destination import Destination
 from app.services.rag_engine import query_knowledge_base
 from app.services.weather_service import cached_weather
+from app.services.route_optimizer import optimize_trip_builder_plan
 
 # Reused from the existing recommendation module (unmodified)
 from app.routes.recommend_routes import extract_mood, extract_budget, extract_best_time, fetch_latlon
@@ -136,7 +137,7 @@ def build_day_wise_itinerary(destination_name: str, days: int, interests: List[s
     interest_str = ", ".join(interests) if interests else ""
     query = f"{destination_name} itinerary highlights {interest_str}".strip()
 
-    rag = query_knowledge_base(query)
+    rag = query_knowledge_base(query, destination_name=destination_name)
     activities = simple_activity_from_snippets(rag, limit=days * 2)
 
     if not activities:
@@ -166,7 +167,7 @@ def build_day_wise_itinerary(destination_name: str, days: int, interests: List[s
             day_items = ["Free time / relax at your own pace"]
         plan[f"day_{d}"] = day_items
 
-    return plan
+    return optimize_trip_builder_plan(destination_name, plan)
 
 
 def build_packing_list(destination_name: str, weather: Optional[Dict[str, Any]], days: int, interests: List[str], travel_style: str) -> List[str]:
@@ -217,11 +218,23 @@ def find_candidate_destinations(
     /travel/plan) so travel_style/interests can steer the match when the RAG
     fallback destination isn't in the DB yet.
     """
-    rag = query_knowledge_base(query_text)
+    # Check if a destination is explicitly mentioned in the query
+    explicit_dest = None
+    all_dests = db.query(Destination.name).all()
+    q_lower = query_text.lower()
+    for (d_name,) in all_dests:
+        if d_name and d_name.lower() in q_lower:
+            explicit_dest = d_name
+            break
+
+    rag = query_knowledge_base(query_text, destination_name=explicit_dest)
     fb = rag.get("fallback", {}) if isinstance(rag, dict) else {}
     context = rag.get("context", "") if isinstance(rag, dict) else ""
 
-    rag_destination_name = fb.get("destination")
+    rag_destination_name = explicit_dest or fb.get("destination")
+    if rag_destination_name and rag_destination_name.lower() in {"peaceful nature retreat", "your selected destination", "unknown"}:
+        rag_destination_name = None
+
     mood = extract_mood(context)
     budget_label = extract_budget(context)
     best_time = extract_best_time(context)

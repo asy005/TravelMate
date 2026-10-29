@@ -34,7 +34,7 @@ def _system_prompt() -> str:
         "conversation about a trip that has ALREADY been planned. The "
         "traveler is now asking for a change. Determine what changed and "
         "respond ONLY with a JSON object of this exact shape:\n"
-        '{"updated_slots": {<only the slot keys that changed, from: origin, '
+        '{"updated_slots": {<only the slot keys that changed, from: destination, origin, '
         'budget, travelers, start_date, duration_days, travel_style, '
         'interests, transport_pref, food_pref, accommodation_pref, '
         'weather_pref, accessibility, additional_notes>}, '
@@ -45,7 +45,7 @@ def _system_prompt() -> str:
         "Guidance on change_type:\n"
         "- budget: any change to spending amount (e.g. \"increase my budget to 60000\")\n"
         "- hotel: wants a different hotel tier/style (\"find a cheaper hotel\", \"show luxury hotels\")\n"
-        "- destination: wants a different place/vibe entirely (\"I want beaches instead\")\n"
+        "- destination: wants a different place/vibe entirely (e.g. \"I want to plan my trip to Darjeeling\", \"I want beaches instead\")\n"
         "- package: wants to add/remove/change a tour package (\"remove the package\")\n"
         "- duration: trip length changed (\"I only have 3 days\")\n"
         "- preference: transport/food/activity/accessibility preference changes that don't "
@@ -95,9 +95,15 @@ def _keyword_fallback(user_message: str) -> Tuple[Dict[str, Any], str, bool, str
             updated_slots["food_pref"] = text
         if any(k in text for k in ["trek", "adventure"]):
             updated_slots["interests"] = text
-    elif any(k in text for k in ["instead", "prefer somewhere", "different place", "beach", "mountain"]):
+    elif any(k in text for k in ["choose", "select", "plan my trip to", "instead", "prefer somewhere", "different place", "beach", "mountain", "alternative", "alternatives", "other destination", "different destination", "other options", "different options", "more options"]):
         change_type = "destination"
-        updated_slots["interests"] = text
+        choose_match = re.search(r"(?:choose|select|plan my trip to|go to)\s+([A-Za-z\s'-]+)", text, re.IGNORECASE)
+        if choose_match:
+            dest_cand = choose_match.group(1).strip(" .!,")
+            if dest_cand:
+                updated_slots["destination"] = dest_cand.title()
+        else:
+            updated_slots["interests"] = text
     else:
         change_type = "none"
 

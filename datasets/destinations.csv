@@ -1,0 +1,615 @@
+destination_id,destination_name,state,city,category,description,best_season,average_budget,ideal_duration
+D0001,Goa,Goa,Goa,Beach,Relaxing,Nov-Feb,3000.0,4
+D0002,Manali,Himachal Pradesh,Manali,Hill Station,Adventure,Oct-Feb,2500.0,5
+D0003,Leh-Ladakh,Ladakh,Leh-Ladakh,Hill Station,Adventure,Jun-Sep,3500.0,8
+D0004,Kerala,Kerala,Kerala,Beach,Relaxing,Sep-Mar,3000.0,6
+D0005,Rishikesh,Uttarakhand,Rishikesh,Hill Station,Adventure,Sep-Nov,2000.0,3
+D0006,Shimla,Himachal Pradesh,Shimla,Hill Station,Relaxing,Oct-Feb,2200.0,4
+D0007,Darjeeling,West Bengal,Darjeeling,Hill Station,Relaxing,Mar-May,2000.0,4
+D0008,Mussoorie,Uttarakhand,Mussoorie,Hill Station,Relaxing,Mar-Jun,2300.0,3
+D0009,Ooty,Tamil Nadu,Ooty,Hill Station,Relaxing,Oct-Jun,1800.0,4
+D0010,Coorg,Karnataka,Coorg,Hill Station,Relaxing,Oct-Mar,3000.0,4
+D0011,Spiti Valley,Himachal Pradesh,Spiti Valley,Hill Station,Adventure,Jun-Sep,3000.0,10
+D0012,Auli,Uttarakhand,Auli,Hill Station,Adventure,Jan-Mar,2800.0,4
+D0013,Kodaikanal,Tamil Nadu,Kodaikanal,Hill Station,Relaxing,Oct-Mar,1800.0,4
+D0014,Munnar,Kerala,Munnar,Hill Station,Relaxing,Sep-Mar,2500.0,4
+D0015,Tawang,Arunachal Pradesh,Tawang,Hill Station,Adventure,Apr-Oct,2500.0,6
+D0016,Andaman Islands,Andaman & Nicobar,Andaman Islands,Beach,Adventure,Oct-May,5000.0,6
+D0017,Varkala,Kerala,Varkala,Beach,Relaxing,Nov-Mar,2000.0,4
+D0018,Pondicherry,Puducherry,Pondicherry,Beach,Relaxing,Oct-Mar,2000.0,4
+D0019,Puri,Odisha,Puri,Beach,Spiritual,Oct-Mar,1500.0,3
+D0020,Diu,Diu,Diu,Beach,Relaxing,Oct-Mar,1800.0,3
+D0021,Tarkarli,Maharashtra,Tarkarli,Beach,Adventure,Oct-Mar,2000.0,4
+D0022,Kovalam,Kerala,Kovalam,Beach,Relaxing,Sep-Mar,2500.0,4
+D0023,Lakshadweep,Lakshadweep,Lakshadweep,Beach,Luxury,Oct-May,8000.0,6
+D0024,Agra,Uttar Pradesh,Agra,Heritage,Cultural,Oct-Mar,2000.0,2
+D0025,Jaipur,Rajasthan,Jaipur,Heritage,Cultural,Oct-Mar,2500.0,4
+D0026,Hampi,Karnataka,Hampi,Heritage,Cultural,Oct-Mar,1500.0,4
+D0027,Udaipur,Rajasthan,Udaipur,Heritage,Luxury,Oct-Mar,3500.0,4
+D0028,Jodhpur,Rajasthan,Jodhpur,Heritage,Cultural,Oct-Mar,2000.0,3
+D0029,Mysore,Karnataka,Mysore,Heritage,Cultural,Oct-Mar,2000.0,3
+D0030,Amritsar,Punjab,Amritsar,Heritage,Spiritual,Oct-Mar,1500.0,2
+D0031,Khajuraho,Madhya Pradesh,Khajuraho,Heritage,Cultural,Oct-Mar,1800.0,2
+D0032,Ajanta-Ellora,Maharashtra,Ajanta-Ellora,Heritage,Cultural,Oct-Mar,1800.0,2
+D0033,Pushkar,Rajasthan,Pushkar,Heritage,Spiritual,Oct-Mar,1500.0,3
+D0034,Jim Corbett,Uttarakhand,Jim Corbett,Forest,Wildlife,Nov-Jun,3500.0,4
+D0035,Ranthambore,Rajasthan,Ranthambore,Forest,Wildlife,Oct-Apr,4000.0,4
+D0036,Kaziranga,Assam,Kaziranga,Forest,Wildlife,Nov-Apr,3000.0,4
+D0037,Sundarbans,West Bengal,Sundarbans,Forest,Adventure,Sep-Mar,2500.0,4
+D0038,Bandhavgarh,Madhya Pradesh,Bandhavgarh,Forest,Wildlife,Oct-Jun,3500.0,4
+D0039,Jaisalmer,Rajasthan,Jaisalmer,Desert,Adventure,Oct-Mar,2500.0,4
+D0040,Rann Of Kutch,Gujarat,Rann Of Kutch,Desert,Cultural,Nov-Feb,2000.0,3
+D0041,Mumbai,Maharashtra,Mumbai,Urban,Cultural,Nov-Feb,3500.0,4
+D0042,Delhi,Delhi,Delhi,Urban,Cultural,Oct-Mar,2500.0,4
+D0043,Bangalore,Karnataka,Bangalore,Urban,Relaxing,All Year,3000.0,3
+D0044,Kolkata,West Bengal,Kolkata,Urban,Cultural,Oct-Mar,2000.0,3
+D0045,Hyderabad,Telangana,Hyderabad,Urban,Cultural,Oct-Mar,2500.0,3
+D0046,Abdullāpuram,Tamil Nadu,Abdullāpuram,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0047,Adūr,Kerala,Adūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0048,Agartala,Tripura,Agartala,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0049,Agonda,Goa,Agonda,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0050,Aguada,Goa,Aguada,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0051,Ahemdabad,Gujarat,Ahemdabad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0052,Ahmadnagar,Maharashtra,Ahmadnagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0053,Ahmedabad,Gujarat,Ahmedabad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0054,Ahār,Rajasthan,Ahār,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0055,Ajanta,Maharashtra,Ajanta,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0056,Ajmer,Rajasthan,Ajmer,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0057,Akola,Maharashtra,Akola,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0058,Alappuzha,Kerala,Alappuzha,Beach,A relaxing coastal getaway known for its beaches.,Sep-Mar,2200.0,4
+D0059,Alibaug,Maharashtra,Alibaug,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0060,Aligarh,Uttar Pradesh,Aligarh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0061,Allahabad,Uttar Pradesh,Allahabad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0062,Allahābād,Uttar Pradesh,Allahābād,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0063,Alleppey,Kerala,Alleppey,Beach,A relaxing coastal getaway known for its beaches.,Sep-Mar,2200.0,4
+D0064,Almora,Uttarakhand,Almora,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0065,Alto Porvorim,Goa,Alto Porvorim,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0066,Alwar,Rajasthan,Alwar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0067,Ambalapulai,Kerala,Ambalapulai,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0068,Ambalavayal,Kerala,Ambalavayal,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0069,Amrāvati,Maharashtra,Amrāvati,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0070,Anantapur,Andhra Pradesh,Anantapur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0071,Angamali,Kerala,Angamali,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0072,Anjuna,Goa,Anjuna,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0073,Arambol,Goa,Arambol,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0074,Arpora,Goa,Arpora,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0075,Attibele,Karnataka,Attibele,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0076,Attigundi,Karnataka,Attigundi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0077,Aurangabad,Maharashtra,Aurangabad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0078,Auroville,Puducherry,Auroville,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0079,Avathi,Karnataka,Avathi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0080,Ayodhya,Uttar Pradesh,Ayodhya,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0081,Badami,Karnataka,Badami,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0082,Baddi,Himachal Pradesh,Baddi,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0083,Baga,Goa,Baga,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0084,Bahraich,Uttar Pradesh,Bahraich,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0085,Bajaura,Himachal Pradesh,Bajaura,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0086,Balasore,Odisha,Balasore,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0087,Ballygunge,West Bengal,Ballygunge,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0088,Bambolim,Goa,Bambolim,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0089,Banār,Uttar Pradesh,Banār,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0090,Bapane,Andhra Pradesh,Bapane,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0091,Bara Bazar,West Bengal,Bara Bazar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0092,Baratang Island,Andaman and Nicobar,Baratang Island,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0093,Barddhamān,West Bengal,Barddhamān,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0094,Bardez,Goa,Bardez,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0095,Bareilly,Uttar Pradesh,Bareilly,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0096,Bashist,Himachal Pradesh,Bashist,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0097,Basāri,Rajasthan,Basāri,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0098,Bastar,Chhattisgarh,Bastar,Forest,A wildlife destination known for its forests and nature reserves.,Oct-Mar,3200.0,4
+D0099,Bathinda,Punjab,Bathinda,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0100,Bayappanhalli,Karnataka,Bayappanhalli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0101,Bādshāhpur,Rajasthan,Bādshāhpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0102,Begūr,Karnataka,Begūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0103,Behāla,West Bengal,Behāla,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0104,Behror,Rajasthan,Behror,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0105,Belgaum,Karnataka,Belgaum,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0106,Belparāo,Odisha,Belparāo,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0107,Belūr,Karnataka,Belūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0108,Benaulim,Goa,Benaulim,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0109,Berhampur,Odisha,Berhampur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0110,Betalbatim,Goa,Betalbatim,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0111,Beāwar,Rajasthan,Beāwar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0112,Bāghdogra,West Bengal,Bāghdogra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0113,Bharatpur,Rajasthan,Bharatpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0114,Bharuch,Gujarat,Bharuch,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0115,Bhatkal,Karnataka,Bhatkal,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0116,Bhilai,Chhattisgarh,Bhilai,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0117,Bhilwara,Rajasthan,Bhilwara,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0118,Bhiwadi,Haryana,Bhiwadi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0119,Bhīmadolu,Andhra Pradesh,Bhīmadolu,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0120,Bhīmāshankar,Maharashtra,Bhīmāshankar,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0121,Bhīm Tāl,Uttarakhand,Bhīm Tāl,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0122,Bhopal,Madhya Pradesh,Bhopal,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0123,Bhubaneshwar,Odisha,Bhubaneshwar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0124,Bhuj,Gujarat,Bhuj,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0125,Bhurtuk,Uttarakhand,Bhurtuk,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0126,Bijapur,Karnataka,Bijapur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0127,Bijni,Assam,Bijni,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0128,Bikaner,Rajasthan,Bikaner,Desert,A desert destination known for its dunes and unique landscape.,Oct-Mar,2300.0,4
+D0129,Bilāspur,Chhattisgarh,Bilāspur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0130,Binsar,Uttarakhand,Binsar,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0131,Bālighāi,Odisha,Bālighāi,Beach,A relaxing coastal getaway known for its beaches.,Oct-Mar,2200.0,4
+D0132,Būndi,Rajasthan,Būndi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0133,Bodh Gaya,Bihar,Bodh Gaya,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0134,Bolpur,West Bengal,Bolpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0135,Bordi,Maharashtra,Bordi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0136,Bori,Maharashtra,Bori,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0137,Bīr,Himachal Pradesh,Bīr,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0138,Bārkūr,Karnataka,Bārkūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0139,Buin,Arunachal Pradesh,Buin,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0140,Bulandshahr,Uttar Pradesh,Bulandshahr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0141,Ābu Road,Rajasthan,Ābu Road,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0142,Calangute,Goa,Calangute,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0143,Canacona,Goa,Canacona,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0144,Candolim,Goa,Candolim,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0145,Carmona,Goa,Carmona,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0146,Cavelossim,Goa,Cavelossim,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0147,Chamba,Himachal Pradesh,Chamba,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0148,Chandīgarh,Punjab,Chandīgarh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0149,Chandigarh,Punjab,Chandigarh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0150,Chandoli,Maharashtra,Chandoli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0151,Chandrapur,Maharashtra,Chandrapur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0152,Chegāt,Himachal Pradesh,Chegāt,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0153,Chennai,Tamil Nadu,Chennai,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0154,Cherai Beach,Kerala,Cherai Beach,Beach,A relaxing coastal getaway known for its beaches.,Sep-Mar,2200.0,4
+D0155,Cherrapunji,Meghalaya,Cherrapunji,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Apr,2500.0,4
+D0156,Chhāpar,Rajasthan,Chhāpar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0157,Chikalthān,Maharashtra,Chikalthān,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0158,Chikmagalūr,Karnataka,Chikmagalūr,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0159,Chikmagalur,Karnataka,Chikmagalur,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0160,Chikmanglur,Karnataka,Chikmanglur,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0161,Chinchwad,Maharashtra,Chinchwad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0162,Chinnakanal,Kerala,Chinnakanal,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0163,Chitradurga,Karnataka,Chitradurga,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0164,Chittoor,Andhra Pradesh,Chittoor,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0165,Chākan,Maharashtra,Chākan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0166,Chopdem,Goa,Chopdem,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0167,Chottanikara,Kerala,Chottanikara,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Sep-Mar,2000.0,3
+D0168,Chūru,Rajasthan,Chūru,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0169,Churi Jodhān,Rajasthan,Churi Jodhān,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0170,Cochin,Kerala,Cochin,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0171,Coimbatore,Tamil Nadu,Coimbatore,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0172,Collem,Goa,Collem,Forest,A wildlife destination known for its forests and nature reserves.,Nov-Feb,3200.0,4
+D0173,Colva,Goa,Colva,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0174,Coonoor,Tamil Nadu,Coonoor,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0175,Curca,Goa,Curca,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0176,Cuttack,Odisha,Cuttack,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0177,Dagshai,Himachal Pradesh,Dagshai,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0178,Dahej,Gujarat,Dahej,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0179,Dalhousie,Himachal Pradesh,Dalhousie,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0180,Daman,Gujarat,Daman,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0181,Dam Dam,West Bengal,Dam Dam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0182,Dapoli,Maharashtra,Dapoli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0183,Daulatābād,Maharashtra,Daulatābād,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0184,Dedha,Rajasthan,Dedha,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0185,Dehradun,Uttarakhand,Dehradun,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0186,Delwāra,Rajasthan,Delwāra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0187,Dentam,Sikkim,Dentam,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0188,Deoghar,Jharkhand,Deoghar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0189,Deskit,Jammu and Kashmir,Deskit,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0190,Devanhalli,Karnataka,Devanhalli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0191,Dewās,Madhya Pradesh,Dewās,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0192,Dhanbād,Jharkhand,Dhanbād,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0193,Dhantoli,Maharashtra,Dhantoli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0194,Dharamshala,Himachal Pradesh,Dharamshala,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0195,Dharmsāla,Himachal Pradesh,Dharmsāla,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0196,Dhāmpur,Uttar Pradesh,Dhāmpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0197,Dhānd,Uttar Pradesh,Dhānd,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0198,Dhāruhera,Madhya Pradesh,Dhāruhera,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0199,Diamond Harbour,West Bengal,Diamond Harbour,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0200,Digha,West Bengal,Digha,Beach,A relaxing coastal getaway known for its beaches.,Oct-Mar,2200.0,4
+D0201,Diskit,Jammu and Kashmir,Diskit,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0202,Dispur,Assam,Dispur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0203,Diva,Maharashtra,Diva,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0204,Dive,Maharashtra,Dive,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0205,Durgjan,Andhra Pradesh,Durgjan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0206,Durgāpur,West Bengal,Durgāpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0207,Dāvangere,Karnataka,Dāvangere,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0208,Dwarka,Gujarat,Dwarka,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0209,Dwārka,Gujarat,Dwārka,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0210,Eramalloor,Kerala,Eramalloor,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0211,Faizābād,Uttar Pradesh,Faizābād,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0212,Faridabad,Haryana,Faridabad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0213,Gandhinagar,Gujarat,Gandhinagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0214,Gangānagar,Rajasthan,Gangānagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0215,Gangāpur,Rajasthan,Gangāpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0216,Gangtok,Sikkim,Gangtok,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0217,Ganpatipule,Maharashtra,Ganpatipule,Beach,A relaxing coastal getaway known for its beaches.,Oct-Mar,2200.0,4
+D0218,Gaya,Bihar,Gaya,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0219,Gūduvāncheri,Tamil Nadu,Gūduvāncheri,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0220,Ghansoli,Maharashtra,Ghansoli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0221,Ghaziabad,Uttar Pradesh,Ghaziabad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0222,Gokarna,Karnataka,Gokarna,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0223,Gonikoppal,Karnataka,Gonikoppal,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0224,Gopālpur,Odisha,Gopālpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0225,Gorakhpur,Uttar Pradesh,Gorakhpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0226,Greater Noida,Uttar Pradesh,Greater Noida,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0227,Guhāgar,Maharashtra,Guhāgar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0228,Gulmarg,Jammu and Kashmir,Gulmarg,Hill Station,A scenic hill town popular for its cool climate and views.,Apr-Sep,2500.0,4
+D0229,Gurgaon,Haryana,Gurgaon,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0230,Gurugram,Haryana,Gurugram,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0231,Guruvāyūr,Kerala,Guruvāyūr,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Sep-Mar,2000.0,3
+D0232,Guwahati,Assam,Guwahati,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0233,Gwalior,Madhya Pradesh,Gwalior,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0234,Gwāldam,Uttarakhand,Gwāldam,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0235,Haddo,Andaman and Nicobar,Haddo,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0236,Haidar Sāhibgūda,Telangana,Haidar Sāhibgūda,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0237,Hanumāngarh,Rajasthan,Hanumāngarh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0238,Haridwar,Uttarakhand,Haridwar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0239,Haridwār,Uttarakhand,Haridwār,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0240,Haripūr,Uttarakhand,Haripūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0241,Harsola,Gujarat,Harsola,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0242,Hasanganj,Uttar Pradesh,Hasanganj,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0243,Hassan,Karnataka,Hassan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0244,Havelock Island,Andaman and Nicobar,Havelock Island,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0245,Himatnagar,Gujarat,Himatnagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0246,Hisār,Haryana,Hisār,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0247,Hoshangābād,Madhya Pradesh,Hoshangābād,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0248,Hoshiārpur,Punjab,Hoshiārpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0249,Hospet,Karnataka,Hospet,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0250,Hosūr,Tamil Nadu,Hosūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0251,Hubli,Karnataka,Hubli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0252,Hundar,Jammu and Kashmir,Hundar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0253,Indirapuram,Uttar Pradesh,Indirapuram,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0254,Indore,Madhya Pradesh,Indore,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0255,Jabalpur,Madhya Pradesh,Jabalpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0256,Jagdalpur,Chhattisgarh,Jagdalpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0257,Jahāngir,Uttar Pradesh,Jahāngir,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0258,Jalandhar,Punjab,Jalandhar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0259,Jammu,Jammu and Kashmir,Jammu,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0260,Jamshedpur,Jharkhand,Jamshedpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0261,Jawālāpur,Uttarakhand,Jawālāpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0262,Jādabpur,West Bengal,Jādabpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0263,Jhālāmand,Rajasthan,Jhālāmand,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0264,Jhārsuguda,Odisha,Jhārsuguda,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0265,Jālna,Maharashtra,Jālna,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0266,Jānla,Odisha,Jānla,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0267,Junagadh,Gujarat,Junagadh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0268,Kakkabe,Karnataka,Kakkabe,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0269,Kakkanad,Kerala,Kakkanad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0270,Kalamboli,Maharashtra,Kalamboli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0271,Kalimpong,West Bengal,Kalimpong,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0272,Kallār,Tamil Nadu,Kallār,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0273,Kalpatta,Kerala,Kalpatta,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0274,Kalyani,West Bengal,Kalyani,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0275,Kambam,Tamil Nadu,Kambam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0276,Kammasandra,Karnataka,Kammasandra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0277,Kanatal,Uttarakhand,Kanatal,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0278,Kanchipuram,Tamil Nadu,Kanchipuram,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0279,Kandāghāt,Himachal Pradesh,Kandāghāt,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0280,Kaniyāmbetta,Kerala,Kaniyāmbetta,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0281,Kankhal,Uttarakhand,Kankhal,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0282,Kannur,Kerala,Kannur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0283,Kanpur,Uttar Pradesh,Kanpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0284,Kanyakumari,Tamil Nadu,Kanyakumari,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0285,Kapkot,Uttarakhand,Kapkot,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0286,Kapūrwāhāl,Uttar Pradesh,Kapūrwāhāl,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0287,Kīar,Himachal Pradesh,Kīar,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0288,Kargil,Jammu and Kashmir,Kargil,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0289,Karjat,Maharashtra,Karjat,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0290,Karnāl,Haryana,Karnāl,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0291,Karsiyang,West Bengal,Karsiyang,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0292,Kas,Maharashtra,Kas,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0293,Kasauli,Himachal Pradesh,Kasauli,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0294,Kasol,Himachal Pradesh,Kasol,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0295,Katra,Jammu and Kashmir,Katra,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Apr-Sep,2000.0,3
+D0296,Kattappana,Kerala,Kattappana,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0297,Kausani,Uttarakhand,Kausani,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0298,Kaza,Himachal Pradesh,Kaza,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0299,Kedarnath,Uttarakhand,Kedarnath,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Mar-Jun,2000.0,3
+D0300,Kelambākkam,Tamil Nadu,Kelambākkam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0301,Keonjhar,Odisha,Keonjhar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0302,Ketti,Tamil Nadu,Ketti,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0303,Khairla,Madhya Pradesh,Khairla,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0304,Khajurāho,Madhya Pradesh,Khajurāho,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0305,Khammam,Telangana,Khammam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0306,Kharadi,Maharashtra,Kharadi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0307,Khari Rohar,Rajasthan,Khari Rohar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0308,Kharsia,Chhattisgarh,Kharsia,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0309,Khawāsa,Madhya Pradesh,Khawāsa,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0310,Khilchīpur,Madhya Pradesh,Khilchīpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0311,Khimsar,Rajasthan,Khimsar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0312,Kākināda,Andhra Pradesh,Kākināda,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0313,Kālapettai,Puducherry,Kālapettai,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0314,Kālkāji Devi,Delhi,Kālkāji Devi,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0315,Kūmudi,Tamil Nadu,Kūmudi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0316,Kānha,Madhya Pradesh,Kānha,Forest,A wildlife destination known for its forests and nature reserves.,Oct-Mar,3200.0,4
+D0317,Kānpur,Uttar Pradesh,Kānpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0318,Kochi,Kerala,Kochi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0319,Kodaikānāl,Tamil Nadu,Kodaikānāl,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0320,Kohima,Nagaland,Kohima,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0321,Kolhapur,Maharashtra,Kolhapur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0322,Kollūru,Karnataka,Kollūru,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0323,Kolāra,Karnataka,Kolāra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0324,Konark,Odisha,Konark,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0325,Korba,Chhattisgarh,Korba,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0326,Kota,Rajasthan,Kota,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0327,Kotagiri,Tamil Nadu,Kotagiri,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0328,Kotamangalam,Kerala,Kotamangalam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0329,Kottakamboor,Kerala,Kottakamboor,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0330,Kottayam,Kerala,Kottayam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0331,Kozhikode,Kerala,Kozhikode,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0332,Krishnarājāsāgara,Karnataka,Krishnarājāsāgara,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0333,Kulan,Tamil Nadu,Kulan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0334,Kullu,Himachal Pradesh,Kullu,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0335,Kumarakom,Kerala,Kumarakom,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0336,Kumbakonam,Tamil Nadu,Kumbakonam,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0337,Kumbhalgarh,Rajasthan,Kumbhalgarh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0338,Kurandi,Karnataka,Kurandi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0339,Kurnool,Andhra Pradesh,Kurnool,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0340,Kushālnagar,Karnataka,Kushālnagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0341,Lamaj,Uttarakhand,Lamaj,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0342,Lansdowne,Uttarakhand,Lansdowne,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0343,Lavasa,Maharashtra,Lavasa,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0344,Leh,Jammu and Kashmir,Leh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0345,Liluāh,West Bengal,Liluāh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0346,Lānja,Maharashtra,Lānja,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0347,Lokpāl,Rajasthan,Lokpāl,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0348,Lonavala,Maharashtra,Lonavala,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0349,Lonavla,Maharashtra,Lonavla,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0350,Loutolim,Goa,Loutolim,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0351,Ālīpur,West Bengal,Ālīpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0352,Lātūr,Maharashtra,Lātūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0353,Lucknow,Uttar Pradesh,Lucknow,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0354,Ludhiana,Punjab,Ludhiana,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0355,Lukerganj,Uttar Pradesh,Lukerganj,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0356,Madgaon,Goa,Madgaon,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0357,Madikeri,Karnataka,Madikeri,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0358,Madurai,Tamil Nadu,Madurai,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0359,Mahabalipuram,Tamil Nadu,Mahabalipuram,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0360,Mahābaleshwar,Maharashtra,Mahābaleshwar,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0361,Mahesāna,Gujarat,Mahesāna,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0362,Mahirāvani,Maharashtra,Mahirāvani,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0363,Majorda,Goa,Majorda,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0364,Malaut,Punjab,Malaut,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0365,Mananthavady,Kerala,Mananthavady,Hill Station,A scenic hill town popular for its cool climate and views.,Sep-Mar,2500.0,4
+D0366,Mandarmoni,West Bengal,Mandarmoni,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0367,Mandrem,Goa,Mandrem,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0368,Mandāwa,Rajasthan,Mandāwa,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0369,Manesar,Haryana,Manesar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0370,Mangalore,Karnataka,Mangalore,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0371,Manganam,Kerala,Manganam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0372,Manimala,Kerala,Manimala,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0373,Manipala,Karnataka,Manipala,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0374,Manāli,Himachal Pradesh,Manāli,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0375,Mapusa,Goa,Mapusa,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0376,Maraiyūr,Kerala,Maraiyūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0377,Mararikulam,Kerala,Mararikulam,Beach,A relaxing coastal getaway known for its beaches.,Sep-Mar,2200.0,4
+D0378,Marwad,Rajasthan,Marwad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0379,Mashobra,Himachal Pradesh,Mashobra,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0380,Masinagudi,Tamil Nadu,Masinagudi,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0381,Matheran,Maharashtra,Matheran,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0382,Mathura,Uttar Pradesh,Mathura,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0383,Mcleod Ganj,Himachal Pradesh,Mcleod Ganj,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0384,Meerut,Uttar Pradesh,Meerut,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0385,Meppādi,Kerala,Meppādi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0386,Mājra,Uttarakhand,Mājra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0387,Mālegaon,Maharashtra,Mālegaon,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0388,Mīnjūr,Tamil Nadu,Mīnjūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0389,Mohali,Punjab,Mohali,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0390,Mohwa Kalan,Rajasthan,Mohwa Kalan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0391,Morādābād,Uttar Pradesh,Morādābād,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0392,Morjim,Goa,Morjim,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0393,Mount Abu,Rajasthan,Mount Abu,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0394,Mount Ābu,Rajasthan,Mount Ābu,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0395,Māranhalli,Karnataka,Māranhalli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0396,Mātherān,Maharashtra,Mātherān,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0397,Mubārikpur,Uttar Pradesh,Mubārikpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0398,Muktsar,Punjab,Muktsar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0399,Mundra,Gujarat,Mundra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0400,Munroe Island,Kerala,Munroe Island,Beach,A relaxing coastal getaway known for its beaches.,Sep-Mar,2200.0,4
+D0401,Murshidabad,West Bengal,Murshidabad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0402,Murud,Maharashtra,Murud,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0403,Muthanga,Kerala,Muthanga,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0404,Muttupet,Tamil Nadu,Muttupet,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0405,Muzaffarpur,Bihar,Muzaffarpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0406,Nagar,Maharashtra,Nagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0407,Nagarbazar,West Bengal,Nagarbazar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0408,Nagchala,Maharashtra,Nagchala,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0409,Nagpur,Maharashtra,Nagpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0410,Nainital,Uttarakhand,Nainital,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0411,Namchi,Sikkim,Namchi,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0412,Ānand,Gujarat,Ānand,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0413,Nandi,Karnataka,Nandi,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0414,Narela,Delhi,Narela,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0415,Narendranagar,Uttarakhand,Narendranagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0416,Nashik,Maharashtra,Nashik,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0417,Navi Mumbai,Maharashtra,Navi Mumbai,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0418,Naya Bāzār,Uttar Pradesh,Naya Bāzār,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0419,Nedumbassery,Kerala,Nedumbassery,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0420,Neemrana,Rajasthan,Neemrana,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0421,Neil Island,Andaman and Nicobar,Neil Island,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0422,Nelamangala,Karnataka,Nelamangala,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0423,Nellore,Andhra Pradesh,Nellore,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0424,New Delhi,Delhi,New Delhi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0425,Nāgaon,Assam,Nāgaon,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0426,Nāldera,Himachal Pradesh,Nāldera,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0427,Nīleshwar,Kerala,Nīleshwar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0428,Noida,Uttar Pradesh,Noida,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0429,Nārkanda,Himachal Pradesh,Nārkanda,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0430,Nāthdwāra,Rajasthan,Nāthdwāra,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0431,Nubra,Jammu and Kashmir,Nubra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0432,Oragadam,Tamil Nadu,Oragadam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0433,Pachmarhī,Madhya Pradesh,Pachmarhī,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0434,Pahalgām,Jammu and Kashmir,Pahalgām,Hill Station,A scenic hill town popular for its cool climate and views.,Apr-Sep,2500.0,4
+D0435,Paithalmala,Kerala,Paithalmala,Hill Station,A scenic hill town popular for its cool climate and views.,Sep-Mar,2500.0,4
+D0436,Palakkad,Kerala,Palakkad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0437,Palni,Tamil Nadu,Palni,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0438,Palolem,Goa,Palolem,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0439,Panaji,Goa,Panaji,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0440,Panchagani,Maharashtra,Panchagani,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0441,Panchgani,Maharashtra,Panchgani,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0442,Panchkula,Haryana,Panchkula,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0443,Panjim,Goa,Panjim,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0444,Paravūr,Kerala,Paravūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0445,Parādīp Garh,Odisha,Parādīp Garh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0446,Parra,Goa,Parra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0447,Patna,Bihar,Patna,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0448,Patnem,Goa,Patnem,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0449,Pauri,Uttarakhand,Pauri,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0450,Payyannūr,Kerala,Payyannūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0451,Pelling,Sikkim,Pelling,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0452,Perambalūr,Tamil Nadu,Perambalūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0453,Perumbalam,Kerala,Perumbalam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0454,Phaltan,Maharashtra,Phaltan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0455,Pimpri,Maharashtra,Pimpri,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0456,Pollāchi,Tamil Nadu,Pollāchi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0457,Port Blair,Andaman and Nicobar,Port Blair,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0458,Pīpalkoti,Uttarakhand,Pīpalkoti,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0459,Pūrnānkuppam,Puducherry,Pūrnānkuppam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0460,Pātipukur,West Bengal,Pātipukur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0461,Puducherry,Puducherry,Puducherry,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0462,Pune,Maharashtra,Pune,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0463,Punnappira,Kerala,Punnappira,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0464,Puttūr,Karnataka,Puttūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0465,Pūvār,Kerala,Pūvār,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0466,Raipur,Chhattisgarh,Raipur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0467,Rajkot,Gujarat,Rajkot,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0468,Ramakkalmedu,Kerala,Ramakkalmedu,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0469,Rameswaram,Tamil Nadu,Rameswaram,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0470,Ranchi,Jharkhand,Ranchi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0471,Ranikhet,Uttarakhand,Ranikhet,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0472,Ranjangaon Ganpati,Maharashtra,Ranjangaon Ganpati,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0473,Ratnagiri,Maharashtra,Ratnagiri,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0474,Ravangla,Sikkim,Ravangla,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0475,Renigunta,Andhra Pradesh,Renigunta,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0476,Rhenok,Sikkim,Rhenok,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0477,Rinchingpong,Sikkim,Rinchingpong,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0478,Rishīkesh,Uttarakhand,Rishīkesh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0479,Rāiwāla,Uttarakhand,Rāiwāla,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0480,Rājgarh,Rajasthan,Rājgarh,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0481,Rājpur,Uttarakhand,Rājpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0482,Rāma,Uttar Pradesh,Rāma,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0483,Rāmeswaram,Tamil Nadu,Rāmeswaram,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0484,Rāmganj Mandi,Rajasthan,Rāmganj Mandi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0485,Rāmnagar,Uttarakhand,Rāmnagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0486,Rānchī,Jharkhand,Rānchī,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0487,Rānīkhet,Uttarakhand,Rānīkhet,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0488,Rohtak,Haryana,Rohtak,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0489,Rourkela,Odisha,Rourkela,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0490,Rudrapur,Uttarakhand,Rudrapur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0491,Rāzole,Andhra Pradesh,Rāzole,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0492,Sahāranpur,Uttar Pradesh,Sahāranpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0493,Salcete,Goa,Salcete,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0494,Salt Lake City,West Bengal,Salt Lake City,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0495,Sambalpur,Odisha,Sambalpur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0496,Samālkha,Haryana,Samālkha,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0497,Sangolda,Goa,Sangolda,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0498,Sangrūr,Punjab,Sangrūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0499,Sankarankovil,Tamil Nadu,Sankarankovil,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0500,Sarkhej,Gujarat,Sarkhej,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0501,Sasan Gir,Gujarat,Sasan Gir,Forest,A wildlife destination known for its forests and nature reserves.,Oct-Mar,3200.0,4
+D0502,Satara,Maharashtra,Satara,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0503,Sawāi Mādhopur,Rajasthan,Sawāi Mādhopur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0504,Secunderabad,Telangana,Secunderabad,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0505,Secunderābād,Telangana,Secunderābād,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0506,Shamshi,Himachal Pradesh,Shamshi,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0507,Shertallai,Kerala,Shertallai,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0508,Shillong,Meghalaya,Shillong,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0509,Shimoga,Karnataka,Shimoga,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0510,Shirdi,Maharashtra,Shirdi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0511,Shirwal,Maharashtra,Shirwal,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0512,Shivpurī,Madhya Pradesh,Shivpurī,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0513,Shivpuri,Madhya Pradesh,Shivpuri,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0514,Shānti Niketan,West Bengal,Shānti Niketan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0515,Shogi,Himachal Pradesh,Shogi,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0516,Siddapur,Karnataka,Siddapur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0517,Sika,Gujarat,Sika,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0518,Siliguri,West Bengal,Siliguri,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0519,Singrauli,Madhya Pradesh,Singrauli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0520,Sinquerim,Goa,Sinquerim,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0521,Siolim,Goa,Siolim,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0522,Sirsa,Haryana,Sirsa,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0523,Sīkar,Rajasthan,Sīkar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0524,Sām,Rajasthan,Sām,Desert,A desert destination known for its dunes and unique landscape.,Oct-Mar,2300.0,4
+D0525,Solan,Himachal Pradesh,Solan,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0526,Somnath,Gujarat,Somnath,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0527,Somnāth,Gujarat,Somnāth,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0528,Somvārpet,Karnataka,Somvārpet,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0529,Sūrat,Gujarat,Sūrat,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0530,Srikalahasti,Andhra Pradesh,Srikalahasti,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0531,Srinagar,Jammu and Kashmir,Srinagar,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0532,Sriperumbudur,Tamil Nadu,Sriperumbudur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0533,Srisailam,Andhra Pradesh,Srisailam,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0534,Srīrangam,Tamil Nadu,Srīrangam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0535,Srīvardhan,Maharashtra,Srīvardhan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0536,Sītāpur Mūāfi,Uttar Pradesh,Sītāpur Mūāfi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0537,Sātāra,Maharashtra,Sātāra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0538,Subrahmanya,Karnataka,Subrahmanya,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0539,Sultan Bathery,Kerala,Sultan Bathery,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0540,Suntikoppa,Karnataka,Suntikoppa,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0541,Surat,Gujarat,Surat,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0542,Takdāh,West Bengal,Takdāh,Hill Station,A scenic hill town popular for its cool climate and views.,Oct-Mar,2500.0,4
+D0543,Tambaram,Tamil Nadu,Tambaram,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0544,Tangra,West Bengal,Tangra,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0545,Tapovan,Uttarakhand,Tapovan,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0546,Tapukrah,Uttar Pradesh,Tapukrah,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0547,Tekkumuri,Kerala,Tekkumuri,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0548,Thane,Maharashtra,Thane,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0549,Thanjavur,Tamil Nadu,Thanjavur,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0550,Thaska Mīrānji,Rajasthan,Thaska Mīrānji,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0551,Thekkady,Kerala,Thekkady,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0552,Thiruvananthapuram,Kerala,Thiruvananthapuram,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0553,Thiruvanthapuram,Kerala,Thiruvanthapuram,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0554,Tiruchchirāppalli,Tamil Nadu,Tiruchchirāppalli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0555,Tiruchengodu,Tamil Nadu,Tiruchengodu,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0556,Tirunelveli,Tamil Nadu,Tirunelveli,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0557,Tirupati,Andhra Pradesh,Tirupati,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0558,Tirupporūr,Tamil Nadu,Tirupporūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0559,Tiruvallam,Tamil Nadu,Tiruvallam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0560,Tiruvannāmalai,Tamil Nadu,Tiruvannāmalai,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0561,Tājganj,Uttar Pradesh,Tājganj,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0562,Tāla,Madhya Pradesh,Tāla,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0563,Trichūr,Kerala,Trichūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0564,Trivandrum,Kerala,Trivandrum,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0565,Tughlakābād,Delhi,Tughlakābād,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0566,Turambhe,Maharashtra,Turambhe,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0567,Udaipura,Madhya Pradesh,Udaipura,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0568,Udupi,Karnataka,Udupi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0569,Ujjain,Madhya Pradesh,Ujjain,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0570,Umariā,Madhya Pradesh,Umariā,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0571,Unchagao,Uttar Pradesh,Unchagao,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0572,Uttarkashi,Uttarakhand,Uttarkashi,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0573,Uttarkāshi,Uttarakhand,Uttarkāshi,Hill Station,A scenic hill town popular for its cool climate and views.,Mar-Jun,2500.0,4
+D0574,Vadakkāncheri,Kerala,Vadakkāncheri,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0575,Vadodara,Gujarat,Vadodara,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0576,Vaduvanchal,Kerala,Vaduvanchal,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0577,Vagator,Goa,Vagator,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0578,Vallam,Tamil Nadu,Vallam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0579,Valudāvūr,Puducherry,Valudāvūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0580,Vandalūr,Tamil Nadu,Vandalūr,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0581,Vandanmedu,Kerala,Vandanmedu,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0582,Vandiperiyār,Kerala,Vandiperiyār,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0583,Vapi,Gujarat,Vapi,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0584,Varanasi,Uttar Pradesh,Varanasi,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0585,Varca,Goa,Varca,Beach,A relaxing coastal getaway known for its beaches.,Nov-Feb,2200.0,4
+D0586,Vayalār,Kerala,Vayalār,Beach,A relaxing coastal getaway known for its beaches.,Sep-Mar,2200.0,4
+D0587,Velcao,Goa,Velcao,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0588,Vellore,Tamil Nadu,Vellore,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0589,Velānganni,Tamil Nadu,Velānganni,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Nov-Mar,2000.0,3
+D0590,Verem,Goa,Verem,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0591,Vettutura,Kerala,Vettutura,Beach,A relaxing coastal getaway known for its beaches.,Sep-Mar,2200.0,4
+D0592,Vijayawada,Andhra Pradesh,Vijayawada,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0593,Vijayawāda,Andhra Pradesh,Vijayawāda,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0594,Villianur,Puducherry,Villianur,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0595,Virajpet,Karnataka,Virajpet,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0596,Visakhapatnam,Andhra Pradesh,Visakhapatnam,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0597,Vizag,Andhra Pradesh,Vizag,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0598,Vālpārai,Tamil Nadu,Vālpārai,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0599,Vrindavan,Uttar Pradesh,Vrindavan,Heritage,A heritage and cultural destination known for its historic and spiritual significance.,Oct-Mar,2000.0,3
+D0600,Vāsco Da Gāma,Goa,Vāsco Da Gāma,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0601,Vythiri,Kerala,Vythiri,Hill Station,A scenic hill town popular for its cool climate and views.,Sep-Mar,2500.0,4
+D0602,Wai,Maharashtra,Wai,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0603,Wayanad,Kerala,Wayanad,Forest,A wildlife destination known for its forests and nature reserves.,Sep-Mar,3200.0,4
+D0604,Wellington,Tamil Nadu,Wellington,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0605,Wynchpet,Telangana,Wynchpet,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0606,Yelagiri,Tamil Nadu,Yelagiri,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0607,Yelahanka,Karnataka,Yelahanka,Urban,An urban destination popular for city sightseeing and local culture.,All Year,2200.0,2
+D0608,Yercaud,Tamil Nadu,Yercaud,Hill Station,A scenic hill town popular for its cool climate and views.,Nov-Mar,2500.0,4
+D0609,Pench National Park,Madhya Pradesh,Pench National Park,Forest,A wildlife destination known for its forests and nature reserves.,Oct-Mar,3200.0,3
+D0610,Valley of Flowers,Uttarakhand,Valley of Flowers,Hill Station,A scenic hill destination popular for trekking and mountain views.,Jul-Sep,2800.0,4
+D0611,Solang Valley,Himachal Pradesh,Solang Valley,Adventure,An adventure destination known for outdoor sports like rafting and paragliding.,Mar-Jun,2600.0,2
+D0612,Kullu Valley,Himachal Pradesh,Kullu Valley,Adventure,An adventure destination known for outdoor sports like rafting and paragliding.,Mar-Jun,2600.0,2
+D0613,Nagarhole National Park,Karnataka,Nagarhole National Park,Forest,A wildlife destination known for its forests and nature reserves.,Oct-Mar,3200.0,3
+D0614,Khuri,Rajasthan,Khuri,Desert,A desert destination known for its dunes and unique landscape.,Oct-Mar,2300.0,2

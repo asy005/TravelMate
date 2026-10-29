@@ -37,6 +37,13 @@ import {
   Star,
   BedDouble,
   Briefcase,
+  CheckCircle2,
+  Circle,
+  PackageOpen,
+  CalendarX2,
+  ArrowRight,
+  CalendarCheck,
+  Sparkles,
 } from "lucide-react";
 import {
   getMyPartnerProfile,
@@ -78,6 +85,7 @@ const PartnerDashboard = () => {
   const [analytics, setAnalytics] = useState<any>(null);
   const [destinations, setDestinations] = useState<any[]>([]);
 
+  const [activeTab, setActiveTab] = useState("overview");
   const [showAddForm, setShowAddForm] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [submitting, setSubmitting] = useState(false);
@@ -94,6 +102,17 @@ const PartnerDashboard = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("travelmate_token");
+    if (!token) {
+      navigate("/partner/login");
+      return;
+    }
+    const role = localStorage.getItem("travelmate_role");
+    if (role && role !== "partner" && role !== "admin") {
+      navigate("/partner/register");
+      return;
+    }
+
     getMyPartnerProfile()
       .then((p) => {
         if (!p) {
@@ -102,6 +121,14 @@ const PartnerDashboard = () => {
         }
         setPartner(p);
         return loadAll();
+      })
+      .catch((err) => {
+        // 401 means not logged in or session expired → send to partner login
+        if (err?.message === "401") {
+          navigate("/partner/login");
+        } else {
+          navigate("/partner/register");
+        }
       })
       .finally(() => setLoading(false));
 
@@ -153,19 +180,33 @@ const PartnerDashboard = () => {
 
   return (
     <div className="min-h-screen container mx-auto px-6 max-w-5xl py-16">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="h-12 w-12 rounded-full bg-primary/15 flex items-center justify-center">
-          <Building2 className="h-6 w-6 text-primary" />
+      <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="h-12 w-12 rounded-full bg-primary/15 flex items-center justify-center">
+            <Building2 className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold">{partner.business_name}</h1>
+            <p className="text-sm text-muted-foreground capitalize">
+              {partner.partner_type.replace("_", " ")} Partner
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-2xl font-bold">{partner.business_name}</h1>
-          <p className="text-sm text-muted-foreground capitalize">
-            {partner.partner_type.replace("_", " ")} Partner
-          </p>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="hero"
+            size="sm"
+            onClick={() => {
+              setActiveTab("listings");
+              setShowAddForm(true);
+            }}
+          >
+            <Plus className="h-4 w-4 mr-1.5" /> Add Listing
+          </Button>
         </div>
       </div>
 
-      <Tabs defaultValue="overview" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="mb-6 bg-muted/60">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="listings">Listings</TabsTrigger>
@@ -174,6 +215,126 @@ const PartnerDashboard = () => {
 
         {/* Overview / Analytics */}
         <TabsContent value="overview" className="animate-fade-up">
+          {/* Quick Actions */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+            <Button
+              variant="outline"
+              className="h-auto py-3 px-4 flex items-center justify-between bg-card/95 border-white/20 hover:border-primary/50 text-left"
+              onClick={() => {
+                setForm({ ...emptyForm, listing_type: "hotel" });
+                setActiveTab("listings");
+                setShowAddForm(true);
+              }}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                  <BedDouble className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="font-semibold text-xs text-foreground">Add Stay</p>
+                  <p className="text-[11px] text-muted-foreground">Hotel, resort or stay</p>
+                </div>
+              </div>
+              <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            </Button>
+
+            <Button
+              variant="outline"
+              className="h-auto py-3 px-4 flex items-center justify-between bg-card/95 border-white/20 hover:border-coral/50 text-left"
+              onClick={() => {
+                setForm({ ...emptyForm, listing_type: "package" });
+                setActiveTab("listings");
+                setShowAddForm(true);
+              }}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="h-8 w-8 rounded-lg bg-coral/10 flex items-center justify-center text-coral shrink-0">
+                  <Briefcase className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="font-semibold text-xs text-foreground">Add Package</p>
+                  <p className="text-[11px] text-muted-foreground">Tour or travel experience</p>
+                </div>
+              </div>
+              <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            </Button>
+
+            <Button
+              variant="outline"
+              className="h-auto py-3 px-4 flex items-center justify-between bg-card/95 border-white/20 hover:border-white/40 text-left"
+              onClick={() => setActiveTab("bookings")}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+                  <CalendarCheck className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="font-semibold text-xs text-foreground">View Bookings</p>
+                  <p className="text-[11px] text-muted-foreground">{bookings.length} reservation{bookings.length === 1 ? "" : "s"}</p>
+                </div>
+              </div>
+              <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            </Button>
+          </div>
+
+          {/* Onboarding Checklist for New Partners */}
+          {listings.length === 0 && (
+            <Card className="p-5 mb-6 bg-gradient-to-br from-primary/5 via-card to-card border border-primary/20">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-semibold flex items-center gap-2 text-foreground">
+                  <Sparkles className="h-4 w-4 text-primary" /> Partner Onboarding Checklist
+                </h3>
+                <Badge variant="outline" className="text-xs bg-primary/10 border-primary/30 text-primary">
+                  1 of 3 Complete
+                </Badge>
+              </div>
+              <div className="space-y-2.5">
+                <div className="flex items-start gap-3 p-2.5 rounded-lg bg-muted/40 border border-border/40">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs font-semibold text-foreground">Step 1: Partner profile registered</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      Business profile created for {partner.business_name} ({partner.partner_type.replace("_", " ")} partner)
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start justify-between gap-3 p-2.5 rounded-lg bg-muted/40 border border-primary/30">
+                  <div className="flex items-start gap-3">
+                    <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-semibold text-foreground">Step 2: Add your first listing</p>
+                      <p className="text-[11px] text-muted-foreground">
+                        Publish your stays or packages to make them discoverable by AI travel recommendations.
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="hero"
+                    className="text-xs h-7 px-3 shrink-0"
+                    onClick={() => {
+                      setActiveTab("listings");
+                      setShowAddForm(true);
+                    }}
+                  >
+                    Add Listing
+                  </Button>
+                </div>
+
+                <div className="flex items-start gap-3 p-2.5 rounded-lg bg-muted/20 border border-border/30 opacity-75">
+                  <Circle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs font-semibold text-foreground">Step 3: Receive traveler bookings</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      Guest bookings will appear in your Bookings tab once travelers select your listings.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          )}
+
           {analytics && (
             <div className="grid sm:grid-cols-3 gap-4 mb-6">
               <Card className="p-4 flex items-center gap-3 bg-card/95 border border-white/20">
@@ -358,11 +519,16 @@ const PartnerDashboard = () => {
                     )}
                     <h4 className="font-semibold">{l.name}</h4>
                   </div>
-                  {l.rating && (
-                    <span className="text-xs flex items-center gap-1">
-                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" /> {l.rating}
-                    </span>
-                  )}
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 font-medium">
+                      Active
+                    </Badge>
+                    {l.rating && (
+                      <span className="text-xs flex items-center gap-1">
+                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" /> {l.rating}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <p className="text-xs text-muted-foreground mb-2 capitalize">{l.category}</p>
                 <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{l.description}</p>
@@ -374,7 +540,20 @@ const PartnerDashboard = () => {
               </Card>
             ))}
             {listings.length === 0 && !showAddForm && (
-              <p className="text-sm text-muted-foreground">No listings yet — add your first one above.</p>
+              <Card className="col-span-full p-8 text-center bg-card/95 border border-white/20 flex flex-col items-center justify-center space-y-3">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <Plus className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-base">No listings created yet</h4>
+                  <p className="text-xs text-muted-foreground max-w-sm mt-1">
+                    Add your accommodations or travel packages so that TravelMate's AI recommendation engine can match them with travelers.
+                  </p>
+                </div>
+                <Button variant="hero" size="sm" onClick={() => setShowAddForm(true)}>
+                  <Plus className="h-4 w-4 mr-1.5" /> Create Your First Listing
+                </Button>
+              </Card>
             )}
           </div>
         </TabsContent>
@@ -424,9 +603,30 @@ const PartnerDashboard = () => {
                 </TableBody>
               </Table>
             ) : (
-              <p className="text-sm text-muted-foreground p-4">
-                No bookings yet for your listings.
-              </p>
+              <div className="p-8 text-center flex flex-col items-center justify-center space-y-3">
+                <div className="h-12 w-12 rounded-full bg-muted/60 flex items-center justify-center text-muted-foreground">
+                  <Clock className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-base">No bookings received yet</h4>
+                  <p className="text-xs text-muted-foreground max-w-md mt-1">
+                    Once travelers reserve your accommodations or packages, reservation details, guest information, and payment statuses will appear here in real time.
+                  </p>
+                </div>
+                {listings.length === 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs mt-2"
+                    onClick={() => {
+                      setActiveTab("listings");
+                      setShowAddForm(true);
+                    }}
+                  >
+                    <Plus className="h-3.5 w-3.5 mr-1.5" /> Publish Your First Listing
+                  </Button>
+                )}
+              </div>
             )}
           </Card>
         </TabsContent>

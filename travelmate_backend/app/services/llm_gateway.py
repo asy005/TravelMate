@@ -1,84 +1,140 @@
-# app/services/llm_gateway.py
-"""
-Provider-agnostic chat-completion gateway.
-
-Groq and OpenAI both expose an OpenAI-compatible /chat/completions wire
-format, so swapping providers is a Settings/.env change (LLM_PROVIDER=openai)
-rather than a code change. This is the single place any AI feature should go
-through for LLM calls — it intentionally does not know about travel, slots,
-or conversation state; that logic lives in conversation_engine.py.
-"""
 import json
 import requests
-from typing import List, Dict, Optional
-
+from typing import List, Dict, Any, Optional
 from app.config import settings
 
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 
-
 class LLMGatewayError(Exception):
-    pass
+    """Raised when an LLM request fails or returns an invalid response."""
 
+def _provider_config() -> Dict[str, Any]:
+    provider = (settings.LLM_PROVIDER or "groq").strip().lower()
 
-def _provider_config():
-    provider = (settings.LLM_PROVIDER or "groq").lower()
     if provider == "openai":
         return {
             "url": OPENAI_URL,
             "api_key": settings.OPENAI_API_KEY,
             "model": settings.OPENAI_MODEL,
         }
-    # default: groq
-    return {
-        "url": GROQ_URL,
-        "api_key": settings.GROQ_API_KEY,
-        "model": settings.GROQ_MODEL,
-    }
 
+    if provider == "groq":
+        return {
+            "url": GROQ_URL,
+            "api_key": settings.GROQ_API_KEY,
+            "model": settings.GROQ_MODEL,
+        }
+
+    raise LLMGatewayError(
+        f"Unsupported LLM_PROVIDER '{provider}'. Use 'groq' or 'openai'."
+    )
 
 def chat_completion(
     messages: List[Dict[str, str]],
     json_mode: bool = False,
-    temperature: float = 0.4,
+    temperature: float = 0.2,
     max_tokens: int = 1024,
+    model: Optional[str] = None,
 ) -> str:
-    """
-    messages: [{"role": "system"|"user"|"assistant", "content": "..."}]
-    json_mode: if True, asks the provider to return valid JSON only
-               (used by conversation_engine for structured slot extraction).
-    Returns the raw text content of the model's reply.
-    Raises LLMGatewayError on failure — callers are expected to catch this
-    and fall back to a safe, non-AI response rather than crash the endpoint.
-    """
     cfg = _provider_config()
+    chosen_model = model or cfg["model"]
 
     if not cfg["api_key"]:
         raise LLMGatewayError(
-            f"No API key configured for LLM_PROVIDER='{settings.LLM_PROVIDER}'."
+            f"No API key configured for LLM_PROVIDER="
+            f"'{settings.LLM_PROVIDER}'. Check your backend .env file."
         )
 
-    payload = {
-        "model": cfg["model"],
+    if not chosen_model:
+        raise LLMGatewayError(
+            f"No model configured for LLM_PROVIDER="
+            f"'{settings.LLM_PROVIDER}'. Check your backend settings."
+        )
+
+    payload: Dict[str, Any] = {
+        "model": chosen_model,
         "messages": messages,
         "temperature": temperature,
         "max_tokens": max_tokens,
     }
+
     if json_mode:
         payload["response_format"] = {"type": "json_object"}
 
     headers = {
         "Authorization": f"Bearer {cfg['api_key']}",
         "Content-Type": "application/json",
+        "Accept": "application/json",
     }
 
     try:
-        resp = requests.post(cfg["url"], headers=headers, json=payload, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
-        return data["choices"][0]["message"]["content"]
-    except requests.exceptions.RequestException as e:
-        raise LLMGatewayError(f"LLM request failed: {e}")
-    except (KeyError, IndexError, json.JSONDecodeError) as e:
-        raise LLMGatewayError(f"Unexpected LLM response shape: {e}")
+        response = requests.post(
+            cfg["url"],
+            headers=headers,
+            json=payload,
+            timeout=45,
+        )
+        response.raise_for_status()
+
+        data = response.json()
+        choices = data.get("choices", [])
+
+        if not choices:
+            raise LLMGatewayError(
+                "The LLM provider returned no completion choices."
+            )
+
+        message = choices[0].get("message", {})
+        content = message.get("content")
+
+        if not isinstance(content, str) or not content.strip():
+            raise LLMGatewayError(
+                "The LLM provider returned an empty response."
+            )
+
+        if json_mode:
+            try:
+                parsed = json.loads(content)
+            except json.JSONDecodeError as exc:
+                raise LLMGatewayError(
+                    f"The LLM provider returned invalid JSON: {exc}"
+                ) from exc
+
+            if not isinstance(parsed, dict):
+                raise LLMGatewayError(
+                    "The LLM JSON response must be an object."
+                )
+
+        return content
+
+    except requests.exceptions.Timeout as exc:
+        raise LLMGatewayError(
+            "The LLM request timed out. Please try again."
+        ) from exc
+
+    except requests.exceptions.HTTPError as exc:
+        status = exc.response.status_code if exc.response is not None else "unknown"
+
+        if exc.response is not None:
+            try:
+                error_data = exc.response.json()
+                detail = str(error_data.get("error", {}).get("message", ""))
+            except (ValueError, AttributeError):
+                detail = ""
+
+        message = f"LLM provider returned HTTP {status}."
+        if detail:
+            message += f" Provider detail: {detail[:300]}"
+
+        raise LLMGatewayError(message) from exc
+
+    except requests.exceptions.RequestException as exc:
+        raise LLMGatewayError(
+            f"Could not connect to the LLM provider: {exc}"
+        ) from exc
+
+    except (ValueError, KeyError, IndexError, TypeError) as exc:
+        raise LLMGatewayError(
+            f"Unexpected LLM response format: {exc}"
+        ) from exc

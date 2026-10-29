@@ -1,10 +1,8 @@
-# app/routes/assistant_routes.py
 import uuid
+from app.services.geo_lookup import guess_coordinates
 from datetime import datetime, timezone
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-
 from app.database import get_db
 from app.models.conversation import ConversationSession
 from app.schemas.assistant_schema import AssistantMessageIn, AssistantMessageOut, AssistantResetIn
@@ -17,7 +15,6 @@ from app.services.plan_orchestrator import generate_plan
 from app.services.refinement_engine import classify_refinement, apply_refinement
 
 router = APIRouter(prefix="/assistant", tags=["assistant"])
-
 
 def _get_or_create_session(db: Session, session_id: str) -> ConversationSession:
     session = None
@@ -39,7 +36,6 @@ def _get_or_create_session(db: Session, session_id: str) -> ConversationSession:
 
     return session
 
-
 @router.post("/message", response_model=AssistantMessageOut)
 def send_message(payload: AssistantMessageIn, db: Session = Depends(get_db)):
     session = _get_or_create_session(db, payload.session_id)
@@ -48,10 +44,6 @@ def send_message(payload: AssistantMessageIn, db: Session = Depends(get_db)):
     now = datetime.now(timezone.utc).isoformat()
 
     if session.status == "ready" and session.generated_plan:
-        # A plan already exists -- treat this message as a refinement
-        # request rather than more slot-filling (Conversational Trip
-        # Refinement). The existing conversation/slots/plan are kept and
-        # only the affected sections are regenerated.
         extracted_slots, change_type, remove_package, reply = classify_refinement(
             prior_slots=session.slots or {},
             user_message=payload.message,
@@ -76,14 +68,34 @@ def send_message(payload: AssistantMessageIn, db: Session = Depends(get_db)):
         )
         plan = None
         if ready:
-            plan = generate_plan(db, updated_slots)
+            origin = str(updated_slots.get("origin") or "").strip()
+            source_coords = None
+
+            if origin:
+                coords = guess_coordinates(origin)
+                if coords:
+                    source_coords = {
+                        "lat": coords[0],
+                        "lon": coords[1],
+                    }
+
+            plan = generate_plan(
+                db,
+                updated_slots,
+                source_coords=source_coords,
+            )
             session.status = "ready"
             session.generated_plan = plan
         else:
             session.status = "collecting"
 
+    recommendations = plan.get("destinations", []) if (ready and plan) else None
+
     history.append({"role": "user", "content": payload.message, "ts": now})
-    history.append({"role": "assistant", "content": reply, "ts": now})
+    asst_msg = {"role": "assistant", "content": reply, "ts": now}
+    if recommendations:
+        asst_msg["destinations"] = recommendations
+    history.append(asst_msg)
 
     session.messages = history
     session.slots = updated_slots
@@ -98,8 +110,8 @@ def send_message(payload: AssistantMessageIn, db: Session = Depends(get_db)):
         missing_slots=missing_required_slots(updated_slots),
         ready_for_plan=ready,
         plan=plan,
+        recommendations=recommendations,
     )
-
 
 @router.get("/session/{session_id}")
 def get_session(session_id: str, db: Session = Depends(get_db)):
@@ -116,7 +128,6 @@ def get_session(session_id: str, db: Session = Depends(get_db)):
         "status": session.status,
         "plan": session.generated_plan,
     }
-
 
 @router.post("/reset")
 def reset_session(payload: AssistantResetIn, db: Session = Depends(get_db)):

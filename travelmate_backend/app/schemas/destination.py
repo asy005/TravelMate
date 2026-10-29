@@ -4,13 +4,18 @@ from typing import Optional
 class DestinationOut(BaseModel):
     id: int
     name: str
-    country: Optional[str]
-    description: Optional[str]
-    lat: Optional[float]
-    lon: Optional[float]
-    tags: Optional[str]
-    thumbnail_url: Optional[str]
-    avg_rating: Optional[float]
+    country: Optional[str] = None
+    description: Optional[str] = None
+    lat: Optional[float] = None
+    lon: Optional[float] = None
+    tags: Optional[str] = None
+    thumbnail_url: Optional[str] = None
+    avg_rating: Optional[float] = None
+    state: Optional[str] = None
+    category: Optional[str] = None
+    average_budget: Optional[float] = None
+    best_season: Optional[str] = None
+    ideal_duration: Optional[int] = None
 
     class Config:
         orm_mode = True

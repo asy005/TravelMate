@@ -15,6 +15,7 @@ class AssistantMessageOut(BaseModel):
     missing_slots: List[str]
     ready_for_plan: bool
     plan: Optional[Dict[str, Any]] = None
+    recommendations: Optional[List[Dict[str, Any]]] = None
 
 
 class AssistantResetIn(BaseModel):

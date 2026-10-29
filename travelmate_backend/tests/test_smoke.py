@@ -75,7 +75,9 @@ def test_destination_model_matches_plan_routes_usage():
 
     # These field names should NOT exist -- if they do, plan_routes.py's old
     # (broken) assumptions may have crept back in.
-    for stale_field in ("title", "climate", "safety_rating", "best_season", "image_url"):
+    # Note: 'best_season' was intentionally added as an extended dataset column
+    # in migration d31a5e9821f4 and is used by the ML engine.
+    for stale_field in ("title", "climate", "safety_rating", "image_url"):
         assert not hasattr(Destination, stale_field), (
             f"Unexpected field '{stale_field}' on Destination -- "
             "plan_routes.py and the seed script assume the model does NOT have this."

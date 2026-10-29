@@ -97,3 +97,83 @@ def test_require_role_rejects_non_matching_role(db_session):
         checker(user=customer)
 
     assert exc_info.value.status_code == 403
+
+
+def test_auth_login_invalid_credentials_returns_400(db_session):
+    from fastapi.testclient import TestClient
+    from app.main import app
+    from app.database import get_db
+
+    def override_get_db():
+        try:
+            yield db_session
+        finally:
+            pass
+
+    app.dependency_overrides[get_db] = override_get_db
+    try:
+        with TestClient(app) as client:
+            # Non-existent user
+            res = client.post("/auth/login", json={"email": "nobody@example.com", "password": "wrong"})
+            assert res.status_code == 400
+            assert "Invalid credentials" in res.json().get("detail", "")
+
+            # Existing user, wrong password
+            _make_user(db_session, email="known@example.com")
+            res2 = client.post("/auth/login", json={"email": "known@example.com", "password": "wrongpassword"})
+            assert res2.status_code == 400
+            assert "Invalid credentials" in res2.json().get("detail", "")
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_auth_login_successful_traveller_returns_schema(db_session):
+    from fastapi.testclient import TestClient
+    from app.main import app
+    from app.database import get_db
+
+    def override_get_db():
+        try:
+            yield db_session
+        finally:
+            pass
+
+    app.dependency_overrides[get_db] = override_get_db
+    try:
+        with TestClient(app) as client:
+            user = _make_user(db_session, role="customer", email="traveller@example.com")
+            res = client.post("/auth/login", json={"email": "traveller@example.com", "password": "hunter2"})
+            assert res.status_code == 200
+            data = res.json()
+            assert "token" in data and len(data["token"]) > 0
+            assert "refresh_token" in data and len(data["refresh_token"]) > 0
+            assert data["role"] == "customer"
+            assert data["email"] == "traveller@example.com"
+            assert data["username"] == user.username
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_auth_login_partner_returns_partner_role(db_session):
+    from fastapi.testclient import TestClient
+    from app.main import app
+    from app.database import get_db
+
+    def override_get_db():
+        try:
+            yield db_session
+        finally:
+            pass
+
+    app.dependency_overrides[get_db] = override_get_db
+    try:
+        with TestClient(app) as client:
+            _make_user(db_session, role="partner", email="partner@example.com")
+            res = client.post("/auth/login", json={"email": "partner@example.com", "password": "hunter2"})
+            assert res.status_code == 200
+            data = res.json()
+            assert "token" in data
+            assert data["role"] == "partner"
+    finally:
+        app.dependency_overrides.clear()
+

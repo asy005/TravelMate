@@ -48,22 +48,38 @@ def create_plan(payload: Dict, db: Session = Depends(get_db)):
     # 1) mood
     mood = simple_classify(query)
 
-    # 2) RAG context
-    rag = query_knowledge_base(query)
-    rag_best = rag.get("best_destination") if isinstance(rag, dict) else None
+    # 2) Explicit destination check in DB to keep database authoritative
+    explicit_dest = None
+    all_dests = db.query(Destination.name).all()
+    q_lower = query.lower()
+    for (d_name,) in all_dests:
+        if d_name and d_name.lower() in q_lower:
+            explicit_dest = d_name
+            break
 
-    # 3) DB query: prefer RAG name if present, else mood-based filter on tags
+    # 3) RAG context grounded in explicit destination
+    rag = query_knowledge_base(query, destination_name=explicit_dest)
+    rag_best = explicit_dest or (rag.get("best_destination") if isinstance(rag, dict) else None)
+
+    # Guard against generic fallbacks overriding DB destinations
+    if rag_best and rag_best.lower() in {"peaceful nature retreat", "your selected destination", "unknown"}:
+        rag_best = None
+
+    # 4) DB query
     q = db.query(Destination)
     if rag_best:
-        q = q.filter(Destination.name.ilike(f"%{rag_best}%") | Destination.description.ilike(f"%{rag_best}%"))
+        exact_matches = q.filter(Destination.name.ilike(f"%{rag_best}%")).all()
+        if exact_matches:
+            results = exact_matches[:max_results]
+        else:
+            q = q.filter(Destination.name.ilike(f"%{rag_best}%") | Destination.description.ilike(f"%{rag_best}%"))
+            results = q.order_by(Destination.avg_rating.desc()).limit(max_results).all()
     else:
-        # simple mood->tags preference (tags is a free-text/comma-separated column on Destination)
         if mood == "relax":
             q = q.filter(Destination.tags.ilike("%beach%") | Destination.tags.ilike("%relax%") | (Destination.tags == None))
         elif mood == "adventurous":
             q = q.filter(Destination.tags.ilike("%adventure%") | Destination.tags.ilike("%trek%"))
-
-    results = q.order_by(Destination.avg_rating.desc()).limit(max_results).all()
+        results = q.order_by(Destination.avg_rating.desc()).limit(max_results).all()
 
     # 4) Build response objects (with weather + packing + route)
     destinations_output = []

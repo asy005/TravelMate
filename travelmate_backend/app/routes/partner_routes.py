@@ -1,5 +1,9 @@
 # app/routes/partner_routes.py
-from fastapi import APIRouter, Depends, HTTPException
+import os
+import uuid
+import mimetypes
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -16,12 +20,77 @@ from app.services.partner_service import (
 
 router = APIRouter(prefix="/partners", tags=["partners"])
 
+# ---- Upload storage ---------------------------------------------------------
+# Uploaded partner photos are stored under travelmate_backend/uploads/partners/
+# and served as static files at /uploads/partners/<filename>.
+# The route registering the static mount is in main.py.
+UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "uploads", "partners")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+ALLOWED_MIME_TYPES = {"image/jpeg", "image/png", "image/webp", "image/gif"}
+MAX_UPLOAD_BYTES = 5 * 1024 * 1024  # 5 MB per photo
+
 
 def _get_current_partner(user, db: Session) -> Partner:
     partner = db.query(Partner).filter(Partner.owner_user_id == user.id).first()
     if not partner:
         raise HTTPException(status_code=403, detail="You need to register as a partner first")
     return partner
+
+
+# -----------------------
+# PHOTO UPLOAD
+# -----------------------
+@router.post("/upload-photo")
+async def upload_partner_photo(
+    file: UploadFile = File(...),
+    user=Depends(get_current_user),
+):
+    """
+    Accepts a single property photo for an authenticated user.
+    Returns the relative URL that should be stored in partner.photos.
+
+    Validates:
+    - MIME type must be a supported image format (jpeg/png/webp/gif).
+    - File size must be ≤ 5 MB.
+
+    Files are stored in uploads/partners/ with a UUID-based safe filename.
+    """
+    # Read content first so we can validate size
+    content = await file.read()
+
+    if len(content) > MAX_UPLOAD_BYTES:
+        raise HTTPException(
+            status_code=413,
+            detail=f"File too large. Maximum allowed size is {MAX_UPLOAD_BYTES // (1024*1024)} MB.",
+        )
+
+    # Derive MIME type from the upload header; fall back to sniffing by extension
+    mime = file.content_type or ""
+    if not mime or mime == "application/octet-stream":
+        guessed, _ = mimetypes.guess_type(file.filename or "")
+        mime = guessed or ""
+
+    if mime not in ALLOWED_MIME_TYPES:
+        raise HTTPException(
+            status_code=415,
+            detail=f"Unsupported file type '{mime}'. Allowed: jpeg, png, webp, gif.",
+        )
+
+    # Build a safe filename: <uuid>.<ext>  — never trust the client-supplied name
+    ext = mimetypes.guess_extension(mime) or ".jpg"
+    # Python maps image/jpeg -> .jpeg; normalise to .jpg
+    if ext == ".jpeg":
+        ext = ".jpg"
+    safe_filename = f"{uuid.uuid4().hex}{ext}"
+    dest_path = os.path.join(UPLOAD_DIR, safe_filename)
+
+    with open(dest_path, "wb") as fh:
+        fh.write(content)
+
+    # Return the URL path relative to the server root
+    photo_url = f"/uploads/partners/{safe_filename}"
+    return {"url": photo_url, "filename": safe_filename}
 
 
 # -----------------------
@@ -47,6 +116,11 @@ def register_partner(
         contact_email=payload.contact_email,
         contact_phone=payload.contact_phone,
         description=payload.description,
+        address=payload.address,
+        city=payload.city,
+        state=payload.state,
+        postal_code=payload.postal_code,
+        photos=payload.photos or [],
     )
     db.add(partner)
 
@@ -168,3 +242,4 @@ def update_booking_status(
 def get_analytics(db: Session = Depends(get_db), user=Depends(get_current_user)):
     partner = _get_current_partner(user, db)
     return compute_analytics(db, partner.id)
+

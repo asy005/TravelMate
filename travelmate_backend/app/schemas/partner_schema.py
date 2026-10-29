@@ -1,14 +1,35 @@
 # app/schemas/partner_schema.py
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, field_validator
 from typing import Optional, List, Dict, Any
+from app.schemas.user_schema import CompatibleEmail
 
 
 class PartnerRegisterIn(BaseModel):
     business_name: str
     partner_type: str  # hotel | homestay | resort | travel_agency | tour_operator | local_guide
-    contact_email: Optional[EmailStr] = None
+    contact_email: Optional[CompatibleEmail] = None
     contact_phone: Optional[str] = None
     description: Optional[str] = None
+    address: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    postal_code: Optional[str] = None
+    photos: Optional[List[str]] = None
+
+    @field_validator("contact_email", mode="before")
+    @classmethod
+    def empty_email_to_none(cls, v):
+        if v == "" or (isinstance(v, str) and not v.strip()):
+            return None
+        return v
+
+    @field_validator("business_name")
+    @classmethod
+    def name_must_not_be_empty(cls, v: str) -> str:
+        s = v.strip() if isinstance(v, str) else ""
+        if not s:
+            raise ValueError("Business name cannot be empty")
+        return s
 
 
 class PartnerOut(BaseModel):
@@ -18,9 +39,15 @@ class PartnerOut(BaseModel):
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
     description: Optional[str] = None
+    address: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    postal_code: Optional[str] = None
+    photos: Optional[List[str]] = None
     status: str
 
     class Config:
+        from_attributes = True
         orm_mode = True
 
 

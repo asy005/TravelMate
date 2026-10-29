@@ -2,24 +2,48 @@ import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext({
   token: null as string | null,
-  login: (token: string, refreshToken?: string) => {},
+  role: null as string | null,
+  login: (token: string, refreshToken?: string, role?: string, email?: string, username?: string) => {},
   logout: () => {},
 });
 
 export const AuthProvider = ({ children }: any) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem("travelmate_token");
+  });
+  const [role, setRole] = useState<string | null>(() => {
+    return localStorage.getItem("travelmate_role");
+  });
 
   useEffect(() => {
     const stored = localStorage.getItem("travelmate_token");
-    if (stored) setToken(stored);
-  }, []);
+    if (stored !== token) setToken(stored);
+    const storedRole = localStorage.getItem("travelmate_role");
+    if (storedRole !== role) setRole(storedRole);
+  }, [token, role]);
 
-  const login = (token: string, refreshToken?: string) => {
-    localStorage.setItem("travelmate_token", token);
+  const login = (
+    newToken: string,
+    refreshToken?: string,
+    userRole?: string,
+    email?: string,
+    username?: string
+  ) => {
+    localStorage.setItem("travelmate_token", newToken);
     if (refreshToken) {
       localStorage.setItem("travelmate_refresh_token", refreshToken);
     }
-    setToken(token);
+    if (userRole) {
+      localStorage.setItem("travelmate_role", userRole);
+      setRole(userRole);
+    }
+    if (email) {
+      localStorage.setItem("travelmate_email", email);
+    }
+    if (username) {
+      localStorage.setItem("travelmate_username", username);
+    }
+    setToken(newToken);
   };
 
   const logout = () => {
@@ -37,12 +61,16 @@ export const AuthProvider = ({ children }: any) => {
 
     localStorage.removeItem("travelmate_token");
     localStorage.removeItem("travelmate_refresh_token");
+    localStorage.removeItem("travelmate_role");
+    localStorage.removeItem("travelmate_email");
+    localStorage.removeItem("travelmate_username");
     setToken(null);
+    setRole(null);
     window.location.href = "/";
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, role, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -64,11 +92,20 @@ export async function refreshAccessToken(): Promise<string | null> {
       body: JSON.stringify({ refresh_token: refreshToken }),
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      localStorage.removeItem("travelmate_token");
+      localStorage.removeItem("travelmate_refresh_token");
+      localStorage.removeItem("travelmate_role");
+      return null;
+    }
 
     const data = await res.json();
-    localStorage.setItem("travelmate_token", data.token);
-    return data.token;
+    const newAccessToken = data.token || data.access_token;
+    if (newAccessToken) {
+      localStorage.setItem("travelmate_token", newAccessToken);
+      return newAccessToken;
+    }
+    return null;
   } catch {
     return null;
   }

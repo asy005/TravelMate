@@ -1,0 +1,1016 @@
+attraction_id,destination_id,attraction_name,city,state,category,entry_fee,rating,latitude,longitude
+ATT0001,D0042,India Gate,Delhi,Delhi,Heritage,0,4.6,28.612912,77.22951
+ATT0002,D0042,Humayun's Tomb,Delhi,Delhi,Heritage,30,4.5,28.593285,77.250749
+ATT0003,D0042,Akshardham Temple,Delhi,Delhi,Spiritual,60,4.6,28.612674,77.277262
+ATT0004,D0042,Waste to Wonder Park,Delhi,Delhi,Adventure,50,4.1,28.592694,77.256972
+ATT0005,D0042,Jantar Mantar,Delhi,Delhi,Arts,15,4.2,28.627055,77.216627
+ATT0006,D0042,Chandni Chowk,Delhi,Delhi,Shopping,0,4.2,28.650533,77.230337
+ATT0007,D0042,Lotus Temple,Delhi,Delhi,Spiritual,0,4.5,28.553492,77.258826
+ATT0008,D0042,Red Fort,Delhi,Delhi,Heritage,35,4.5,28.656159,77.24102
+ATT0009,D0042,Agrasen ki Baoli,Delhi,Delhi,Heritage,0,4.2,28.626062,77.225037
+ATT0010,D0042,Sunder Nursery,Delhi,Delhi,Wildlife,0,4.6,28.595647,77.245169
+ATT0011,D0042,Garden of Five Senses,Delhi,Delhi,Wildlife,35,4.1,28.513403,77.197523
+ATT0012,D0042,Lodhi Garden,Delhi,Delhi,Wildlife,0,4.5,28.593681,77.221834
+ATT0013,D0042,National Gallery of Modern Art,Delhi,Delhi,Arts,20,4.5,28.610193,77.234418
+ATT0014,D0042,National Zoological Park,Delhi,Delhi,Wildlife,80,4.1,28.6127,77.2436
+ATT0015,D0042,Qutub Minar,Delhi,Delhi,Heritage,35,4.5,28.524495,77.185518
+ATT0016,D0042,Shopping at Sarojini Nagar,Delhi,Delhi,Shopping,0,4.2,28.574032,77.199067
+ATT0017,D0042,National Science Centre,Delhi,Delhi,Arts,70,4.4,28.612784,77.245558
+ATT0018,D0041,Marine Drive,Mumbai,Maharashtra,Sightseeing,0,4.5,18.943211,72.822998
+ATT0019,D0041,Gateway of India,Mumbai,Maharashtra,Heritage,0,4.6,18.921984,72.834654
+ATT0020,D0041,Chhatrapati Shivaji Maharaj Vastu Sangrahalaya,Mumbai,Maharashtra,Heritage,500,4.6,18.926902,72.832692
+ATT0021,D0041,NCPA Tiger safari at Borivali,Mumbai,Maharashtra,Adventure,50,4.3,19.230733,72.856673
+ATT0022,D0041,Shopping at Colaba Causeway,Mumbai,Maharashtra,Shopping,0,4.2,18.924645,72.832132
+ATT0023,D0041,"Shopping at Linking road, Bandra",Mumbai,Maharashtra,Shopping,0,4.2,19.064236,72.834912
+ATT0024,D0041,"Phoenix marketcity Mall, Kurla",Mumbai,Maharashtra,Shopping,0,4.5,19.08638,72.888977
+ATT0025,D0041,"Jio world drive mall, BKC",Mumbai,Maharashtra,Arts,0,4.6,19.054315,72.851571
+ATT0026,D0041,"Five gardens, Matunga",Mumbai,Maharashtra,Sightseeing,0,4.1,19.019747,72.854312
+ATT0027,D0041,Worli seaface,Mumbai,Maharashtra,Spiritual,0,4.5,19.009143,72.815728
+ATT0028,D0041,Siddhivinayak Temple,Mumbai,Maharashtra,Spiritual,0,4.8,19.01699,72.8304
+ATT0029,D0041,Mahalaxmi Temple,Mumbai,Maharashtra,Spiritual,0,4.7,18.9773,72.8066
+ATT0030,D0041,Haji Ali Dargah,Mumbai,Maharashtra,Spiritual,0,4.4,18.982827,72.808897
+ATT0031,D0041,Chowpatty Beach,Mumbai,Maharashtra,Wildlife,0,4.3,18.951862,72.816559
+ATT0032,D0041,Essel World,Mumbai,Maharashtra,Adventure,1149,4.3,19.230098,72.801325
+ATT0033,D0041,Elephanta Caves,Mumbai,Maharashtra,Heritage,550,4.3,18.963347,72.931486
+ATT0034,D0348,Tigers Leap cliff top,Lonavala,Maharashtra,Sightseeing,0,4.4,18.6961,73.3852
+ATT0035,D0348,Duke's nose trail,Lonavala,Maharashtra,Adventure,0,4.3,18.732392,73.36782
+ATT0036,D0348,Adlabs Imagica,Lonavala,Maharashtra,Adventure,1149,4,18.76794,73.282321
+ATT0037,D0348,Bhushi dam,Lonavala,Maharashtra,Wildlife,0,4,18.722426,73.396288
+ATT0038,D0348,Sunset at Lion's point,Lonavala,Maharashtra,Sightseeing,0,4,18.608297,73.386465
+ATT0039,D0043,Bengaluru Palace,Bengaluru,Karnataka,Heritage,500,4.2,18.699917,73.38595
+ATT0040,D0043,Lalbagh Botanical Garden,Bengaluru,Karnataka,Wildlife,20,4.4,13.003507,77.589095
+ATT0041,D0043,Cubbon Park,Bengaluru,Karnataka,Wildlife,0,4.4,12.949416,77.58468
+ATT0042,D0043,Nehru Planetarium,Bengaluru,Karnataka,Arts,35,4,12.977929,77.595155
+ATT0043,D0043,National Gallery of Modern Art,Bengaluru,Karnataka,Heritage,20,4.3,12.5923,77.3517
+ATT0044,D0043,Church street,Bengaluru,Karnataka,Sightseeing,0,4.1,28.610193,77.234418
+ATT0045,D0043,MG Road,Bengaluru,Karnataka,Sightseeing,0,4.2,12.582568,77.364279
+ATT0046,D0043,Boating at Yediyur lake,Bengaluru,Karnataka,Adventure,50,4.2,12.974759,77.609393
+ATT0047,D0043,Vidhana Soudha,Bengaluru,Karnataka,Heritage,0,4.6,12.93349,77.576628
+ATT0048,D0043,ISKCON Temple Bengaluru,Bengaluru,Karnataka,Spiritual,0,4.6,12.979612,77.590846
+ATT0049,D0045,Charminar,Hyderabad,Telangana,Heritage,25,4.5,13.009833,77.551096
+ATT0050,D0045,Golconda Fort,Hyderabad,Telangana,Heritage,30,4.4,17.361564,78.474664
+ATT0051,D0045,Hussain Sagar Lake,Hyderabad,Telangana,Wildlife,0,4.3,17.383309,78.401053
+ATT0052,D0045,Ramoji Film City,Hyderabad,Telangana,Arts,1150,4.4,17.42388,78.473822
+ATT0053,D0045,Salar Jung Museum,Hyderabad,Telangana,Arts,20,4.4,17.221713,78.284925
+ATT0054,D0045,Qutb Shahi Tombs,Hyderabad,Telangana,Heritage,25,4.4,17.371608,78.480244
+ATT0055,D0045,Lad Bazaar,Hyderabad,Telangana,Shopping,0,4,17.397371,78.400114
+ATT0056,D0045,Birla Mandir,Hyderabad,Telangana,Spiritual,0,4.7,17.362879,78.474129
+ATT0057,D0045,Chowmahalla Palace,Hyderabad,Telangana,Heritage,80,4.4,17.212781,78.281814
+ATT0058,D0045,Nehru Zoological Park,Hyderabad,Telangana,Wildlife,50,4.2,17.357823,78.47169
+ATT0059,D0045,Infinite adventure club,Hyderabad,Telangana,Adventure,1000,4.4,17.348305,78.442511
+ATT0060,D0045,Lumbini Park,Hyderabad,Telangana,Wildlife,20,4.1,17.445876,78.418634
+ATT0061,D0044,Victoria Memorial,Kolkata,West Bengal,Heritage,30,4.6,17.409681,78.472434
+ATT0062,D0044,Howrah Bridge,Kolkata,West Bengal,Heritage,0,4.6,22.544808,88.342558
+ATT0063,D0044,Indian Museum,Kolkata,West Bengal,Arts,50,4.6,22.585143,88.3468
+ATT0064,D0044,Ganga aarti,Kolkata,West Bengal,Spiritual,0,4.6,22.557886,88.351127
+ATT0065,D0044,Birla Planetarium,Kolkata,West Bengal,Arts,100,4.4,27.40364,83.009124
+ATT0066,D0044,St.Pauls Cathedral,Kolkata,West Bengal,Spiritual,0,4.2,22.545514,88.347316
+ATT0067,D0044,Tiretti Bazaar,Kolkata,West Bengal,Shopping,0,4.1,22.57285,88.356
+ATT0068,D0044,Princep Ghat,Kolkata,West Bengal,Heritage,0,4.3,22.573909,88.355599
+ATT0069,D0044,Kumartali potter's quarter,Kolkata,West Bengal,Arts,0,4.4,22.555283,88.33117
+ATT0070,D0044,Shopping at Chamba lama,Kolkata,West Bengal,Shopping,0,4.3,22.600002,88.361268
+ATT0071,D0044,Burra Bazaar,Kolkata,West Bengal,Shopping,0,4,22.559992,88.353137
+ATT0072,D0044,Dakshineswar Kali Temple,Kolkata,West Bengal,Spiritual,0,4.7,22.581741,88.354397
+ATT0073,D0044,Kalighat Kali Temple,Kolkata,West Bengal,Spiritual,0,4.4,22.654909,88.357531
+ATT0074,D0044,Eden Gardens,Kolkata,West Bengal,Sports,2500,4.1,22.52028,88.342088
+ATT0075,D0044,Alipore Zoological Gardens,Kolkata,West Bengal,Wildlife,25,4.3,22.564608,88.343264
+ATT0076,D0044,Science City Kolkata,Kolkata,West Bengal,Arts,60,4.4,22.537034,88.33167
+ATT0077,D0044,Belur Math,Kolkata,West Bengal,Spiritual,0,4.7,22.540138,88.396056
+ATT0078,D0044,Marble Palace,Kolkata,West Bengal,Heritage,0,4.4,22.632656,88.356382
+ATT0079,D0001,Basilica of Bom Jesus,Goa,Goa,Spiritual,0,4.5,15.5008,73.9114
+ATT0080,D0001,Fort Aguada,Goa,Goa,Heritage,0,4.2,15.500824,73.911406
+ATT0081,D0001,Dudhsagar Falls,Goa,Goa,Wildlife,500,4.6,15.492252,73.773746
+ATT0082,D0001,Anjuna Beach,Goa,Goa,Adventure,0,4.4,15.314438,74.314307
+ATT0083,D0001,Chapora Fort,Goa,Goa,Heritage,0,4.2,15.57335,73.740978
+ATT0084,D0001,Se Cathedral,Goa,Goa,Spiritual,0,4.5,15.604638,73.736963
+ATT0085,D0001,Baga Beach,Goa,Goa,Wildlife,0,4.5,15.503877,73.912192
+ATT0086,D0001,Candolim Beach,Goa,Goa,Wildlife,0,4.4,15.555279,73.751731
+ATT0087,D0443,Fontainhas colony,Panjim,Goa,Heritage,0,4.2,15.517975,73.762612
+ATT0088,D0443,Shopping at M.G.Road,Panjim,Goa,Shopping,0,4.1,15.494103,73.830078
+ATT0089,D0443,Gallery Gitanjali,Panjim,Goa,Arts,0,4.5,12.974759,77.609393
+ATT0090,D0443,Our Lady of Immaculate Conception Church,Panjim,Goa,Spiritual,0,4.4,15.4986,73.8294
+ATT0091,D0001,Old Goa,Goa,Goa,Heritage,0,4.5,15.5014,73.9135
+ATT0092,D0001,Arambol Beach,Goa,Goa,Wildlife,0,4.6,15.501984,73.910007
+ATT0093,D0001,Palolem Beach,Goa,Goa,Wildlife,0,4.6,15.684689,73.703284
+ATT0094,D0001,Colva Beach,Goa,Goa,Wildlife,0,4.3,15.009965,74.023219
+ATT0095,D0001,Miramar Beach,Goa,Goa,Wildlife,0,4.2,15.280532,73.911994
+ATT0096,D0001,Dr. Salim Ali Bird Santuary,Goa,Goa,Wildlife,10,3.9,15.513,73.8704
+ATT0097,D0051,Statue of Unity,Ahemdabad,Gujrat,Heritage,120,4.6,10.133503,76.686027
+ATT0098,D0051,Jhulta Minara,Ahemdabad,Gujrat,Heritage,0,4.1,21.838018,73.719073
+ATT0099,D0051,Auto World Vintage Car Museum,Ahemdabad,Gujrat,Arts,100,4.4,23.023679,72.599811
+ATT0100,D0053,Sabarmati Ashram,Ahmedabad,Gujarat,Heritage,0,4.6,23.057285,72.687262
+ATT0101,D0208,Dwarka Beach & Lighthouse,Dwarka,Gujrat,Wildlife,0,4.6,23.035862,72.570109
+ATT0102,D0208,Rukmini Devi Mandir,Dwarka,Gujrat,Spiritual,0,4.6,22.244198,68.968456
+ATT0103,D0208,Shri Nageshwar Jyotirling,Dwarka,Gujrat,Spiritual,0,4.7,22.257314,68.964419
+ATT0104,D0208,Dwarkadhish Temple,Dwarka,Gujarat,Spiritual,0,4.7,22.335964,69.087009
+ATT0105,D0267,Mahabat Maqbara Palace,Junagadh,Gujrat,Heritage,0,4.4,22.237108,68.967626
+ATT0106,D0267,Uparkot Fort,Junagadh,Gujrat,Heritage,5,4.3,21.527573,70.459993
+ATT0107,D0267,Sakkarbaug Zoological Park,Junagadh,Gujrat,Wildlife,20,4.3,21.524748,70.470053
+ATT0108,D0267,Gir National Park,Junagadh,Gujarat,Wildlife,3500,4.5,21.541889,70.464628
+ATT0109,D0124,Aina Mahal Palace,Bhuj,Gujrat,Heritage,20,4.2,21.084285,70.794441
+ATT0110,D0124,Bhuj Mandir,Bhuj,Gujrat,Spiritual,0,4.7,23.25536,69.668561
+ATT0111,D0124,Chhatardi Bhuj,Bhuj,Gujrat,Heritage,0,4.4,23.242,69.666932
+ATT0112,D0124,Vande Mataram Memorial,Bhuj,Gujrat,Heritage,100,4.6,23.245773,69.658173
+ATT0113,D0124,White Desert,Bhuj,Gujarat,Wildlife,0,4.6,23.218751,69.73645
+ATT0114,D0575,Sayaji Baug Zoo,Vadodara,Gujrat,Wildlife,20,4.4,22.3115,73.19
+ATT0115,D0575,Inorbit Mall Vadodara,Vadodara,Gujrat,Shopping,0,4.5,22.311457,73.191386
+ATT0116,D0575,Baroda Museum &Gallery,Vadodara,Gujrat,Arts,5,4.5,22.322327,73.165584
+ATT0117,D0575,BAPS Shri Swaminarayan Mandir,Vadodara,Gujrat,Spiritual,0,4.5,22.31177,73.188745
+ATT0118,D0575,Mandvi Gate,Vadodara,Gujrat,Heritage,0,4.4,22.3001,73.2106
+ATT0119,D0575,Laxmi Vilas Palace,Vadodara,Gujarat,Heritage,200,4.4,22.300138,73.210648
+ATT0120,D0526,Somnath Beach,Somnath,Gujrat,Spiritual,0,4.5,22.293599,73.191907
+ATT0121,D0526,Somnath Temple,Somnath,Gujarat,Spiritual,0,4.8,20.884184,70.405855
+ATT0122,D0213,Adalaj Stepwell,Gandhinagar,Gujrat,Heritage,0,4.5,20.88799,70.401257
+ATT0123,D0213,Sarita Udyan,Gandhinagar,Gujrat,Sightseeing,0,4.4,23.166782,72.580464
+ATT0124,D0213,Swaminarayan Akshardham,Gandhinagar,Gujrat,Spiritual,0,4.6,23.203152,72.658938
+ATT0125,D0213,Dandi Kutir,Gandhinagar,Gujarat,Arts,0,4.5,28.612674,77.277262
+ATT0126,D0053,Sabarmati Riverfront,Ahmedabad,Gujarat,Sightseeing,0,4.6,23.232876,72.631194
+ATT0127,D0053,Manek Chowk,Ahmedabad,Gujarat,Shopping,0,4.4,23.023454,72.576641
+ATT0128,D0053,Kankaria Lake,Ahmedabad,Gujarat,Wildlife,10,4.5,23.023189,72.587909
+ATT0129,D0053,Science City,Ahmedabad,Gujarat,Arts,500,4.4,23.006257,72.60255
+ATT0130,D0025,Birla Mandir,Jaipur,Rajasthan,Spiritual,0,4.6,23.071424,72.516785
+ATT0131,D0025,Shree Khole Ki Hanuman Mandir,Jaipur,Rajasthan,Spiritual,0,4.8,26.907524,75.739639
+ATT0132,D0025,Cental Park,Jaipur,Rajasthan,Wildlife,0,4.6,26.9049,75.8087
+ATT0133,D0025,Moti Dungri Ganesh Ji Temple,Jaipur,Rajasthan,Spiritual,0,4.8,26.8947,75.8167
+ATT0134,D0025,Jantar Mantar,Jaipur,Rajasthan,Arts,0,4.5,26.894658,75.816715
+ATT0135,D0025,Amber Palace,Jaipur,Rajasthan,Heritage,0,4.6,28.627055,77.216627
+ATT0136,D0025,Hawa Mahal,Jaipur,Rajasthan,Heritage,50,4.4,26.985486,75.851345
+ATT0137,D0027,Lake Pichola,Udaipur,Rajasthan,Wildlife,0,4.7,26.924046,75.826714
+ATT0138,D0027,Jagdish Temple,Udaipur,Rajasthan,Spiritual,0,4.7,24.572,73.679
+ATT0139,D0027,Ambrai Ghat,Udaipur,Rajasthan,Sightseeing,0,4.7,24.579654,73.683615
+ATT0140,D0027,Saheliyon ki Bari,Udaipur,Rajasthan,Wildlife,50,4.4,24.577555,73.679902
+ATT0141,D0027,Sajjangarh Monsoon Palace,Udaipur,Rajasthan,Heritage,110,4.4,24.603006,73.68549
+ATT0142,D0027,Bagore ki Haveli,Udaipur,Rajasthan,Heritage,30,4.5,24.593185,73.639606
+ATT0143,D0027,Karni Mata Temple,Udaipur,Rajasthan,Spiritual,0,4,24.580048,73.682258
+ATT0144,D0027,City Palace,Udaipur,Rajasthan,Heritage,300,4.4,27.790935,73.340826
+ATT0145,D0039,Patwa Haweli,Jaisalmer,Rajasthan,Heritage,40,4.3,26.9164,70.9143
+ATT0146,D0039,Longewala War memorial,Jaisalmer,Rajasthan,Heritage,50,4.8,26.911661,70.922928
+ATT0147,D0039,Gadisar Lake,Jaisalmer,Rajasthan,Wildlife,0,4.4,27.52294,70.15648
+ATT0148,D0039,Jaisalmer Fort,Jaisalmer,Rajasthan,Heritage,50,4.4,26.908579,70.9231
+ATT0149,D0035,Trinetra Ganesh Temple,Ranthambore,Rajasthan,Spiritual,0,4.7,26.912456,70.912609
+ATT0150,D0035,Ranthambore Fort,Ranthambore,Rajasthan,Heritage,0,4.5,26.017491,76.453236
+ATT0151,D0035,Ranthambore National Park,Ranthambore,Rajasthan,Wildlife,500,4.6,26.020755,76.45497
+ATT0152,D0056,Adhai Din ka Jhopra,Ajmer,Rajasthan,Heritage,50,4.4,25.977587,76.553287
+ATT0153,D0056,Anasagar Lake,Ajmer,Rajasthan,Wildlife,0,4.5,26.455216,74.625146
+ATT0154,D0056,Khwaja Gharib Nawaz Dargah,Ajmer,Rajasthan,Spiritual,0,4.6,26.474592,74.619547
+ATT0155,D0028,Jaswant Thada,Jodhpur,Rajasthan,Heritage,30,4.4,21.01054,75.55203
+ATT0156,D0028,Umaid Bhawan Palace,Jodhpur,Rajasthan,Heritage,50,4.5,26.3041,73.025361
+ATT0157,D0028,Mehrangarh Fort,Jodhpur,Rajasthan,Heritage,100,4.6,26.28103,73.047302
+ATT0158,D0393,Nakki Lake,Mount Abu,Rajasthan,Wildlife,0,4.4,26.297827,73.018013
+ATT0159,D0393,Sunset Point,Mount Abu,Rajasthan,Wildlife,0,1,24.594511,72.70623
+ATT0160,D0393,Dilwara Temples,Mount Abu,Rajasthan,Spiritual,0,4.6,24.6094,72.723
+ATT0161,D0025,Nahargarh Fort,Jaipur,Rajasthan,Heritage,100,4.6,24.609382,72.72298
+ATT0162,D0025,Jaigarh Fort,Jaipur,Rajasthan,Heritage,35,4.5,26.940166,75.817037
+ATT0163,D0030,Sadda Pind,Amritsar,Punjab,Heritage,700,4.3,31.63398,74.872261
+ATT0164,D0030,Gobind Garh Fort,Amritsar,Punjab,Heritage,250,4.3,31.644012,74.81318
+ATT0165,D0030,Shri Durgiana Temple,Amritsar,Punjab,Spiritual,0,4.7,31.627623,74.858023
+ATT0166,D0030,Shree Harminder Sahib Gurudwara,Amritsar,Punjab,Spiritual,0,4.9,31.627153,74.867344
+ATT0167,D0030,The Partition Museum,Amritsar,Punjab,Arts,50,4.6,31.61998,74.876485
+ATT0168,D0030,Golden Temple (Harmandir Sahib),Amritsar,Punjab,Spiritual,0,4.9,31.625694,74.879009
+ATT0169,D0030,Jallianwala Bagh,Amritsar,Punjab,Heritage,0,4.8,31.61998,74.876485
+ATT0170,D0030,Wagah Border,Amritsar,Punjab,Adventure,0,4.8,31.62074,74.880166
+ATT0171,D0149,Japanese Garden,Chandigarh,Punjab,Heritage,0,4.3,31.604839,74.574078
+ATT0172,D0149,Sector 17 Market,Chandigarh,Punjab,Shopping,0,4.4,30.7395,76.7825
+ATT0173,D0149,ISKON temple,Chandigarh,Punjab,Spiritual,0,4.8,30.739471,76.782533
+ATT0174,D0149,Terraced garden,Chandigarh,Punjab,Wildlife,0,4.5,30.7144,76.7716
+ATT0175,D0149,Government museum & Art gallery,Chandigarh,Punjab,Arts,60,4.4,30.445473,76.471285
+ATT0176,D0149,Sukhna Lake,Chandigarh,Punjab,Wildlife,0,4.6,13.07163,80.256796
+ATT0177,D0149,Rock Garden,Chandigarh,Punjab,Sightseeing,30,4.5,30.742138,76.818756
+ATT0178,D0058,Shree Krishna Swamy Temple,Alappuzha,Kerala,Spiritual,0,4.6,30.752535,76.810104
+ATT0179,D0058,Marari Beach,Alappuzha,Kerala,Wildlife,0,4.5,9.6008,76.2983
+ATT0180,D0058,International Coi Museum,Alappuzha,Kerala,Arts,0,4.3,9.600751,76.298258
+ATT0181,D0058,Alleppey Backwater,Alappuzha,Kerala,Wildlife,0,4.6,9.5239,76.3568
+ATT0182,D0058,Chakkulathukavu Sree Bhagwathi Temple,Alappuzha,Kerala,Spiritual,0,4.3,9.523861,76.356763
+ATT0183,D0058,Mannarasala Sree Nagaraja Temple,Alappuzha,Kerala,Spiritual,0,4.3,9.366942,76.514188
+ATT0184,D0058,St.Andrew's Basilica,Alappuzha,Kerala,Spiritual,0,4.7,9.289681,76.445683
+ATT0185,D0058,Alappuzha Beach,Alappuzha,Kerala,Wildlife,0,4.5,9.661129,76.30029
+ATT0186,D0014,Pothamedu View Point,Munnar,Kerala,Sightseeing,0,4.2,9.492748,76.317776
+ATT0187,D0014,Eravikulam National Park,Munnar,Kerala,Wildlife,125,4.3,10.059692,77.064076
+ATT0188,D0014,Mattupetty Dam,Munnar,Kerala,Sightseeing,0,4.2,10.145391,77.036635
+ATT0189,D0014,Munnar Tea Gardens,Munnar,Kerala,Wildlife,0,4.3,10.106332,77.123806
+ATT0190,D0318,LuLu International Shopping Mall,Kochi,Kerala,Shopping,0,4.6,10.057841,77.066081
+ATT0191,D0318,National Shrine Basilica of our Lady of Ransom,Kochi,Kerala,Spiritual,0,4.8,10.027148,76.308186
+ATT0192,D0318,Mattancherry Palace,Kochi,Kerala,Heritage,2,4.2,9.9583,76.2594
+ATT0193,D0318,Marine Drive Kochi,Kochi,Kerala,Sightseeing,0,4.3,9.958277,76.259351
+ATT0194,D0318,Chottanikara Bhagvathy Temple,Kochi,Kerala,Spiritual,0,5,9.977168,76.277323
+ATT0195,D0318,Hill Palace Museum,Kochi,Kerala,Heritage,0,4.3,9.933174,76.390571
+ATT0196,D0318,Cherai Beach,Kochi,Kerala,Wildlife,0,4,9.952749,76.363802
+ATT0197,D0318,Fort Kochi,Kochi,Kerala,Heritage,0,4.4,10.141595,76.178283
+ATT0198,D0553,Attukal Bhagwathy Temple,Thiruvanthapuram,Kerala,Spiritual,0,4.6,9.965779,76.242115
+ATT0199,D0553,Kovalam Beach,Thiruvanthapuram,Kerala,Wildlife,0,4.4,8.469862,76.955486
+ATT0200,D0553,Thiruvanthapuram Zoological park,Thiruvanthapuram,Kerala,Wildlife,200,4.2,8.383784,76.980418
+ATT0201,D0553,Kanakakkunnu Palace,Thiruvanthapuram,Kerala,Heritage,0,4.5,8.510594,76.954938
+ATT0202,D0553,Veli Lake Tourist Village,Thiruvanthapuram,Kerala,Sightseeing,0,4.2,8.510718,76.958186
+ATT0203,D0553,Napier Museum,Thiruvanthapuram,Kerala,Arts,70,4.4,8.508021,76.88867
+ATT0204,D0552,Padmanabhaswamy Temple,Thiruvananthapuram,Kerala,Spiritual,0,4.7,8.508966,76.955072
+ATT0205,D0331,HiLITE mall,Kozhikode,Kerala,Shopping,0,4.2,8.482778,76.943591
+ATT0206,D0331,Mittayi Theravu -SM Street,Kozhikode,Kerala,Shopping,0,4.5,11.248658,75.833473
+ATT0207,D0331,Tali Maha Shiva Kshetram,Kozhikode,Kerala,Spiritual,0,4.7,11.250762,75.781561
+ATT0208,D0331,Sargaalaya Kerala Arts& Crafts village,Kozhikode,Kerala,Arts,50,4.3,11.247938,75.787562
+ATT0209,D0331,Kozhikode Beach,Kozhikode,Kerala,Wildlife,0,3.9,11.560115,75.605862
+ATT0210,D0603,Lakkidi View point,Wayanad,Kerala,Sightseeing,0,4.5,11.262623,75.76731
+ATT0211,D0603,Edakkal Caves,Wayanad,Kerala,Wildlife,70,4.1,11.5122,76.018934
+ATT0212,D0603,"Karapuzha Dam, adventure park, garden",Wayanad,Kerala,Adventure,0,4.4,11.626841,76.234269
+ATT0213,D0603,Wayanad Wildlife Sanctuary,Wayanad,Kerala,Wildlife,300,4.5,11.61829,76.167835
+ATT0214,D0282,Muzhappilangad Beach,Kannur,Kerala,Wildlife,0,4.4,11.671601,76.368656
+ATT0215,D0282,Parassini Madappura Sree Muthappan Temple,Kannur,Kerala,Spiritual,0,4.4,11.793204,75.444107
+ATT0216,D0282,St. Angelo Fort,Kannur,Kerala,Heritage,20,4.4,11.98247,75.402109
+ATT0217,D0318,Kerala Folklore Museum,Kochi,Kerala,Heritage,100,4.4,11.854142,75.371446
+ATT0218,D0318,Wonderla Amusement Park,Kochi,Kerala,Adventure,750,4.6,9.933011,76.298979
+ATT0219,D0029,Shri Chamundeshwari Temple,Mysuru,Karnataka,Spiritual,0,4.7,12.83491,77.400941
+ATT0220,D0029,Chamundi Betta,Mysuru,Karnataka,Wildlife,0,4.7,12.272504,76.670715
+ATT0221,D0029,Lokaranjan Aqua World Underwater zoo,Mysuru,Karanataka,Wildlife,200,4.6,12.273167,76.670744
+ATT0222,D0029,Mysuru Railway museum,Mysuru,Karanataka,Arts,50,4.4,12.304807,76.663809
+ATT0223,D0029,"Karanji Lake, boating, bird sanctuary",Mysuru,Karnataka,Wildlife,0,4,12.316339,76.643323
+ATT0224,D0029,Mysuru Palace,Mysuru,Karnataka,Heritage,25,4.6,12.302778,76.673611
+ATT0225,D0026,Virupaksha Temple,Hampi,Karanataka,Spiritual,0,4.7,12.305163,76.655175
+ATT0226,D0026,Stone Chariot,Hampi,Karnataka,Heritage,0,4.8,15.335133,76.458653
+ATT0227,D0026,Mathanga Hill,Hampi,Karanataka,Wildlife,0,4.8,15.3316,76.4682
+ATT0228,D0026,Shree Vijaya Vitthala Temple,Hampi,Karnataka,Spiritual,0,4.8,15.331639,76.468238
+ATT0229,D0026,Group of monuments at Hampi,Hampi,Karnataka,Heritage,30,4.7,15.34231,76.475235
+ATT0230,D0026,Lotus Mahal,Hampi,Karnataka,Heritage,50,4.6,15.334977,76.461923
+ATT0231,D0026,Ajanadri Hills,Hampi,Karnataka,Adventure,0,4.7,15.320285,76.471324
+ATT0232,D0010,Raja's Seat garden,Coorg,Karnataka,Sightseeing,0,4.4,15.354838,76.469264
+ATT0233,D0010,Nagarhole Tiger Reserve,Coorg,Karnataka,Wildlife,150,4.4,12.414567,75.737101
+ATT0234,D0010,Mallalli Falls,Coorg,Karnataka,Wildlife,0,4.6,12.073437,76.151082
+ATT0235,D0010,Brahmagiri Wildlife Sanctuary,Coorg,Karnataka,Wildlife,25,4.4,12.680643,75.723667
+ATT0236,D0010,Dubare Elephant camp and bathing spot,Coorg,Karnataka,Wildlife,20,4.1,12.172649,75.644084
+ATT0237,D0010,Coorg river rafting Barapole,Coorg,Karnataka,Adventure,0,4.1,12.371192,75.90512
+ATT0238,D0010,Namdroling Monastery,Coorg,Karnataka,Spiritual,0,4.5,12.337494,75.806908
+ATT0239,D0010,Iruppu Falls-Brahmagiri,Coorg,Karnataka,Wildlife,0,4.1,12.430628,75.966954
+ATT0240,D0160,Bhadra wildlife sanctuary,Chikmanglur,Karnataka,Wildlife,60,4.4,11.966103,75.983329
+ATT0241,D0160,Shri Jagadguru Shankaracharya Peeta,Chikmanglur,Karnataka,Spiritual,0,4.8,13.694874,75.635227
+ATT0242,D0160,Shri Annapurneshwari Devi Temple,Chikmanglur,Karnataka,Spiritual,0,4.8,13.416713,75.252143
+ATT0243,D0160,Sri Sharadamba Temple,Chikmanglur,Karanataka,Spiritual,0,4.8,9.81212,77.174747
+ATT0244,D0160,Kallathigiri Falls,Chikmanglur,Karnataka,Wildlife,0,4.2,13.41614,75.251271
+ATT0245,D0160,Baba Budan Giri hills,Chikmanglur,Karanataka,Wildlife,0,4.5,13.548611,75.789148
+ATT0246,D0159,Mullayanagiri Betta,Chikmagalur,Karnataka,Wildlife,0,4.5,13.422865,75.770388
+ATT0247,D0081,Sri Bhootanaatha Gudi,Badami,Karnataka,Spiritual,0,4.7,13.390886,75.72133
+ATT0248,D0081,Banashankari Devi Temple,Badami,Karnataka,Spiritual,0,4.7,15.920789,75.68767
+ATT0249,D0081,Badami Cave Temples,Badami,Karnataka,Spiritual,30,4.6,15.918336,75.683969
+ATT0250,D0370,Kadri Park,Mangalore,Karnataka,Sightseeing,10,4.3,12.88898,74.856223
+ATT0251,D0370,City Center mall,Mangalore,Karnataka,Shopping,0,4.4,12.8713,74.8428
+ATT0252,D0370,Kukke Shree Subrahmanya Temple,Mangalore,Karnataka,Spiritual,0,4.6,12.663628,75.615848
+ATT0253,D0370,Dharmasthala Temple,Mangalore,Karnataka,Spiritual,0,4.8,12.950382,75.380492
+ATT0254,D0370,Pilikula Nisargadhama zoo,Mangalore,Karnataka,Wildlife,80,4.4,12.927286,74.899126
+ATT0255,D0370,Panambur Beach,Mangalore,Karnataka,Wildlife,0,4.5,12.953021,74.801178
+ATT0256,D0126,Fort Bijapur,Bijapur,Karanataka,Heritage,70,4.3,16.829969,75.736302
+ATT0257,D0126,Jamiya Masjid,Bijapur,Karnataka,Heritage,0,4.2,16.822273,75.728778
+ATT0258,D0126,Shivgiri Temple,Bijapur,Karnataka,Spiritual,0,4.5,16.817515,75.756353
+ATT0259,D0126,Bara Kaman,Bijapur,Karnataka,Heritage,0,4.2,16.830315,75.718271
+ATT0260,D0126,Gol Gumbaz museum,Bijapur,Karnataka,Heritage,0,4.5,16.828823,75.735884
+ATT0261,D0126,Gol Gumbaz,Bijapur,Karnataka,Heritage,0,4.5,16.830262,75.736115
+ATT0262,D0462,Phoenix Marketcity Pune,Pune,Maharashtra,Shopping,0,4.5,18.562254,73.916694
+ATT0263,D0462,Chatushrungi Devi Temple,Pune,Maharashtra,Spiritual,0,4.6,18.539306,73.829041
+ATT0264,D0462,Pune-Okayama Friendship Garden,Pune,Maharashtra,Sightseeing,0,4.5,18.491381,73.83676
+ATT0265,D0462,Raja Dinkar Kelkar Museum,Pune,Maharashtra,Arts,300,4.4,18.510686,73.854431
+ATT0266,D0462,Sinhagad Fort,Pune,Maharashtra,Heritage,10,4.6,18.366277,73.755878
+ATT0267,D0462,Rajiv Gandhi zoo,Pune,Maharashtra,Wildlife,40,4.1,18.452481,73.860798
+ATT0268,D0462,Dagadusheth Halwai Ganapati temple,Pune,Maharashtra,Spiritual,0,4.8,18.51643,73.856133
+ATT0269,D0462,Shaniwar Wada,Pune,Maharashtra,Heritage,50,4.4,18.519465,73.855318
+ATT0270,D0077,Prozone Mall,Aurangabad,Maharashtra,Shopping,0,4.3,11.054768,76.994111
+ATT0271,D0077,Bibi ka Maqbara,Aurangabad,Maharashtra,Heritage,0,4.2,19.900625,75.319353
+ATT0272,D0077,Ellora Caves,Aurangabad,Maharashtra,Heritage,40,4.7,20.026784,75.177087
+ATT0273,D0077,Daulatabad Fort,Aurangabad,Maharashtra,Heritage,10,4.8,19.946133,75.221652
+ATT0274,D0077,Ajanta Caves,Aurangabad,Maharashtra,Heritage,30,4.6,20.551444,75.701891
+ATT0275,D0416,Trimbakeshwar Jyotirling Mandir,Nashik,Maharashtra,Spiritual,0,4.6,19.93226,73.530788
+ATT0276,D0416,Pandav Leni caves,Nashik,Maharashtra,Heritage,0,4.6,19.941211,73.748555
+ATT0277,D0059,Water Sports in Alibaug,Alibaug,Maharashtra,Adventure,0,4.9,18.658399,72.877335
+ATT0278,D0059,Kolaba Fort,Alibaug,Maharashtra,Heritage,20,4.2,18.634202,72.864453
+ATT0279,D0059,Alibaug Beach,Alibaug,Maharashtra,Wildlife,0,4.2,18.639142,72.872021
+ATT0280,D0473,Jaigad Fort,Ratnagiri,Maharashtra,Heritage,0,4.1,17.300493,73.221612
+ATT0281,D0473,Tilak Ali Museum,Ratnagiri,Maharahtra,Arts,0,4.6,16.995299,73.290469
+ATT0282,D0473,Ganapatipule Temple,Ratnagiri,Maharashtra,Spiritual,0,4.7,17.144957,73.266214
+ATT0283,D0409,Umred Karhandla Wildlife Sanctuary,Nagpur,Maharashtra,Wildlife,150,4.2,20.828661,79.593265
+ATT0284,D0409,Tadoba Andhari Tiger Project,Nagpur,Maharashtra,Wildlife,25,4.5,20.271788,79.387571
+ATT0285,D0409,Khindsi Lake water sports,Nagpur,Maharashtra,Adventure,0,4,21.404032,79.363452
+ATT0286,D0409,Khindsi Lake,Nagpur,Maharashtra,Wildlife,0,4,21.404032,79.363452
+ATT0287,D0409,Ambazari Lake & Garden,Nagpur,Maharashtra,Wildlife,0,4,21.129257,79.048968
+ATT0288,D0409,Raman Science Centre,Nagpur,Maharashtra,Arts,15,4.5,21.145901,79.094126
+ATT0289,D0409,Krazy Castle Aqua Park,Nagpur,Maharashtra,Adventure,490,4,21.128295,79.046221
+ATT0290,D0409,Deekshabhoomi,Nagpur,Maharashtra,Heritage,0,4.5,21.128056,79.066944
+ATT0291,D0321,Chhatrapati Shahu Palace,Kolhapur,Maharashtra,Heritage,25,4.5,16.719363,74.231735
+ATT0292,D0321,Dajipur Wildlife Sanctuary,Kolhapur,Maharashtra,Wildlife,50,4.4,16.38379,73.8634
+ATT0293,D0321,Shri Ambabai Temple,Kolhapur,Maharashtra,Spiritual,0,4.8,16.416,74.135999
+ATT0294,D0349,Della Adventure Park,Lonavla,Maharashtra,Adventure,2000,4.3,18.781402,73.38906
+ATT0295,D0348,Karla Caves,Lonavala,Maharashtra,Heritage,25,4.4,18.783276,73.470443
+ATT0296,D0348,Imagicaa amusement park,Lonavala,Maharashtra,Adventure,1000,4.4,18.76794,73.282321
+ATT0297,D0348,Lions Point,Lonavala,Maharashtra,Sightseeing,0,4.4,18.6999,73.3859
+ATT0298,D0348,Ekvira Devi Temple,Lonavala,Maharashtra,Spiritual,0,4.7,18.783244,73.470228
+ATT0299,D0021,Tarkarli Beach,Tarkarli,Maharashtra,Wildlife,0,4.6,16.013686,73.489833
+ATT0300,D0502,Kaas Plateau,Satara,Maharashtra,Wildlife,300,4.4,17.720831,73.823716
+ATT0301,D0502,Vasota Fort Jungle trekking and Camping,Satara,Maharashtra,Adventure,1200,4.7,17.733845,73.759037
+ATT0302,D0502,Lodwick Point,Satara,Maharashtra,Sightseeing,0,4.4,17.939468,73.634769
+ATT0303,D0502,Thoseghar Waterfall,Satara,Maharashtra,Wildlife,0,4.5,17.598096,73.848153
+ATT0304,D0502,Ajinkyatara Fort,Satara,Maharashtra,Heritage,0,4.5,17.672343,73.990472
+ATT0305,D0502,Uttar Chidambaram Nataraj mandir,Satara,Maharashtra,Spiritual,0,4.6,17.6852,74.0254
+ATT0306,D0502,Sajjangad Fort,Satara,Maharashtra,Heritage,10,4.6,17.648513,73.915789
+ATT0307,D0502,Pratapgad Fort,Satara,Maharashtra,Heritage,0,4.5,17.937288,73.578393
+ATT0308,D0381,Echo Point,Matheran,Maharashtra,Sightseeing,0,4.4,17.9786,73.6373
+ATT0309,D0381,Dodhani Waterfalls,Matheran,Maharashtra,Wildlife,0,4.6,18.988659,73.271179
+ATT0310,D0381,Dodhani Waterfalls rappelling/trek,Matheran,Maharashtra,Adventure,1100,4.6,18.988659,73.271179
+ATT0311,D0381,Chanderi Caves trek,Matheran,Maharashtra,Adventure,500,4.5,19.0644,73.2452
+ATT0312,D0381,Irshalgad Fort,Matheran,Maharashtra,Heritage,100,4.6,18.935114,73.23246
+ATT0313,D0381,Neral-Matheran Toy Train,Matheran,Maharashtra,Sightseeing,100,4.5,19.022967,73.317527
+ATT0314,D0381,Kalavantin Pinnacle fortress and trek,Matheran,Maharashtra,Adventure,50,4.7,18.982797,73.219806
+ATT0315,D0381,Ambarnath Shiv Temple,Matheran,Maharashtra,Spiritual,0,4.2,19.182517,73.192602
+ATT0316,D0031,Khajuraho Group of Monuments,Khajuraho,Madhya Pradesh,Heritage,40,4.7,24.831845,79.919855
+ATT0317,D0031,Kamasutra temples,Khajuraho,Madhya Pradesh,Heritage,40,5,24.512485,79.567993
+ATT0318,D0031,Raneh waterfall,Khajuraho,Madhya Pradesh,Wildlife,0,4.5,24.874847,80.051263
+ATT0319,D0031,Panna Tiger Reserve,Khajuraho,Madhya Pradesh,Wildlife,1000,4.2,24.590466,79.941652
+ATT0320,D0122,Sanchi Stupa,Bhopal,Madhya Pradesh,Spiritual,30,4.7,23.487339,77.741824
+ATT0321,D0122,Bhimbetka rock shelters,Bhopal,Madhya Pradesh,Heritage,25,4.6,22.939546,77.612433
+ATT0322,D0122,Bhojeshwar Mahadev temple,Bhopal,Madhya Pradesh,Spiritual,0,4.7,23.10026,77.579533
+ATT0323,D0122,Van Vihar National park,Bhopal,Madhya Pradesh,Wildlife,20,4.3,23.232214,77.366432
+ATT0324,D0122,DB City Mall,Bhopal,Madhya Pradesh,Shopping,0,4.9,23.232698,77.429856
+ATT0325,D0122,Tribal museum,Bhopal,Madhya Pradesh,Arts,20,4.7,23.2599,77.4126
+ATT0326,D0254,Chappan Dukan,Indore,Madhya Pradesh,Shopping,0,4.5,22.724023,75.884257
+ATT0327,D0254,Sarafa Bazar,Indore,Madhya Pradesh,Shopping,0,4.5,22.717514,75.852306
+ATT0328,D0254,Pipliyapala Regional Park,Indore,Madhya Pradesh,Adventure,25,4.2,22.677151,75.856402
+ATT0329,D0254,Khajrana Ganesh Mandir,Indore,Madhya Pradesh,Spiritual,0,4.8,22.731233,75.908149
+ATT0330,D0254,TI Mall,Indore,Madhya Pradesh,Shopping,0,4.3,22.7217,75.8786
+ATT0331,D0254,Phoenix Citadel,Indore,Madhya Pradesh,Shopping,0,4.5,22.746262,75.935307
+ATT0332,D0254,Rajwada Palace,Indore,Madhya Pradesh,Heritage,10,4.4,22.718442,75.855067
+ATT0333,D0233,Gwalior Fort,Gwalior,Madhya Pradesh,Heritage,75,4.5,26.231324,78.169496
+ATT0334,D0233,Jai Vilas Palace,Gwalior,Madhya Pradesh,Heritage,150,4.3,26.204203,78.168467
+ATT0335,D0233,Teli ka Mandir,Gwalior,Madhya Pradesh,Spiritual,0,4.3,26.220398,78.165699
+ATT0336,D0233,Sas Bahu Temple,Gwalior,Madhya Pradesh,Spiritual,0,4.5,24.735194,73.716281
+ATT0337,D0233,Gopachal Parvat jain temple,Gwalior,Madhya Pradesh,Spiritual,0,4.6,26.214536,78.168605
+ATT0338,D0233,National Chambal Ghariyal Wildlife Sanctuary,Gwalior,Madhya Pradesh,Wildlife,1800,4.3,26.765947,78.644879
+ATT0339,D0233,Pagara Dam,Gwalior,Madhya Pradesh,Sightseeing,0,3.9,26.259775,77.858167
+ATT0340,D0233,Sarafa Bazar,Gwalior,Madhya Pradesh,Shopping,0,4,22.717514,75.852306
+ATT0341,D0233,Dindayal mall,Gwalior,Madhya Pradesh,Shopping,0,4.1,26.209436,78.16624
+ATT0342,D0233,Patankar bazaar,Gwalior,Madhya Pradesh,Shopping,0,4,26.202485,78.157517
+ATT0343,D0569,Mahakaleshwar Jyotirlinga,Ujjain,Madhya Pradesh,Spiritual,0,4.8,23.182905,75.768291
+ATT0344,D0569,Kal Bhairava Temple,Ujjain,Madhya Pradesh,Spiritual,0,4.7,18.437535,73.63994
+ATT0345,D0569,Ram Ghat,Ujjain,Madhya Pradesh,Sightseeing,0,4.6,23.1871,75.7644
+ATT0346,D0569,ISKCON Temple Ujjain,Ujjain,Madhya Pradesh,Spiritual,0,4.7,23.161171,75.799723
+ATT0347,D0569,Kaliadeh Palace,Ujjain,Madhya Pradesh,Heritage,15,4,23.249072,75.777966
+ATT0348,D0569,Rumi ka Mazaar,Ujjain,Madhya Pradesh,Heritage,0,5,23.1793,75.784912
+ATT0349,D0569,Mahakal Lok,Ujjain,Madhya Pradesh,Sightseeing,0,4.8,23.177785,75.769392
+ATT0350,D0569,Harsiddhi Mata Temple,Ujjain,Madhya Pradesh,Spiritual,0,4.7,21.839745,69.36903
+ATT0351,D0255,Dhuandhar Falls,Jabalpur,Madhya Pradesh,Wildlife,0,4.5,23.126274,79.807541
+ATT0352,D0255,Marble rocks at Bedhaghat,Jabalpur,Madhya Pradesh,Wildlife,30,4.5,23.12993,79.795454
+ATT0353,D0255,Narmada aarti,Jabalpur,Madhya Pradesh,Spiritual,0,4.5,22.333526,77.125927
+ATT0354,D0255,Balancing Rock formations,Jabalpur,Madhya Pradesh,Wildlife,100,4.3,23.855,79.544
+ATT0355,D0255,Rani Durgavati fort,Jabalpur,Madhya Pradesh,Wildlife,0,4.2,23.148327,79.901657
+ATT0356,D0255,Chausath Yogini temple,Jabalpur,Madhya Pradesh,Spiritual,0,4.6,26.436817,78.235222
+ATT0357,D0255,Dumna Nature Reserve Park,Jabalpur,Madhya Pradesh,Wildlife,20,4.1,23.16949,80.012698
+ATT0358,D0255,Madan Mahal Fort,Jabalpur,Madhya Pradesh,Heritage,0,4.2,23.148469,79.901665
+ATT0359,D0255,South Avenue malls,Jabalpur,Madhya Pradesh,Shopping,0,4.1,23.124094,79.927194
+ATT0360,D0255,Sadar bazaar,Jabalpur,Madhya Pradesh,Shopping,0,4,28.65851,77.21273
+ATT0361,D0255,Kanha National Park,Jabalpur,Madhya Pradesh,Wildlife,100,4.5,22.299496,80.586428
+ATT0362,D0006,Mall road,Shimla,Himachal Pradesh,Shopping,0,4.7,31.1035,77.1702
+ATT0363,D0006,Annandale  view,Shimla,Himachal Pradesh,Sightseeing,0,3.8,31.111613,77.159301
+ATT0364,D0006,Chadwick falls,Shimla,Himachal Pradesh,Wildlife,0,3.6,31.119635,77.138936
+ATT0365,D0006,Himalayan bird park,Shimla,Himachal Pradesh,Wildlife,20,3.9,31.102875,77.147654
+ATT0366,D0006,Naldhera and Shaily peak,Shimla,Himachal Pradesh,Wildlife,0,4.5,31.181164,77.1859
+ATT0367,D0006,Kufri Fun World,Shimla,Himachal Pradesh,Adventure,20,3.8,31.094126,77.278049
+ATT0368,D0006,Scandal point,Shimla,Himachal Pradesh,Sightseeing,0,4.5,31.1052,77.1724
+ATT0369,D0006,Kalka-Shimla Toy train,Shimla,Himachal Pradesh,Sightseeing,320,4.5,30.518,76.5615
+ATT0370,D0006,Lakkar bazaar,Shimla,Himachal Pradesh,Shopping,0,4,31.105823,77.178711
+ATT0371,D0006,Rafting at Tattapani,Shimla,Himachal Pradesh,Adventure,1050,4.1,31.24879,77.089542
+ATT0372,D0006,Kuthar Fort,Shimla,Himachal Pradesh,Heritage,10,4.3,30.97309,76.967186
+ATT0373,D0006,Tara Devi Temple,Shimla,Himachal Pradesh,Spiritual,0,4.8,31.046256,77.134284
+ATT0374,D0006,Christ Church,Shimla,Himachal Pradesh,Heritage,0,4.6,31.0614,77.1034
+ATT0375,D0006,Jakhoo hill,Shimla,Himachal Pradesh,Wildlife,0,4.6,31.101341,77.183504
+ATT0376,D0002,Solang Valley,Manali,Himachal Pradesh,Wildlife,0,4.1,32.316,77.157
+ATT0377,D0002,Hidimba Devi Temple,Manali,Himachal Pradesh,Spiritual,0,4.6,32.248353,77.181573
+ATT0378,D0002,Beas kund,Manali,Himachal Pradesh,Wildlife,0,4.6,32.366447,77.085496
+ATT0379,D0002,Vashisht baths,Manali,Himachal Pradesh,Adventure,0,4,32.281006,77.229019
+ATT0380,D0002,Rohtang Pass,Manali,Himachal Pradesh,Adventure,0,4.5,32.371643,77.246622
+ATT0381,D0002,Gulaba viewpoint,Manali,Himachal Pradesh,Sightseeing,0,4.5,32.317903,77.18934
+ATT0382,D0179,Panch Pulla Waterfall,Dalhousie,Himachal Pradesh,Wildlife,0,3.9,32.5288,75.9908
+ATT0383,D0179,Boat riding in Chamera lake,Dalhousie,Himachal Pradesh,Adventure,400,4.4,32.619974,76.00774
+ATT0384,D0179,Kalatop Wildlife sanctuary,Dalhousie,Himachal Pradesh,Wildlife,115,4.6,32.552909,76.017441
+ATT0385,D0179,Shop at Tibetan Handicrafts market,Dalhousie,Himachal Pradesh,Shopping,0,3.8,32.5364,75.9767
+ATT0386,D0179,Subhash Baoli spring,Dalhousie,Himachal Pradesh,Spiritual,0,3.3,32.540257,75.9844
+ATT0387,D0179,Trek to Dainkund Peak,Dalhousie,Himachal Pradesh,Adventure,1200,4.8,32.519663,76.035374
+ATT0388,D0179,Trek to Ganji Pahari,Dalhousie,Himachal Pradesh,Adventure,5000,4,32.516453,75.993524
+ATT0389,D0179,Dalai Lama Temple,Dalhousie,Himachal Pradesh,Spiritual,0,4.7,32.231573,76.323799
+ATT0390,D0179,Khajjiar Lake,Dalhousie,Himachal Pradesh,Wildlife,0,4.5,32.546218,76.058081
+ATT0391,D0334,Hot springs at Manikaran,Kullu,Himachal Pradesh,Adventure,30,4.7,32.026795,77.351106
+ATT0392,D0334,Vaishno Devi Temple,Kullu,Himachal Pradesh,Spiritual,0,4.6,31.9834,77.1262
+ATT0393,D0334,Hamta Pass,Kullu,Himachal Pradesh,Adventure,0,4.5,32.27037,77.346582
+ATT0394,D0334,Tirthan valley,Kullu,Himachal Pradesh,Wildlife,0,4.7,31.62633,77.422127
+ATT0395,D0334,Chandrakhani Pass,Kullu,Himachal Pradesh,Adventure,0,4.3,32.069513,77.240774
+ATT0396,D0334,Lama Dugh Hike,Kullu,Himachal Pradesh,Adventure,1200,4.7,32.248903,77.175013
+ATT0397,D0334,Cycling from Manu Temple,Kullu,Himachal Pradesh,Adventure,0,4.6,32.257042,77.176052
+ATT0398,D0334,Rafting in river Beas,Kullu,Himachal Pradesh,Adventure,450,4.5,31.759176,76.092387
+ATT0399,D0334,Paragliding in Kullu hills,Kullu,Himachal Pradesh,Adventure,2500,4.7,31.959205,77.108938
+ATT0400,D0334,Great Himalayan National Park,Kullu,Himachal Pradesh,Wildlife,50,4.5,31.798541,77.516013
+ATT0401,D0410,Naini Lake,Nainital,Uttarakhand,Wildlife,0,4.2,29.386862,79.459841
+ATT0402,D0410,Sunrise at Tiffin top,Nainital,Uttarakhand,Wildlife,0,4.5,29.383629,79.450561
+ATT0403,D0410,Shop at Tibetan  market,Nainital,Uttarakhand,Shopping,0,4.2,29.3893,79.4539
+ATT0404,D0410,Corbett National Park,Nainital,Uttarakhand,Wildlife,560,4.4,29.552155,78.883211
+ATT0405,D0410,Cave garden,Nainital,Uttarakhand,Wildlife,60,4.3,29.39215,79.44534
+ATT0406,D0410,Nainital zoo,Nainital,Uttarakhand,Wildlife,50,4.3,29.380762,79.468643
+ATT0407,D0410,Shop at Mall road,Nainital,Uttarakhand,Shopping,0,4.5,29.387912,79.42225
+ATT0408,D0410,Naina Devi temple,Nainital,Uttarakhand,Spiritual,0,4.6,31.306417,76.535817
+ATT0409,D0410,Pangot and Kilbury bird sanctuary,Nainital,Uttarakhand,Wildlife,0,4.2,29.4183,79.446501
+ATT0410,D0410,Raj Bhawan Royal Palace,Nainital,Uttarakhand,Heritage,450,4.6,29.3742,79.4571
+ATT0411,D0410,Cheena peak,Nainital,Uttarakhand,Adventure,0,4.7,29.408213,79.437616
+ATT0412,D0410,Nainital ropeway,Nainital,Uttarakhand,Adventure,54,4.7,29.392599,79.455124
+ATT0413,D0005,Laxman Jhula,Rishikesh,Uttarakhand,Adventure,0,4.4,30.125907,78.330882
+ATT0414,D0005,Triveni Ghat,Rishikesh,Uttarakhand,Spiritual,0,4.3,30.103881,78.2991
+ATT0415,D0005,Vashishta Gufa,Rishikesh,Uttarakhand,Spiritual,0,4.2,30.11427,78.432033
+ATT0416,D0005,Kunjapuri Devi Temple and camps,Rishikesh,Uttarakhand,Spiritual,0,4.9,30.11427,78.432033
+ATT0417,D0005,Neer Garh waterfall,Rishikesh,Uttarakhand,Wildlife,0,4.4,30.140984,78.345366
+ATT0418,D0005,Beatles Ashram,Rishikesh,Uttarakhand,Arts,0,4.4,30.112768,78.312159
+ATT0419,D0005,Giant swing or zip lining,Rishikesh,Uttarakhand,Adventure,1800,4.8,30.112768,78.312159
+ATT0420,D0005,Camp on banks of Ganges,Rishikesh,Uttarakhand,Adventure,0,4.7,27.40364,83.009124
+ATT0421,D0005,Ram Jhula,Rishikesh,Uttarakhand,Spiritual,0,4.6,30.123798,78.314133
+ATT0422,D0005,Neelkantha Mahadeva Temple,Rishikesh,Uttarakhand,Spiritual,0,4.5,30.081059,78.340565
+ATT0423,D0005,Bharat Mandir,Rishikesh,Uttarakhand,Spiritual,0,3.8,20.593684,78.96288
+ATT0424,D0005,Kunjapuri Devi,Rishikesh,Uttarakhand,Spiritual,0,5,30.10271,78.185053
+ATT0425,D0005,Bhootnath Temple,Rishikesh,Uttarakhand,Spiritual,0,4.5,30.1166,78.3181
+ATT0426,D0005,Devprayag Sightseeing,Rishikesh,Uttarakhand,Sightseeing,0,4.1,30.145947,78.599292
+ATT0427,D0238,dip in Bramhakund,Haridwar,Uttarakhand,Spiritual,0,4.8,29.957,78.1711
+ATT0428,D0238,Ganga arti at Har-ki-Pauri ghat,Haridwar,Uttarakhand,Spiritual,0,4.6,29.957361,78.174969
+ATT0429,D0238,Neel Dhara Pakshi Vihar,Haridwar,Uttarakhand,Wildlife,0,4,29.96,78.16
+ATT0430,D0238,Rajaji National Park,Haridwar,Uttarakhand,Wildlife,150,4.3,30.01542,78.152398
+ATT0431,D0238,Moti Bazar,Haridwar,Uttarakhand,Shopping,0,4.3,33.613652,73.05908
+ATT0432,D0238,Jwalapur Bazar,Haridwar,Uttarakhand,Shopping,0,4.1,29.926773,78.107106
+ATT0433,D0238,Bara Bazar,Haridwar,Uttarakhand,Shopping,0,4.5,22.581741,88.354397
+ATT0434,D0238,Kankhal Bazar,Haridwar,Uttarakhand,Shopping,0,3.8,29.927081,78.143726
+ATT0435,D0238,Har Ki Pauri,Haridwar,Uttarakhand,Spiritual,0,4.5,29.957361,78.174969
+ATT0436,D0238,Tungnath Chandrashila trekk,Haridwar,Uttarakhand,Adventure,250,4.2,30.486269,79.221245
+ATT0437,D0238,Chandi Devi Temple,Haridwar,Uttarakhand,Spiritual,0,4.4,29.933765,78.180547
+ATT0438,D0185,Malsi Deer park,Dehradun,Uttarakhand,Wildlife,20,4.3,30.388332,78.075605
+ATT0439,D0185,Shiv Mandir,Dehradun,Uttarakhand,Spiritual,0,4.5,30.408,78.0867
+ATT0440,D0185,Mindrolling monastery,Dehradun,Uttarakhand,Heritage,0,4.3,30.261542,77.99771
+ATT0441,D0185,Nag Tibba trek,Dehradun,Uttarakhand,Adventure,1299,4.8,30.586111,78.151389
+ATT0442,D0185,Mall road,Dehradun,Uttarakhand,Shopping,0,4.7,30.201179,78.236708
+ATT0443,D0185,Lakshman jhila bridge,Dehradun,Uttarakhand,Sightseeing,0,4,30.12638,78.330058
+ATT0444,D0185,Rajaji National Park,Dehradun,Uttarakhand,Wildlife,0,4.6,30.01542,78.152398
+ATT0445,D0185,Santala Devi temple,Dehradun,Uttarakhand,Spiritual,0,3.8,30.37178,78.016376
+ATT0446,D0185,Indira market,Dehradun,Uttarakhand,Shopping,0,4.7,30.325,78.0436
+ATT0447,D0185,Pacific mall,Dehradun,Uttarakhand,Shopping,0,4.9,30.3165,78.0322
+ATT0448,D0185,Paltan Bazaar,Dehradun,Uttarakhand,Shopping,0,3.7,26.179229,91.753273
+ATT0449,D0185,Lachhiwala nature park,Dehradun,Uttarakhand,Wildlife,20,4.2,30.199158,78.126103
+ATT0450,D0185,Fun n Food Kingdom,Dehradun,Uttarakhand,Adventure,1000,4.3,30.348544,77.959572
+ATT0451,D0185,Robber's Cave,Dehradun,Uttarakhand,Adventure,25,4.5,30.3754,78.0598
+ATT0452,D0008,Kempty Falls,Mussoorie,Uttarakhand,Wildlife,15,4.2,30.4878,78.0367
+ATT0453,D0008,Camel's back road,Mussoorie,Uttarakhand,Sightseeing,0,4.6,30.460368,78.072806
+ATT0454,D0008,Jabarkhet nature reserve,Mussoorie,Uttarakhand,Wildlife,0,4.3,30.4542,78.116095
+ATT0455,D0008,Bhadraj Temple trek,Mussoorie,Uttarakhand,Spiritual,0,4.7,30.479297,77.95367
+ATT0456,D0008,Har ki dun trek,Mussoorie,Uttarakhand,Adventure,500,4.1,31.15056,78.429081
+ATT0457,D0008,Dodital trek,Mussoorie,Uttarakhand,Adventure,12500,4.2,30.842926,78.468556
+ATT0458,D0008,Walking towards the Happy Valley from Library Head,Mussoorie,Uttarakhand,Sightseeing,0,5,30.459789,78.064372
+ATT0459,D0008,"Skywalk ,zipswings in Mussoorie",Mussoorie,Uttarakhand,Adventure,0,4.9,30.459789,78.064372
+ATT0460,D0008,Disco Skating Rink,Mussoorie,Uttarakhand,Adventure,50,3.6,30.456577,78.080303
+ATT0461,D0008,Library Bazaar,Mussoorie,Uttarakhand,Shopping,0,3.9,30.460255,78.063945
+ATT0462,D0008,Kulri Bazaar,Mussoorie,Uttarakhand,Shopping,0,3.8,30.455436,78.078854
+ATT0463,D0008,Mall road,Mussoorie,Uttarakhand,Shopping,0,4.7,30.459821,78.064535
+ATT0464,D0008,Mussoorie lake,Mussoorie,Uttarakhand,Wildlife,0,4.8,30.459789,78.064372
+ATT0465,D0008,Classic Emporium,Mussoorie,Uttarakhand,Shopping,100,4.6,30.455629,78.078326
+ATT0466,D0012,Auli Gorson Trek,Auli,Uttarakhand,Adventure,0,4.4,30.066753,79.0193
+ATT0467,D0012,Nanda Devi Biosphere Reserve,Auli,Uttarakhand,Wildlife,50,4.4,30.658764,79.838654
+ATT0468,D0012,Chattrakund Lake,Auli,Uttarakhand,Wildlife,0,4.3,30.066753,79.0193
+ATT0469,D0012,Trishul Peak,Auli,Uttarakhand,Wildlife,0,4.4,30.311667,79.776667
+ATT0470,D0012,Joshimath Market,Auli,Uttarakhand,Shopping,0,3.8,30.556109,79.561676
+ATT0471,D0012,Auli Ski Resort,Auli,Uttarakhand,Adventure,0,4.5,30.530887,79.561512
+ATT0472,D0471,Bhalu dam,Ranikhet,Uttarakhand,Wildlife,0,4.3,29.620414,79.477573
+ATT0473,D0471,Jhula Devi temple,Ranikhet,Uttarakhand,Spiritual,0,4.2,29.618138,79.444016
+ATT0474,D0471,Chaubatia Gardens,Ranikhet,Uttarakhand,Sightseeing,50,4,29.619742,79.46104
+ATT0475,D0471,Joshimath Market,Ranikhet,Uttarakhand,Shopping,0,4.8,30.556109,79.561676
+ATT0476,D0471,Sadar bazaar,Ranikhet,Uttarakhand,Shopping,0,4.4,28.65851,77.21273
+ATT0477,D0471,Binsar Mahadev Mandir,Ranikhet,Uttarakhand,Spiritual,0,4,30.016628,79.162087
+ATT0478,D0471,Rani Jheel,Ranikhet,Uttarakhand,Wildlife,0,3.8,29.639789,79.430101
+ATT0479,D0572,Gangotri Temple,Uttarkashi,Uttarakhand,Spiritual,0,4.8,30.994409,78.941182
+ATT0480,D0572,Yamunotri,Uttarkashi,Uttarakhand,Spiritual,0,4.2,31.013986,78.459956
+ATT0481,D0572,Kedar Tal,Uttarkashi,Uttarakhand,Adventure,0,4.6,30.909897,78.958167
+ATT0482,D0572,Harsil,Uttarkashi,Uttarakhand,Wildlife,0,4.2,31.038307,78.737702
+ATT0483,D0572,Jalmanga Shivling,Uttarkashi,Uttarakhand,Spiritual,0,4.7,30.876944,79.065556
+ATT0484,D0572,Vishwanath temple,Uttarkashi,Uttarakhand,Spiritual,0,4.7,30.728888,78.441395
+ATT0485,D0572,Gaumukh glacier,Uttarkashi,Uttarakhand,Wildlife,0,4.6,30.871274,79.101574
+ATT0486,D0572,Nachiketa lake,Uttarkashi,Uttarakhand,Wildlife,0,4.4,30.644715,78.470814
+ATT0487,D0572,Nehru Institute of Mountaineering,Uttarkashi,Uttarakhand,Adventure,70,4.7,30.721364,78.43306
+ATT0488,D0572,Dayara Bugyal  trekking and camping,Uttarkashi,Uttarakhand,Adventure,0,4.8,30.731136,78.443856
+ATT0489,D0572,Shakti temple,Uttarkashi,Uttarakhand,Spiritual,0,5,30.728982,78.441686
+ATT0490,D0572,Dodital lake,Uttarkashi,Uttarakhand,Wildlife,0,4.6,30.898046,78.524939
+ATT0491,D0572,Maneri dam,Uttarkashi,Uttarakhand,Sightseeing,0,4.8,30.739167,78.528611
+ATT0492,D0024,Taj Mahal,Agra,Uttar Pradesh,Heritage,50,4.4,27.175145,78.042142
+ATT0493,D0024,Agra fort,Agra,Uttar Pradesh,Heritage,50,4.3,27.179533,78.021112
+ATT0494,D0024,Fatehpur Sikri,Agra,Uttar Pradesh,Heritage,0,4.6,27.094529,77.667929
+ATT0495,D0024,Jahangir Mahal,Agra,Uttar Pradesh,Heritage,50,4.5,27.177737,78.023159
+ATT0496,D0024,Jama Masjid,Agra,Uttar Pradesh,Spiritual,0,4.8,28.650679,77.233442
+ATT0497,D0024,Humayun's Mosque,Agra,Uttar Pradesh,Spiritual,0,4.8,27.182485,78.039376
+ATT0498,D0024,Kinari bazar,Agra,Uttar Pradesh,Shopping,0,4.4,28.65498,77.230833
+ATT0499,D0024,Sadar bazaar,Agra,Uttar Pradesh,Shopping,0,4.7,28.65851,77.21273
+ATT0500,D0024,Shah market,Agra,Uttar Pradesh,Shopping,0,4.6,27.204407,78.005373
+ATT0501,D0024,TDI mall,Agra,Uttar Pradesh,Shopping,0,4.5,28.65084,77.12062
+ATT0502,D0024,Subhash bazzar,Agra,Uttar Pradesh,Shopping,0,4.8,28.976477,77.706396
+ATT0503,D0024,Sheesh Mahal,Agra,Uttar Pradesh,Heritage,10,4,31.58994,74.313181
+ATT0504,D0584,Kashi Vishwanath Temple,Varanasi,Uttar Pradesh,Spiritual,0,4.7,25.310853,83.010678
+ATT0505,D0584,Ramnagar Fort,Varanasi,Uttar Pradesh,Heritage,25,4.1,25.269509,83.025088
+ATT0506,D0584,Dashashwamedh Ghat,Varanasi,Uttar Pradesh,Spiritual,0,4.4,25.306186,83.010286
+ATT0507,D0584,Sunset Boat Ride on the Ganges,Varanasi,Uttar Pradesh,Sightseeing,0,4.2,27.40364,83.009124
+ATT0508,D0584,Sarnath pilgrim spot,Varanasi,Uttar Pradesh,Spiritual,0,4,25.371556,83.025214
+ATT0509,D0584,Puran Das Road,Varanasi,Uttar Pradesh,Sightseeing,0,4.6,25.317645,82.973914
+ATT0510,D0584,Gol Ganj,Varanasi,Uttar Pradesh,Heritage,0,4.3,25.317645,82.973914
+ATT0511,D0584,Mandir Gali,Varanasi,Uttar Pradesh,Heritage,0,4.4,25.314133,83.011924
+ATT0512,D0584,Assi Ghat,Varanasi,Uttar Pradesh,Spiritual,0,4.3,25.288648,83.006762
+ATT0513,D0584,Godowlia market,Varanasi,Uttar Pradesh,Shopping,0,4.5,25.310075,83.009648
+ATT0514,D0584,The Banarasi Silk Emporium,Varanasi,Uttar Pradesh,Shopping,0,4.7,25.315424,82.99755
+ATT0515,D0353,Bara Imambara,Lucknow,Uttar Pradesh,Heritage,50,4.4,26.868517,80.912713
+ATT0516,D0353,Chhota Imambara,Lucknow,Uttar Pradesh,Heritage,30,4.8,26.874291,80.904669
+ATT0517,D0353,Hazratganj market,Lucknow,Uttar Pradesh,Shopping,0,4.9,26.854154,80.944783
+ATT0518,D0353,British Residency,Lucknow,Uttar Pradesh,Heritage,0,4.5,26.860637,80.926786
+ATT0519,D0353,Marine Drive,Lucknow,Uttar Pradesh,Sightseeing,0,4.3,18.943211,72.822998
+ATT0520,D0353,Chowk market,Lucknow,Uttar Pradesh,Shopping,0,4.3,26.865858,80.91125
+ATT0521,D0353,Phoenix United mall,Lucknow,Uttar Pradesh,Shopping,0,4.3,26.798631,80.896971
+ATT0522,D0382,Kusum Sarovar,Mathura,Uttar Pradesh,Wildlife,0,4.4,27.511932,77.478694
+ATT0523,D0382,Govardhan hills trekking,Mathura,Uttar Pradesh,Adventure,0,4.7,27.473,77.444
+ATT0524,D0382,"Dwarkadhish Temple,",Mathura,Uttar Pradesh,Spiritual,0,4.8,22.237108,68.967626
+ATT0525,D0382,Vishram ghat,Mathura,Uttar Pradesh,Spiritual,0,4.3,27.502561,77.689069
+ATT0526,D0382,Tilak Dwar market,Mathura,Uttar Pradesh,Shopping,0,4.5,27.49905,77.684749
+ATT0527,D0382,Krishna Nagar market,Mathura,Uttar Pradesh,Shopping,0,4.3,28.650982,77.286333
+ATT0528,D0382,Krishna Janmabhoomi temple,Mathura,Uttar Pradesh,Spiritual,0,4.7,27.504888,77.66978
+ATT0529,D0080,Sita ki rasoi,Ayodhya,Uttar Pradesh,Spiritual,300,4,26.79216,82.199795
+ATT0530,D0080,Treta-ke-Thakur,Ayodhya,Uttar Pradesh,Spiritual,80,4.6,26.79216,82.199795
+ATT0531,D0080,Gulab bari,Ayodhya,Uttar Pradesh,Wildlife,0,4.3,26.779886,82.157532
+ATT0532,D0080,Kanak Bhawan,Ayodhya,Uttar Pradesh,Spiritual,0,4.5,26.798017,82.199216
+ATT0533,D0080,Nageshwarnath Temple,Ayodhya,Uttar Pradesh,Spiritual,0,4.7,26.808995,82.205647
+ATT0534,D0080,Hanuman Garhi,Ayodhya,Uttar Pradesh,Spiritual,0,4.5,26.795288,82.201643
+ATT0535,D0080,Ram Janmabhoomi,Ayodhya,Uttar Pradesh,Spiritual,0,4.8,26.795688,82.194431
+ATT0536,D0599,Govind Devji Temple,Vrindavan,Uttar Pradesh,Spiritual,0,4.9,26.928834,75.82407
+ATT0537,D0599,Nidhivan,Vrindavan,Uttar Pradesh,Wildlife,0,4.7,27.584212,77.69796
+ATT0538,D0599,Prem Mandir,Vrindavan,Uttar Pradesh,Spiritual,0,4.6,27.571852,77.67201
+ATT0539,D0599,ISKCON temple.,Vrindavan,Uttar Pradesh,Spiritual,0,4.3,27.562104,77.632431
+ATT0540,D0599,Banke Bihari Temple,Vrindavan,Uttar Pradesh,Spiritual,0,4.8,27.580148,77.701082
+ATT0541,D0061,Triveni Sangam,Allahabad,Uttar Pradesh,Wildlife,0,4.5,25.423288,81.889687
+ATT0542,D0061,Khusro Bagh,Allahabad,Uttar Pradesh,Wildlife,0,4.6,25.442271,81.821039
+ATT0543,D0061,Anand Bhawan,Allahabad,Uttar Pradesh,Arts,0,4.6,25.460534,81.859831
+ATT0544,D0061,Allahabad museum,Allahabad,Uttar Pradesh,Arts,10,4.4,25.456849,81.848952
+ATT0545,D0061,Allahabad Fort,Allahabad,Uttar Pradesh,Heritage,0,4.7,25.429534,81.87684
+ATT0546,D0061,Allahabad Pillar,Allahabad,Uttar Pradesh,Heritage,0,4.7,25.431335,81.875062
+ATT0547,D0061,New Yamuna Bridge,Allahabad,Uttar Pradesh,Sightseeing,0,3.6,27.115234,78.368622
+ATT0548,D0061,All Saints Cathedral,Allahabad,Uttar Pradesh,Spiritual,0,4,25.27432,81.493504
+ATT0549,D0061,Katra Shopping area,Allahabad,Uttar Pradesh,Shopping,0,4.6,25.469625,81.856265
+ATT0550,D0061,Chowk market,Allahabad,Uttar Pradesh,Shopping,0,4.2,25.436558,81.834219
+ATT0551,D0061,Civil Lines shopping area,Allahabad,Uttar Pradesh,Shopping,0,4.2,25.452933,81.834888
+ATT0552,D0061,Ganga Ghat and baandh wale Hanuman ji,Allahabad,Uttar Pradesh,Spiritual,0,4.3,25.429045,81.885027
+ATT0553,D0428,Brahmaputra Market,Noida,Uttar Pradesh,Shopping,0,4.7,28.5699,77.332842
+ATT0554,D0428,Grand Venice Mall,Noida,Uttar Pradesh,Shopping,0,4.8,28.452535,77.526311
+ATT0555,D0428,Stupa 18 Art Gallery,Noida,Uttar Pradesh,Arts,25,4.6,28.540387,77.367886
+ATT0556,D0428,Botanical Gardens of Noida,Noida,Uttar Pradesh,Wildlife,50,4.2,28.535516,77.391026
+ATT0557,D0428,DLF Mall of India,Noida,Uttar Pradesh,Shopping,0,4.8,28.567341,77.32113
+ATT0558,D0428,Rashtriya Dalit Prerna Sthal and Green Garden,Noida,Uttar Pradesh,Heritage,0,4.2,28.567872,77.311314
+ATT0559,D0428,Snow World,Noida,Uttar Pradesh,Adventure,600,4.4,28.567072,77.321134
+ATT0560,D0428,KidZania,Noida,Uttar Pradesh,Adventure,700,4.6,28.564784,77.322031
+ATT0561,D0428,ISKON temple,Noida,Uttar Pradesh,Spiritual,0,4.5,28.58918,77.353204
+ATT0562,D0428,Okhla Bird Sanctuary,Noida,Uttar Pradesh,Wildlife,30,4.3,28.55937,77.309886
+ATT0563,D0060,Aligarh Fort,Aligarh,Uttar Pradesh,Heritage,20,4.1,27.930561,78.063054
+ATT0564,D0060,Aligarh's clock tower,Aligarh,Uttar Pradesh,Heritage,0,4.2,27.895557,78.073968
+ATT0565,D0060,Chacha Nehru Gyan Pushp museum,Aligarh,Uttar Pradesh,Heritage,50,3.6,27.911262,78.067306
+ATT0566,D0060,Rajmangal Publishers,Aligarh,Uttar Pradesh,Arts,0,4.6,27.908851,78.107089
+ATT0567,D0060,Maulana Azad Library,Aligarh,Uttar Pradesh,Heritage,0,4.7,27.911992,78.075139
+ATT0568,D0060,Jama Masjid,Aligarh,Uttar Pradesh,Spiritual,0,3.8,27.907438,78.072188
+ATT0569,D0060,Khereshwar Temple,Aligarh,Uttar Pradesh,Spiritual,0,4.7,27.897433,78.088066
+ATT0570,D0060,Naqvi Park,Aligarh,Uttar Pradesh,Wildlife,0,4.5,27.902522,78.073546
+ATT0571,D0060,Sky High sky-diving drop zone,Aligarh,Uttar Pradesh,Adventure,0,4.4,27.897394,78.088013
+ATT0572,D0384,Augarnath Temple,Meerut,Uttar Pradesh,Spiritual,0,4.8,28.996818,77.691162
+ATT0573,D0384,Hastinapur,Meerut,Uttar Pradesh,Sightseeing,0,4.5,29.156881,77.99385
+ATT0574,D0384,Digambar Jain Temple,Meerut,Uttar Pradesh,Spiritual,0,4.4,29.15207,77.779047
+ATT0575,D0384,Gandhi Bagh,Meerut,Uttar Pradesh,Sightseeing,20,4.3,29.00734,77.702774
+ATT0576,D0384,Mustafa Castle,Meerut,Uttar Pradesh,Heritage,80,4.7,28.996675,77.695855
+ATT0577,D0384,Saint John's Church,Meerut,Uttar Pradesh,Spiritual,0,4.7,29.012748,77.708528
+ATT0578,D0384,Abu Lane market,Meerut,Uttar Pradesh,Shopping,0,4.4,28.996312,77.70205
+ATT0579,D0384,Sadar market,Meerut,Uttar Pradesh,Shopping,0,3.6,28.994047,77.700851
+ATT0580,D0384,The Shopprix mall,Meerut,Uttar Pradesh,Shopping,0,3.8,28.948483,77.675368
+ATT0581,D0384,Shapir ki Dargah,Meerut,Uttar Pradesh,Spiritual,0,4,28.984462,77.706414
+ATT0582,D0384,Suraj Kund Temple,Meerut,Uttar Pradesh,Spiritual,0,4.8,28.977074,77.714804
+ATT0583,D0283,Allen Forest Zoo,Kanpur,Uttar Pradesh,Wildlife,0,4.7,26.502869,80.303123
+ATT0584,D0283,Ram Janki Mandir,Kanpur,Uttar Pradesh,Spiritual,0,4.7,26.449923,80.331874
+ATT0585,D0283,Sisamau Bazaar,Kanpur,Uttar Pradesh,Shopping,0,4.7,26.468617,80.324792
+ATT0586,D0283,Kanpur Sangrahalaya museum,Kanpur,Uttar Pradesh,Arts,5,4.6,26.471533,80.361085
+ATT0587,D0283,Becon Ganj,Kanpur,Uttar Pradesh,Shopping,0,4.4,26.467904,80.341154
+ATT0588,D0283,ISKON temple,Kanpur,Uttar Pradesh,Spiritual,0,4.4,26.539242,80.261803
+ATT0589,D0283,Jain Glass Temple,Kanpur,Uttar Pradesh,Spiritual,0,4.8,26.467292,80.352937
+ATT0590,D0283,Valmiki Ashram temple,Kanpur,Uttar Pradesh,Spiritual,0,4.6,26.596979,80.270904
+ATT0591,D0283,PPN market,Kanpur,Uttar Pradesh,Shopping,0,4.8,26.474812,80.343417
+ATT0592,D0283,Moti Mall,Kanpur,Uttar Pradesh,Shopping,0,4.3,26.481227,80.3
+ATT0593,D0283,sweets at Civil Lines,Kanpur,Uttar Pradesh,Shopping,0,4.2,26.475035,80.353275
+ATT0594,D0283,Z-Square mall,Kanpur,Uttar Pradesh,Shopping,0,4.4,26.473272,80.352673
+ATT0595,D0531,Dal Lake,Srinagar,Jammu And Kashmir,Wildlife,0,4.6,34.110586,74.868257
+ATT0596,D0531,Shankaracharya Temple,Srinagar,Jammu And Kashmir,Spiritual,0,4.8,34.078922,74.843724
+ATT0597,D0531,Shopping at Lal Chowk,Srinagar,Jammu And Kashmir,Shopping,0,4.4,34.071327,74.810624
+ATT0598,D0531,Shopping at Badshah Chowk,Srinagar,Jammu And Kashmir,Shopping,0,4.4,34.072523,74.809073
+ATT0599,D0531,Indira Gandhi Memorial Tulip Garden,Srinagar,Jammu And Kashmir,Wildlife,0,4.7,34.096038,74.878442
+ATT0600,D0531,Manasabal Lake,Srinagar,Jammu And Kashmir,Wildlife,0,4.7,34.247178,74.670782
+ATT0601,D0531,Hazratbal Mosque,Srinagar,Jammu And Kashmir,Spiritual,0,4.4,34.128933,74.842491
+ATT0602,D0531,"Rafting , Gondola ride at Sonmarg",Srinagar,Jammu And Kashmir,Adventure,0,4.8,34.303162,75.293111
+ATT0603,D0531,Skiing in Gulmarg,Srinagar,Jammu And Kashmir,Adventure,370,4.5,34.04837,74.380479
+ATT0604,D0531,Chashme Shahi Garden,Srinagar,Jammu And Kashmir,Wildlife,0,4,34.086029,74.887769
+ATT0605,D0531,Shalimar Bagh,Srinagar,Jammu And Kashmir,Wildlife,0,4,34.149525,74.872925
+ATT0606,D0531,Dachigam National Park,Srinagar,Jammu And Kashmir,Wildlife,250,3.8,34.137184,75.03775
+ATT0607,D0531,Betaab Valley,Srinagar,Jammu And Kashmir,Wildlife,0,3.8,34.05406,75.363889
+ATT0608,D0531,Aru Valley  For daring expeditions,Srinagar,Jammu And Kashmir,Adventure,0,3.7,34.092162,75.263219
+ATT0609,D0531,Sinthan top,Srinagar,Jammu And Kashmir,Wildlife,0,4.7,33.581103,75.510235
+ATT0610,D0531,Pari mahal,Srinagar,Jammu And Kashmir,Wildlife,40,4.8,34.081194,74.877152
+ATT0611,D0531,Doodh Pathri,Srinagar,Jammu And Kashmir,Wildlife,0,4.5,33.850893,74.563049
+ATT0612,D0531,Jamia Masjid Mosque,Srinagar,Jammu And Kashmir,Spiritual,0,4.4,34.0837,74.809
+ATT0613,D0531,Chandanwari,Srinagar,Jammu And Kashmir,Adventure,0,4.2,34.014474,75.318624
+ATT0614,D0259,Vaishno Devi,Jammu,Jammu And Kashmir,Spiritual,0,4.7,33.03083,74.949042
+ATT0615,D0344,Pangong Tso,Leh,Ladakh,Wildlife,20,4.9,33.759513,78.66744
+ATT0616,D0344,Hemis National Park,Leh,Ladakh,Wildlife,0,4.5,33.718721,77.388222
+ATT0617,D0344,Hunder  Try Bactrian Camel Safari,Leh,Ladakh,Adventure,0,4.7,34.575284,77.498875
+ATT0618,D0344,Khardungla Pass  Visit Highest Cafeteria In The World,Leh,Ladakh,Adventure,0,4.7,34.278727,77.604676
+ATT0619,D0344,Zanskar Valley Tour,Leh,Ladakh,Wildlife,0,4,33.562562,76.987755
+ATT0620,D0344,Spituk Gompa Trek,Leh,Ladakh,Spiritual,0,4,34.126063,77.525861
+ATT0621,D0344,Lamayuru  For Stargazing,Leh,Ladakh,Sightseeing,0,4,34.152586,77.577054
+ATT0622,D0344,Chadar Trek,Leh,Ladakh,Adventure,0,3.5,34.144831,77.564329
+ATT0623,D0344,Drang Drung Glacier,Leh,Ladakh,Wildlife,0,3.8,34.152586,77.577054
+ATT0624,D0344,Main Bazaar,Leh,Ladakh,Shopping,0,4.7,34.163644,77.585506
+ATT0625,D0344,Shanti Stupa,Leh,Ladakh,Spiritual,0,4.7,34.17362,77.574999
+ATT0626,D0344,Zorawar Fort,Leh,Ladakh,Heritage,225,4.6,34.158139,77.569889
+ATT0627,D0344,Changthang Wildlife Sanctuary,Leh,Ladakh,Wildlife,20,4,34.152586,77.577054
+ATT0628,D0344,Hall Of Fame,Leh,Ladakh,Arts,0,4.8,34.09,77.35
+ATT0629,D0344,Stok Palace Museum,Leh,Ladakh,Arts,50,4.7,34.073002,77.548622
+ATT0630,D0344,Nubra Valley,Leh,Ladakh,Wildlife,0,4,34.686315,77.567288
+ATT0631,D0344,Tso Moriri lake,Leh,Ladakh,Wildlife,0,4,32.911229,78.315941
+ATT0632,D0344,Magnetic hill,Leh,Ladakh,Wildlife,0,4.2,34.26,77.44
+ATT0633,D0344,Chemrey Monastery,Leh,Ladakh,Spiritual,0,4.3,33.95909,77.789095
+ATT0634,D0344,Namgyal Tsemo Monastery,Leh,Ladakh,Spiritual,0,4.7,34.167273,77.590485
+ATT0635,D0344,Thiksey Monastery,Leh,Ladakh,Spiritual,20,4.7,34.055914,77.667762
+ATT0636,D0288,Drass Valley,Kargil,Ladakh,Wildlife,0,4.9,34.410026,75.66026
+ATT0637,D0288,Kargil War Memorial,Kargil,Ladakh,Heritage,0,4.8,34.434004,75.807681
+ATT0638,D0201,Yarab Tso,Diskit,Ladakh,Wildlife,0,4.5,34.151426,77.572562
+ATT0639,D0201,Panamik village,Diskit,Ladakh,Sightseeing,0,4.6,34.798386,77.52468
+ATT0640,D0201,Samstanling Monastery,Diskit,Ladakh,Spiritual,0,4.9,34.36,77.42
+ATT0641,D0201,Diskit Monastery,Diskit,Ladakh,Spiritual,20,4.7,34.540958,77.560688
+ATT0642,D0007,Tiger Hill,Darjeeling,West Bengal,Wildlife,0,4.5,26.996667,88.294444
+ATT0643,D0007,Darjeeling Toy Train,Darjeeling,West Bengal,Adventure,360,4.8,27.041022,88.266274
+ATT0644,D0007,Darjeeling Ropeway,Darjeeling,West Bengal,Adventure,175,5,27.061487,88.253714
+ATT0645,D0007,Chowk Bazaar,Darjeeling,West Bengal,Shopping,0,4.8,23.258784,77.40164
+ATT0646,D0007,"Himalayan Mountaineering Institute(Museum, Library, Souvenir shop)",Darjeeling,West Bengal,Arts,1650,4.9,27.330132,88.151418
+ATT0647,D0007,Darjeeling Rock garden,Darjeeling,West Bengal,Wildlife,10,5,27.026286,88.236347
+ATT0648,D0007,"Singalila National Park(camping, bird watching)",Darjeeling,West Bengal,Wildlife,0,4.7,27.037135,88.076223
+ATT0649,D0007,Kanchenjunga peak,Darjeeling,West Bengal,Wildlife,20,4.9,27.702491,88.147535
+ATT0650,D0007,Sandakphu trek,Darjeeling,West Bengal,Adventure,500,4.4,26.993054,88.120356
+ATT0651,D0007,Teesta river(rafting),Darjeeling,West Bengal,Adventure,500,5,26.576956,89.012798
+ATT0652,D0007,Happy valley tea estate,Darjeeling,West Bengal,Sightseeing,100,4.9,27.051391,88.258613
+ATT0653,D0007,Lamhatta Eco Park,Darjeeling,West Bengal,Wildlife,0,4.7,27.054891,88.352605
+ATT0654,D0007,Lepchajagat village,Darjeeling,West Bengal,Sightseeing,0,4.2,27.012784,88.199242
+ATT0655,D0007,Mahakal temple,Darjeeling,West Bengal,Spiritual,0,4.8,23.182905,75.768291
+ATT0656,D0007,Everest museum,Darjeeling,West Bengal,Arts,0,4.9,27.988121,86.924975
+ATT0657,D0007,Ring Mall,Darjeeling,West Bengal,Shopping,0,4.5,27.0397,88.2648
+ATT0658,D0007,Padmaja Naidu zoological park,Darjeeling,West Bengal,Wildlife,110,4.5,27.05861,88.254405
+ATT0659,D0007,Nightingale park,Darjeeling,West Bengal,Sightseeing,20,4.9,27.0537,88.2601
+ATT0660,D0007,Dali Monastery,Darjeeling,West Bengal,Spiritual,0,4.3,27.02373,88.254744
+ATT0661,D0007,Ghoom monastery market,Darjeeling,West Bengal,Shopping,0,4.4,27.000838,88.243684
+ATT0662,D0007,Teesta bazaar,Darjeeling,West Bengal,Shopping,0,4.4,27.066218,88.424636
+ATT0663,D0007,Mall road,Darjeeling,West Bengal,Shopping,0,4.9,27.2,88.15
+ATT0664,D0518,Jaldapara National Park,Siliguri,West Bengal,Wildlife,250,4.4,26.690514,89.280535
+ATT0665,D0518,Salugara monastery,Siliguri,West Bengal,Spiritual,0,4.6,26.767044,88.445223
+ATT0666,D0518,ISKON temple,Siliguri,West Bengal,Spiritual,0,4.4,26.729,88.4433
+ATT0667,D0518,Mahananda Wildlife Sanctuary,Siliguri,West Bengal,Wildlife,500,4.4,26.796193,88.363008
+ATT0668,D0518,Hong Kong market,Siliguri,West Bengal,Shopping,0,4.4,26.7271,88.3953
+ATT0669,D0518,North Bengal Science centre,Siliguri,West Bengal,Arts,50,4.3,26.723049,88.386899
+ATT0670,D0518,Sepoy Dhura Tea garden,Siliguri,West Bengal,Sightseeing,25,4.2,26.837238,88.345791
+ATT0671,D0037,Sundarbans National Park,Sundarbans,West Bengal,Wildlife,60,4.4,21.884235,88.885376
+ATT0672,D0037,Burirdabri Forest camp,Sundarbans,West Bengal,Adventure,600,3.4,22.077495,89.029368
+ATT0673,D0037,Sajnekhali Wildlife Sanctuary,Sundarbans,West Bengal,Wildlife,550,4.4,22.123776,88.8313
+ATT0674,D0037,Kotka beach,Sundarbans,West Bengal,Wildlife,0,4.4,21.844934,89.79609
+ATT0675,D0037,Hiron point,Sundarbans,West Bengal,Wildlife,0,4.2,21.816213,89.462605
+ATT0676,D0037,Dublar Char island,Sundarbans,West Bengal,Wildlife,0,4.4,21.772806,89.559196
+ATT0677,D0037,Bhagatpur crocodile project,Sundarbans,West Bengal,Wildlife,50,4.4,21.46,88.18
+ATT0678,D0401,Katra Masjid,Murshidabad,West Bengal,Heritage,0,4.5,24.184853,88.288056
+ATT0679,D0401,Hazarduari Palace,Murshidabad,West Bengal,Heritage,5,4.4,24.186338,88.287673
+ATT0680,D0401,Jahan Kosha cannon,Murshidabad,West Bengal,Heritage,0,4.5,24.178216,88.268791
+ATT0681,D0401,Murshidabad District museum,Murshidabad,West Bengal,Heritage,0,4.4,24.175904,88.293333
+ATT0682,D0019,Jagannath Temple,Puri,Odisha,Spiritual,0,4.7,19.804938,88.280178
+ATT0683,D0019,Puri beach,Puri,Odisha,Wildlife,0,4.6,19.794749,85.817939
+ATT0684,D0019,Raghurajpur Artist village,Puri,Odisha,Arts,0,4.4,19.885512,85.825288
+ATT0685,D0019,Chilika lake,Puri,Odisha,Wildlife,0,4.4,19.844963,85.825746
+ATT0686,D0324,Konark Sun Temple,Konark,Odisha,Spiritual,40,3.9,19.887595,85.478806
+ATT0687,D0324,Chandrabhaga beach,Konark,Odisha,Wildlife,0,4.2,19.892069,86.094536
+ATT0688,D0324,Lingaraj Temple,Konark,Odisha,Heritage,0,4.9,20.238452,86.091184
+ATT0689,D0324,ASI Museum,Konark,Odisha,Arts,850,4.9,19.892069,85.833777
+ATT0690,D0324,Ramchandi beach and water sports,Konark,Odisha,Wildlife,0,4.2,19.892069,86.091184
+ATT0691,D0489,Jagannath Temple,Rourkela,Odisha,Spiritual,0,3.9,22.247828,86.091184
+ATT0692,D0489,Indira Gandhi Park,Rourkela,Odisha,Sightseeing,0,4,22.240206,84.877757
+ATT0693,D0489,Pitamahal dam,Rourkela,Odisha,Wildlife,0,3.6,22.227355,84.874708
+ATT0694,D0489,VIP market,Rourkela,Odisha,Shopping,0,4,22.247799,84.747293
+ATT0695,D0489,Hanuman Vatika garden,Rourkela,Odisha,Sightseeing,0,4.9,22.221724,84.867526
+ATT0696,D0489,Khandadhar Waterfall,Rourkela,Odisha,Wildlife,0,4.5,22.260423,84.831534
+ATT0697,D0176,Odisha State Maritime museum,Cuttack,Odisha,Arts,0,4.2,20.478926,84.853584
+ATT0698,D0176,Bhitarkanika Wildlife Sanctuary,Cuttack,Odisha,Wildlife,20,4.6,20.462521,85.896182
+ATT0699,D0176,State Botanical garden,Cuttack,Odisha,Wildlife,50,4.2,20.462521,85.88299
+ATT0700,D0176,Deer Park,Cuttack,Odisha,Wildlife,25,4.9,20.488308,85.88299
+ATT0701,D0176,Netaji museum,Cuttack,Odisha,Arts,0,4.8,20.470067,85.861909
+ATT0702,D0176,Dhabaleshwar Island,Cuttack,Odisha,Sightseeing,0,4.5,20.462521,85.8668
+ATT0703,D0176,Barabati Fort,Cuttack,Odisha,Heritage,0,4.5,20.484531,85.88299
+ATT0704,D0495,Hirakud Dam,Sambalpur,Odisha,Wildlife,0,4.5,21.53059,85.865177
+ATT0705,D0495,Debrigarh Wildlife Sanctuary,Sambalpur,Odisha,Wildlife,40,4.8,21.466872,83.870495
+ATT0706,D0495,Ghanteswari temple,Sambalpur,Odisha,Spiritual,0,4,21.354673,83.981166
+ATT0707,D0495,Gudguda waterfall,Sambalpur,Odisha,Wildlife,0,4.7,21.466872,83.919215
+ATT0708,D0109,Khasada waterfall,Berhampur,Odisha,Wildlife,0,4.4,19.255888,83.981166
+ATT0709,D0109,Aryapalli beach,Berhampur,Odisha,Wildlife,0,4.9,19.314962,84.23321
+ATT0710,D0109,Bada bazaar,Berhampur,Odisha,Shopping,0,4.1,19.314962,84.794091
+ATT0711,D0109,Sana bazaar,Berhampur,Odisha,Shopping,0,3.9,19.315611,84.794091
+ATT0712,D0109,Gopalpur Beach,Berhampur,Odisha,Wildlife,0,4,19.314962,84.780999
+ATT0713,D0109,Tara Tarini Temple,Berhampur,Odisha,Spiritual,0,4.6,19.314962,84.794091
+ATT0714,D0301,Hadargarh reservoir,Keonjhar,Odisha,Wildlife,10,3.9,21.628933,84.794091
+ATT0715,D0301,Gundichaghagi waterfall,Keonjhar,Odisha,Wildlife,0,4.3,21.348299,85.581685
+ATT0716,D0301,Sitabinji Fresco painting and rock inscription,Keonjhar,Odisha,Heritage,0,4.9,21.502402,85.822122
+ATT0717,D0301,Sanaghagara Waterfall,Keonjhar,Odisha,Wildlife,0,4.3,21.632772,85.769228
+ATT0718,D0086,Kshirachora Gopinatha Temple,Balasore,Odisha,Spiritual,0,4.2,21.537878,85.556956
+ATT0719,D0086,Balaramgadi beach,Balasore,Odisha,Wildlife,0,4.4,21.4727,86.879812
+ATT0720,D0086,Kuldiha Wildlife sanctuary,Balasore,Odisha,Wildlife,40,4.9,21.409204,86.18
+ATT0721,D0086,Chandipur Beach,Balasore,Odisha,Wildlife,0,4.2,21.451879,86.730166
+ATT0722,D0153,Marina Beach,Chennai,Tamil Nadu,Wildlife,0,3.9,13.049953,87.040608
+ATT0723,D0153,Mahabalipuram,Chennai,Tamil Nadu,Heritage,0,4.8,12.620782,80.282403
+ATT0724,D0153,Water activities at Muttukadu,Chennai,Tamil Nadu,Adventure,130,4.6,12.827023,80.194492
+ATT0725,D0153,Queensland amusement park,Chennai,Tamil Nadu,Adventure,550,5,13.030036,80.240321
+ATT0726,D0153,Pondy bazaar,Chennai,Tamil Nadu,Shopping,0,4,13.039889,80.027613
+ATT0727,D0153,Birla Planetarium,Chennai,Tamil Nadu,Arts,45,4.8,22.545514,80.236874
+ATT0728,D0153,National Art gallery,Chennai,Tamil Nadu,Arts,15,4.2,13.069691,88.347316
+ATT0729,D0153,Ubbalamadugu falls,Chennai,Tamil Nadu,Wildlife,0,4.4,13.604197,80.256112
+ATT0730,D0153,Pulicat lake,Chennai,Tamil Nadu,Wildlife,0,4.7,13.08268,79.843841
+ATT0731,D0153,Barracuda bay(fishing),Chennai,Tamil Nadu,Adventure,0,4.9,13.08268,80.270718
+ATT0732,D0153,Scuba diving at Covelong beach,Chennai,Tamil Nadu,Adventure,6000,4.6,12.787002,80.270718
+ATT0733,D0153,Adventure sports at Covelong beach,Chennai,Tamil Nadu,Adventure,2000,4.9,12.787002,80.250445
+ATT0734,D0153,Arignar Anna Zoological park,Chennai,Tamil Nadu,Wildlife,50,4.3,12.879768,80.250445
+ATT0735,D0153,Dakshinachitra museum,Chennai,Tamil Nadu,Heritage,110,3.9,13.003842,80.080829
+ATT0736,D0153,MGR Film city,Chennai,Tamil Nadu,Arts,600,4.7,12.991932,80.270473
+ATT0737,D0358,Thiruparankundram temple,Madurai,Tamil Nadu,Spiritual,27,4.1,13.08268,80.247433
+ATT0738,D0358,Meghamalai,Madurai,Tamil Nadu,Wildlife,0,4.1,9.882175,80.270718
+ATT0739,D0358,Alagar Kovil temple,Madurai,Tamil Nadu,Spiritual,10,3.8,9.9395,78.071976
+ATT0740,D0358,Vaigai dam,Madurai,Tamil Nadu,Sightseeing,0,4.1,9.925201,78.118707
+ATT0741,D0358,Gandhi memorial museum,Madurai,Tamil Nadu,Heritage,0,3.9,10.053663,78.119775
+ATT0742,D0358,Banana market,Madurai,Tamil Nadu,Culinary,50,4,9.929786,77.589712
+ATT0743,D0358,Jain caves,Madurai,Tamil Nadu,Heritage,0,4.8,9.921118,78.138109
+ATT0744,D0358,Thirumalai Nayak palace,Madurai,Tamil Nadu,Heritage,200,4.9,9.878038,78.124302
+ATT0745,D0358,St. Mary's cathedral,Madurai,Tamil Nadu,Spiritual,10,4.9,9.91509,78.06721
+ATT0746,D0358,Shopping at Puthu Mandapam,Madurai,Tamil Nadu,Shopping,0,4,9.91262,78.123748
+ATT0747,D0358,Meenakshi Amman Temple,Madurai,Tamil Nadu,Spiritual,0,3.9,9.920146,78.125397
+ATT0748,D0469,Sea world aquarium,Rameswaram,Tamil Nadu,Sightseeing,0,4.7,9.919504,78.121253
+ATT0749,D0469,Rameswaram lighthouse,Rameswaram,Tamil Nadu,Sightseeing,0,4.1,9.287584,78.119342
+ATT0750,D0469,Kalam national memorial,Rameswaram,Tamil Nadu,Heritage,10,4.7,9.317583,79.312949
+ATT0751,D0469,Water bird Sanctuary,Rameswaram,Tamil Nadu,Wildlife,0,4.2,9.288132,79.330689
+ATT0752,D0469,Adam's bridge,Rameswaram,Tamil Nadu,Heritage,0,2,9.287584,79.27091
+ATT0753,D0469,Ariyaman beach,Rameswaram,Tamil Nadu,Adventure,0,4.5,9.086491,79.312949
+ATT0754,D0469,Agni teertham sacred bath,Rameswaram,Tamil Nadu,Spiritual,0,4.8,9.29684,79.568519
+ATT0755,D0469,Kothandaramaswamy Temple,Rameswaram,Tamil Nadu,Spiritual,0,4,9.288616,79.068032
+ATT0756,D0469,Ramanathaswamy Temple,Rameswaram,Tamil Nadu,Spiritual,0,3.9,9.233148,79.321382
+ATT0757,D0284,Vivekananda Rock Memorial,Kanyakumari,Tamil Nadu,Heritage,0,4.6,9.288114,79.348047
+ATT0758,D0284,Thiruvalluvar Statue,Kanyakumari,Tamil Nadu,Heritage,20,4.6,8.077885,79.317392
+ATT0759,D0284,Padmanabhapuram palace,Kanyakumari,Tamil Nadu,Heritage,10,4.1,8.077807,77.55587
+ATT0760,D0284,Triveni Sangam,Kanyakumari,Tamil Nadu,Heritage,0,4.7,8.250743,77.554036
+ATT0761,D0284,Sannathi Street shopping,Kanyakumari,Tamil Nadu,Shopping,0,3.9,8.078075,77.326699
+ATT0762,D0284,Courtallam falls,Kanyakumari,Tamil Nadu,Wildlife,0,4.8,8.08095,77.550816
+ATT0763,D0284,Vattakottai fort,Kanyakumari,Tamil Nadu,Heritage,40,4.6,8.93411,77.55082
+ATT0764,D0284,St.Xavier Church,Kanyakumari,Tamil Nadu,Spiritual,0,4.2,8.125627,77.277938
+ATT0765,D0284,Kumari Amman temple,Kanyakumari,Tamil Nadu,Spiritual,0,4.6,8.174826,77.564996
+ATT0766,D0284,Ooty Lake,Kanyakumari,Tamil Nadu,Sightseeing,0,4.7,8.079304,77.4385
+ATT0767,D0171,Marudamalai Temple,Coimbatore,Tamil Nadu,Spiritual,0,4.7,11.410204,77.550977
+ATT0768,D0171,Trek to Dhoni hills,Coimbatore,Tamil Nadu,Adventure,0,4.5,11.046568,76.695032
+ATT0769,D0171,Trek to Perumal peak,Coimbatore,Tamil Nadu,Adventure,0,4.7,11.016844,76.851707
+ATT0770,D0171,Trek to Thalaiyar falls,Coimbatore,Tamil Nadu,Adventure,0,4.3,11.016844,76.955832
+ATT0771,D0171,Black Thunder amusement park,Coimbatore,Tamil Nadu,Adventure,0,4.6,11.016844,76.955832
+ATT0772,D0171,Brookefields mall,Coimbatore,Tamil Nadu,Shopping,65,4.4,11.326455,76.955832
+ATT0773,D0171,Adiyogi Shiva Statue,Coimbatore,Tamil Nadu,Spiritual,0,4.7,11.009256,76.912704
+ATT0774,D0171,Racing events at Chettipalayam,Coimbatore,Tamil Nadu,Adventure,10,4.4,10.97249,76.959056
+ATT0775,D0171,GeDee Car museum tour,Coimbatore,Tamil Nadu,Arts,0,4.5,10.913221,76.740444
+ATT0776,D0171,Textile museum tour,Coimbatore,Tamil Nadu,Arts,0,4.7,11.006629,77.036902
+ATT0777,D0171,Anamalai Wildlife Sanctuary,Coimbatore,Tamil Nadu,Wildlife,0,4.7,11.034734,76.977921
+ATT0778,D0171,Valankulam lake,Coimbatore,Tamil Nadu,Sightseeing,0,4.5,10.405986,77.03247
+ATT0779,D0171,Velliangiri hills,Coimbatore,Tamil Nadu,Adventure,40,4.6,10.991694,77.129493
+ATT0780,D0171,TNAU Botanical gardens,Coimbatore,Tamil Nadu,Sightseeing,60,4.5,10.983279,76.972167
+ATT0781,D0171,Nilgiri Biosphere Nature Park,Coimbatore,Tamil Nadu,Wildlife,0,4.6,11.014793,76.692671
+ATT0782,D0171,Maryoor hilly getaway,Coimbatore,Tamil Nadu,Sightseeing,20,4.1,11.02638,76.931536
+ATT0783,D0013,Kodaikanal Lake,Kodaikanal,Tamil Nadu,Sightseeing,20,3.8,11.016844,77.003289
+ATT0784,D0013,Night Safari,Kodaikanal,Tamil Nadu,Adventure,10,4.3,10.234359,76.955832
+ATT0785,D0013,Stroll at Coaker's Walk,Kodaikanal,Tamil Nadu,Sightseeing,20,4.3,10.239109,77.48633
+ATT0786,D0013,Dolphin's Nose,Kodaikanal,Tamil Nadu,Sightseeing,20,4.6,10.230018,77.497746
+ATT0787,D0013,Caps valley viewpoint,Kodaikanal,Tamil Nadu,Sightseeing,50,4.7,10.216662,77.493717
+ATT0788,D0013,Bear Shola falls,Kodaikanal,Tamil Nadu,Sightseeing,10,4.6,10.180763,77.486396
+ATT0789,D0013,Bryant park,Kodaikanal,Tamil Nadu,Sightseeing,50,4.8,10.239661,77.41757
+ATT0790,D0013,Berijam lake,Kodaikanal,Tamil Nadu,Sightseeing,0,4.7,10.231016,77.478534
+ATT0791,D0013,Guna caves,Kodaikanal,Tamil Nadu,Adventure,0,4.5,10.184144,77.49189
+ATT0792,D0013,La Saleth Church,Kodaikanal,Tamil Nadu,Spiritual,0,4.6,10.210344,77.395959
+ATT0793,D0013,Hike to Pillars of Nature,Kodaikanal,Tamil Nadu,Adventure,650,4.5,10.223546,77.46178
+ATT0794,D0549,Brihadeeswarar Temple,Thanjavur,Tamil Nadu,Spiritual,0,4.1,10.239109,77.485476
+ATT0795,D0549,Gangaikonda Cholapuram,Thanjavur,Tamil Nadu,Heritage,0,4.7,10.782695,77.497746
+ATT0796,D0549,Shiva Ganga Garden,Thanjavur,Tamil Nadu,Sightseeing,0,4.7,11.207588,79.131459
+ATT0797,D0549,Vijaynagar fort,Thanjavur,Tamil Nadu,Heritage,500,4.6,10.184141,79.451386
+ATT0798,D0549,Thanjavur Royal Palace and Art Gallery,Thanjavur,Tamil Nadu,Heritage,0,4.5,10.79294,79.196104
+ATT0799,D0359,Shore Temple,Mahabalipuram,Tamil Nadu,Spiritual,500,4.4,12.616452,79.137631
+ATT0800,D0359,Pancha Ratha,Mahabalipuram,Tamil Nadu,Heritage,0,4.7,12.608893,80.189613
+ATT0801,D0359,Krishna's Chunk,Mahabalipuram,Tamil Nadu,Sightseeing,10,4.5,11.127122,78.656894
+ATT0802,D0359,Arjuna's Penance,Mahabalipuram,Tamil Nadu,Sightseeing,0,4.5,12.61795,80.192703
+ATT0803,D0359,India Seashell Museum,Mahabalipuram,Tamil Nadu,Heritage,20,4.5,12.609404,80.187621
+ATT0804,D0359,Crocodile farm,Mahabalipuram,Tamil Nadu,Sightseeing,0,4.6,11.127122,78.656894
+ATT0805,D0359,Cavern Temples,Mahabalipuram,Tamil Nadu,Spiritual,0,4.7,11.127122,78.656894
+ATT0806,D0608,Yercaud Lake,Yercaud,Tamil Nadu,Sightseeing,0,4.5,11.784142,78.21023
+ATT0807,D0608,Grange Treetop Adventure,Yercaud,Tamil Nadu,Adventure,0,4.1,11.777644,78.220854
+ATT0808,D0608,The Oak trails,Yercaud,Tamil Nadu,Adventure,200,4.5,11.786555,78.203632
+ATT0809,D0592,Kanaka Durga Temple,Vijayawada,Andhra Pradesh,Spiritual,30,4.7,16.515406,80.605864
+ATT0810,D0592,Undavalli caves,Vijayawada,Andhra Pradesh,Sightseeing,0,4.8,16.497141,80.58219
+ATT0811,D0592,Bhavani island,Vijayawada,Andhra Pradesh,Adventure,0,4.5,16.523107,80.573008
+ATT0812,D0592,Kondapalli Fort,Vijayawada,Andhra Pradesh,Sightseeing,250,4.4,16.625426,80.530649
+ATT0813,D0592,Shopping at Besant road,Vijayawada,Andhra Pradesh,Shopping,0,4.5,16.510731,80.626584
+ATT0814,D0592,Bapu museum,Vijayawada,Andhra Pradesh,Arts,0,4.6,16.507652,80.627707
+ATT0815,D0592,Mogalarajapuram caves,Vijayawada,Andhra Pradesh,Sightseeing,0,4.7,16.505951,80.645178
+ATT0816,D0592,Shopping at Kalanikethan,Vijayawada,Andhra Pradesh,Shopping,0,4.6,15.9129,79.739988
+ATT0817,D0596,Lepakshi Handicrafts Emporium,Visakhapatnam,Andhra Pradesh,Shopping,0,4.7,13.803944,77.60772
+ATT0818,D0596,Old Book market by Purna Market,Visakhapatnam,Andhra Pradesh,Shopping,30,4.3,17.709025,83.297086
+ATT0819,D0596,CMR Shopping Mall,Visakhapatnam,Andhra Pradesh,Shopping,0,4.7,15.9129,79.739988
+ATT0820,D0596,Rishikonda Beach,Visakhapatnam,Andhra Pradesh,Adventure,10,4.4,17.78252,83.385115
+ATT0821,D0596,Kailasagiri,Visakhapatnam,Andhra Pradesh,Adventure,1100,4.4,17.74921,83.341802
+ATT0822,D0596,Submarine Museum,Visakhapatnam,Andhra Pradesh,Sightseeing,0,4.6,15.9129,79.739988
+ATT0823,D0596,Borra Caves,Visakhapatnam,Andhra Pradesh,Adventure,0,4.7,18.280693,83.039699
+ATT0824,D0596,War Memorial,Visakhapatnam,Andhra Pradesh,Adventure,0,4.8,15.9129,79.739988
+ATT0825,D0596,Indira Gandhi Zoological Park,Visakhapatnam,Andhra Pradesh,Sightseeing,0,4.6,17.765657,83.348834
+ATT0826,D0596,Matsyadarshini Aquarium,Visakhapatnam,Andhra Pradesh,Sightseeing,0,4.5,15.9129,79.739988
+ATT0827,D0596,Visakha Museum,Visakhapatnam,Andhra Pradesh,Arts,0,4.7,17.720581,83.334528
+ATT0828,D0533,Mallikarjuna Swamy Temple,Srisailam,Andhra Pradesh,Spiritual,10,4.5,15.9129,79.739988
+ATT0829,D0533,Srisailam Wildlife sanctuary,Srisailam,Andhra Pradesh,Wildlife,0,4.4,16.073746,78.872684
+ATT0830,D0533,Chenchu Lakshmi Tribal Museum,Srisailam,Andhra Pradesh,Heritage,0,4.7,16.069476,78.871498
+ATT0831,D0533,Mallela Theertham,Srisailam,Andhra Pradesh,Wildlife,50,4.4,15.9129,79.739988
+ATT0832,D0339,Belum Caves,Kurnool,Andhra Pradesh,Wildlife,0,4.6,15.102579,78.111507
+ATT0833,D0339,Rollapadu wildlife sanctuary,Kurnool,Andhra Pradesh,Wildlife,0,4.3,15.738977,78.365098
+ATT0834,D0339,Oravakallu rock garden,Kurnool,Andhra Pradesh,Wildlife,0,4.2,15.692896,78.152184
+ATT0835,D0339,Mahanandi village,Kurnool,Andhra Pradesh,Sightseeing,20,4.6,15.470732,78.625408
+ATT0836,D0339,Kurnool fort,Kurnool,Andhra Pradesh,Heritage,10,4.7,15.832389,78.054495
+ATT0837,D0339,Ahobilam temple,Kurnool,Andhra Pradesh,Spiritual,0,4.8,15.133767,78.674166
+ATT0838,D0216,Nathula Pass,Gangtok,Sikkim,Sightseeing,0,3,27.386568,88.830873
+ATT0839,D0216,Cable Ride at Gangtok,Gangtok,Sikkim,Adventure,40,4,27.331351,88.613811
+ATT0840,D0216,"Yak safari , Dzongri",Gangtok,Sikkim,Adventure,200,4,27.466667,88.15
+ATT0841,D0216,Mountain biking treks,Gangtok,Sikkim,Adventure,700,4.2,27.351641,88.323931
+ATT0842,D0216,River rafting,Gangtok,Sikkim,Adventure,550,4.8,27.351641,88.323931
+ATT0843,D0216,Paragliding in Baliman Dara,Gangtok,Sikkim,Adventure,1000,4.5,27.348112,88.595742
+ATT0844,D0216,Explore M.G.Marg city centre,Gangtok,Sikkim,Sightseeing,0,4.8,27.325382,88.61189
+ATT0845,D0216,Sunrise at Tashi view point,Gangtok,Sikkim,Wildlife,0,4.4,27.370641,88.616133
+ATT0846,D0216,Shopping at Lal Bazaar,Gangtok,Sikkim,Shopping,0,4.6,27.351641,88.323931
+ATT0847,D0216,Tsuk La Khang Monastery,Gangtok,Sikkim,Spiritual,0,4.7,27.326111,88.614722
+ATT0848,D0216,Hanuman Tok,Gangtok,Sikkim,Spiritual,0,4.3,27.347835,88.628696
+ATT0849,D0216,Seven Sisters waterfall,Gangtok,Sikkim,Wildlife,0,4.4,27.443753,88.607772
+ATT0850,D0216,Rumtek monastery,Gangtok,Sikkim,Spiritual,30,4.2,27.30591,88.536289
+ATT0851,D0216,Tsongmo lake,Gangtok,Sikkim,Wildlife,0,4.2,27.374167,88.761944
+ATT0852,D0216,Shingba Rhododendron sanctuary,Gangtok,Sikkim,Wildlife,0,3.8,27.801286,88.76952
+ATT0853,D0216,Khangchendzonga biosphere reserve,Gangtok,Sikkim,Wildlife,0,3.2,27.667245,88.324556
+ATT0854,D0216,Skiing by Mt Katao,Gangtok,Sikkim,Adventure,1000,4,27.652513,88.8129
+ATT0855,D0216,Banjkhari falls,Gangtok,Sikkim,Wildlife,0,4,27.350764,88.603232
+ATT0856,D0216,Himalayan Zoological park,Gangtok,Sikkim,Wildlife,70,4,27.356701,88.630015
+ATT0857,D0451,Pemayangtse Monastery,Pelling,Sikkim,Heritage,0,4.8,27.303354,88.253716
+ATT0858,D0451,Kanchenjunga waterfalls and national park,Pelling,Sikkim,Wildlife,0,4.8,27.358688,88.198812
+ATT0859,D0451,Rabdentse Ruins,Pelling,Sikkim,Heritage,0,5,27.301403,88.256622
+ATT0860,D0451,Rinchenpong bazaar,Pelling,Sikkim,Shopping,0,4.3,27.243277,88.270857
+ATT0861,D0451,Rural Artisan Marketing Centre,Pelling,Sikkim,Shopping,0,4.3,27.300712,88.235899
+ATT0862,D0451,Sewaro Rock garden,Pelling,Sikkim,Wildlife,20,5,27.315803,88.189836
+ATT0863,D0451,Singshore suspension bridge,Pelling,Sikkim,Adventure,0,4.7,27.260407,88.112998
+ATT0864,D0451,Pelling Skywalk,Pelling,Sikkim,Adventure,20,4.4,27.296931,88.219518
+ATT0865,D0451,Kalimpong,Pelling,Sikkim,Sightseeing,0,4.5,27.059356,88.469454
+ATT0866,D0411,Char Dham,Namchi,Sikkim,Spiritual,0,4.8,27.351641,88.323931
+ATT0867,D0411,Tendong Hill & Biodiversity park,Namchi,Sikkim,Wildlife,0,5,27.351641,88.323931
+ATT0868,D0411,Doling Gompa,Namchi,Sikkim,Spiritual,0,4.5,27.351641,88.323931
+ATT0869,D0411,Ngadak monastery,Namchi,Sikkim,Spiritual,0,4.7,27.173241,88.370628
+ATT0870,D0411,Maenam Wildlife sanctuary,Namchi,Sikkim,Wildlife,400,4.7,27.323957,88.379973
+ATT0871,D0411,Samdruptse Hill,Namchi,Sikkim,Spiritual,0,3.9,27.179974,88.379678
+ATT0872,D0474,Buddha Park,Ravangla,Sikkim,Arts,0,3.8,27.314362,88.36327
+ATT0873,D0474,Ralang monastery,Ravangla,Sikkim,Spiritual,0,3.7,27.327015,88.355095
+ATT0874,D0474,Doling Gompa,Ravangla,Sikkim,Spiritual,0,5,27.351641,88.323931
+ATT0875,D0474,Kheunpheling Carpet centre,Ravangla,Sikkim,Shopping,500,4.3,27.351641,88.323931
+ATT0876,D0474,Rayong sunrise point,Ravangla,Sikkim,Sightseeing,0,4.1,27.351641,88.323931
+ATT0877,D0474,Borong Hot springs,Ravangla,Sikkim,Wildlife,20,4,27.365769,88.327809
+ATT0878,D0474,Temi tea garden,Ravangla,Sikkim,Sightseeing,60,4,27.2398,88.427643
+ATT0879,D0474,Maenam hill,Ravangla,Sikkim,Wildlife,0,4,27.351641,88.323931
+ATT0880,D0232,Kamakhya Temple,Guwahati,Assam,Spiritual,0,4.9,26.166411,91.705503
+ATT0881,D0232,Kalakshetra theatre and artifact museum,Guwahati,Assam,Arts,75,4.8,26.200604,92.937574
+ATT0882,D0232,Assam state museum,Guwahati,Assam,Heritage,20,4.7,26.185175,91.752077
+ATT0883,D0232,Guwahati planetarium,Guwahati,Assam,Arts,100,4.8,26.1914,91.751961
+ATT0884,D0232,Sunset cruise by river Brahmaputra,Guwahati,Assam,Sightseeing,0,3.8,26.200604,92.937574
+ATT0885,D0232,Pobitora wildlife sanctuary,Guwahati,Assam,Wildlife,0,4,26.230785,92.055061
+ATT0886,D0232,Bird watching by Deepor Beel lake,Guwahati,Assam,Wildlife,0,4,26.117694,91.649353
+ATT0887,D0232,Assam State Zoo,Guwahati,Assam,Wildlife,0,4,26.163519,91.780725
+ATT0888,D0232,Fancy Bazaar,Guwahati,Assam,Shopping,0,4.7,26.183074,91.740498
+ATT0889,D0232,Manas National Park,Guwahati,Assam,Wildlife,0,4.2,26.810174,91.239483
+ATT0890,D0232,Umananda Island,Guwahati,Assam,Wildlife,0,4.5,26.196492,91.744908
+ATT0891,D0036,Majuli river island,Kaziranga,Assam,Wildlife,0,4.6,27.001617,94.224298
+ATT0892,D0036,Orchid national park,Kaziranga,Assam,Wildlife,0,4.7,26.200604,92.937574
+ATT0893,D0036,Kaziranga National Park,Kaziranga,Assam,Wildlife,900,4.3,26.644504,93.352486
+ATT0894,D0015,Jaswant Garh war memorial,Tawang,Arunachal Pradesh,Heritage,0,3.8,28.217999,94.727753
+ATT0895,D0015,Madhuri lake,Tawang,Arunachal Pradesh,Wildlife,0,4.3,28.217999,94.727753
+ATT0896,D0015,Shonga Tser Lake,Tawang,Arunachal Pradesh,Wildlife,0,4.5,28.217999,94.727753
+ATT0897,D0015,Nuranang waterfalls,Tawang,Arunachal Pradesh,Wildlife,0,4.8,28.217999,94.727753
+ATT0898,D0015,Tibetan Settlement market,Tawang,Arunachal Pradesh,Heritage,0,4,28.217999,94.727753
+ATT0899,D0015,Sela pass,Tawang,Arunachal Pradesh,Adventure,0,4,28.217999,94.727753
+ATT0900,D0015,Gorichen Peak hike,Tawang,Arunachal Pradesh,Adventure,0,3.9,28.217999,94.727753
+ATT0901,D0015,Taktsang Gompa monastery,Tawang,Arunachal Pradesh,Spiritual,0,3.8,28.217999,94.727753
+ATT0902,D0015,Tawang Monastery,Tawang,Arunachal Pradesh,Heritage,0,4.5,27.586726,91.857719
+ATT0903,D0048,Raima valley,Agartala,Tripura,Wildlife,0,4.9,23.563864,91.676069
+ATT0904,D0048,Buddha temple,Agartala,Tripura,Spiritual,0,4.8,23.563864,91.676069
+ATT0905,D0048,Neermahal,Agartala,Tripura,Heritage,0,3.8,23.506441,91.315034
+ATT0906,D0048,Gondacherra wildlife sanctuary,Agartala,Tripura,Wildlife,500,4.9,23.563864,91.676069
+ATT0907,D0048,Ummaneshwar temple,Agartala,Tripura,Spiritual,0,4.7,23.837611,91.2818
+ATT0908,D0048,Chittagong hills,Agartala,Tripura,Wildlife,0,4.3,23.563864,91.676069
+ATT0909,D0048,Sepahijala wildlife sanctuary,Agartala,Tripura,Wildlife,300,4.9,23.614818,91.327642
+ATT0910,D0048,Ujjayanta Palace,Agartala,Tripura,Heritage,40,4.7,23.83735,91.282713
+ATT0911,D0320,Mt Japfu,Kohima,Nagaland,Wildlife,0,4.9,25.597501,94.066666
+ATT0912,D0320,Naga keeda bazaar,Kohima,Nagaland,Shopping,0,3.9,26.158435,94.562443
+ATT0913,D0320,Touphema village,Kohima,Nagaland,Heritage,0,4,25.845568,94.176975
+ATT0914,D0320,Camping by Kohima mountains,Kohima,Nagaland,Adventure,0,4,25.675113,94.1086
+ATT0915,D0320,Ntangki national park,Kohima,Nagaland,Wildlife,0,4.8,25.549653,93.520564
+ATT0916,D0155,Dawki lake,Cherrapunji,Meghalaya,Sightseeing,750,4.6,25.184025,92.02487
+ATT0917,D0155,Thangkharang park,Cherrapunji,Meghalaya,Sightseeing,0,4.9,25.216707,91.724078
+ATT0918,D0155,Mawkdok Dympep valley,Cherrapunji,Meghalaya,Sightseeing,0,4.7,25.411798,91.79084
+ATT0919,D0155,Mawsmai cave-Longest cave systems in India,Cherrapunji,Meghalaya,Sightseeing,0,4,25.244571,91.724088
+ATT0920,D0155,Mawlynnong village,Cherrapunji,Meghalaya,Heritage,0,4.8,25.201764,91.91603
+ATT0921,D0155,Mawsmai Eco park and falls,Cherrapunji,Meghalaya,Wildlife,0,4.3,25.245716,91.737572
+ATT0922,D0155,Mawmluh caves,Cherrapunji,Meghalaya,Sightseeing,0,4,25.253998,91.713062
+ATT0923,D0155,Nohkalikai watterfalls,Cherrapunji,Meghalaya,Sightseeing,0,4.6,25.275472,91.686168
+ATT0924,D0155,Living Root Bridge,Cherrapunji,Meghalaya,Wildlife,0,4.9,25.467031,91.366216
+ATT0925,D0098,Chitrakote Falls,Bastar,Chhattisgarh,Wildlife,0,4.9,19.207173,81.70006
+ATT0926,D0098,Tirathgarh waterfalls,Bastar,Chhattisgarh,Wildlife,0,4,18.91395,81.865109
+ATT0927,D0098,Kanger Ghati national park,Bastar,Chhattisgarh,Wildlife,250,4,18.77866,81.997111
+ATT0928,D0098,Kotumsar caves,Bastar,Chhattisgarh,Wildlife,0,3,18.906638,81.90505
+ATT0929,D0098,Anthropological museum,Bastar,Chhattisgarh,Arts,0,3.8,21.278657,81.866144
+ATT0930,D0466,Ambuja City Center mall,Raipur,Chhattisgarh,Shopping,0,4.5,21.275629,81.687617
+ATT0931,D0466,Magneto mall,Raipur,Chhattisgarh,Shopping,0,4.5,21.240929,81.684156
+ATT0932,D0466,Ghatarani waterfalls,Raipur,Chhattisgarh,Wildlife,0,4.9,20.828062,82.059812
+ATT0933,D0466,Jatmai Temple,Raipur,Chhattisgarh,Spiritual,0,4.7,20.795888,82.029848
+ATT0934,D0188,Baba Baidyanath Temple,Deoghar,Jharkhand,Spiritual,0,4.4,24.492764,86.700521
+ATT0935,D0188,Naulakha temple,Deoghar,Jharkhand,Spiritual,0,4.8,24.477562,86.708356
+ATT0936,D0188,Trikut hill,Deoghar,Jharkhand,Spiritual,0,4.6,24.498333,86.836944
+ATT0937,D0470,Pahari Mandir,Ranchi,Jharkhand,Spiritual,0,4.5,23.375429,85.31075
+ATT0938,D0470,Biodiversity park,Ranchi,Jharkhand,Wildlife,70,4.9,23.254734,85.346893
+ATT0939,D0470,Rock garden,Ranchi,Jharkhand,Wildlife,50,4.8,23.403847,85.312976
+ATT0940,D0470,Patratu valley,Ranchi,Jharkhand,Wildlife,0,4.4,23.57555,85.274161
+ATT0941,D0470,State museum Hotwar,Ranchi,Jharkhand,Heritage,0,4.9,23.383537,85.385468
+ATT0942,D0470,Dassam falls,Ranchi,Jharkhand,Wildlife,0,4.9,23.146252,85.46722
+ATT0943,D0470,Jonha falls,Ranchi,Jharkhand,Wildlife,0,4.8,23.342307,85.610206
+ATT0944,D0470,Ranchi science centre,Ranchi,Jharkhand,Arts,100,3.9,23.406954,85.340233
+ATT0945,D0133,Mahabodhi Temple,Bodh Gaya,Bihar,Spiritual,0,3.9,24.695922,84.991419
+ATT0946,D0133,Thai monastery,Bodh Gaya,Bihar,Spiritual,0,3.9,25.964443,85.272247
+ATT0947,D0133,Great Buddha statue,Bodh Gaya,Bihar,Sightseeing,0,3.9,24.690388,84.981943
+ATT0948,D0133,Bodhi tree,Bodh Gaya,Bihar,Spiritual,0,4,25.964443,85.272247
+ATT0949,D0133,Indosan Nippon Japanese temple,Bodh Gaya,Bihar,Spiritual,0,4,25.964443,85.272247
+ATT0950,D0133,Dungeshwari cave temple,Bodh Gaya,Bihar,Spiritual,0,4.8,24.736701,85.047498
+ATT0951,D0133,Bodh gaya archaelogical museum,Bodh Gaya,Bihar,Heritage,40,4.5,24.694914,84.987441
+ATT0952,D0133,Muchalinda lake,Bodh Gaya,Bihar,Wildlife,0,4.7,24.680644,84.992662
+ATT0953,D0447,Patna museum,Patna,Bihar,Heritage,10,4.5,25.612727,85.133273
+ATT0954,D0447,Buddha memorial park,Patna,Bihar,Spiritual,0,4.9,25.964443,85.272247
+ATT0955,D0447,Srikrishna science centre,Patna,Bihar,Arts,0,4.8,25.616419,85.141108
+ATT0956,D0447,Sanjay Gandhi Biological Park,Patna,Bihar,Wildlife,30,3.9,25.599734,85.097177
+ATT0957,D0447,Takhat Shri Harimandir Ji Patna Sahib,Patna,Bihar,Spiritual,0,4,25.59605,85.229956
+ATT0958,D0447,Budhha Smriti Park,Patna,Bihar,Sightseeing,0,4,25.606714,85.13615
+ATT0959,D0230,Kingdom of Dreams,Gurugram,Haryana,Adventure,500,3.8,28.467866,77.068887
+ATT0960,D0230,Ambience Mall,Gurugram,Haryana,Shopping,0,3.9,28.505504,77.095956
+ATT0961,D0230,Shopping at HUDA marjet Sector 14,Gurugram,Haryana,Shopping,0,4.2,28.471081,77.045414
+ATT0962,D0230,Shopping at Sadar bazaar Sector 12A,Gurugram,Haryana,Shopping,0,4.6,28.465278,77.026933
+ATT0963,D0230,Wet N Wild water park,Gurugram,Haryana,Adventure,600,4.2,29.058776,76.085601
+ATT0964,D0230,Go-karting at Link road,Gurugram,Haryana,Adventure,0,4.9,29.058776,76.085601
+ATT0965,D0230,Ice skating at Ambience mall,Gurugram,Haryana,Adventure,1000,4.4,28.505504,77.095956
+ATT0966,D0230,Camp tikkling,Gurugram,Haryana,Adventure,5000,4.8,29.058776,76.085601
+ATT0967,D0230,Aravalli biodiversity park,Gurugram,Haryana,Wildlife,0,4.7,29.058776,76.085601
+ATT0968,D0230,Sultanpur Bird sanctuary,Gurugram,Haryana,Wildlife,400,4.7,28.468123,76.891771
+ATT0969,D0230,Museum of folk and tribal art,Gurugram,Haryana,Arts,20,4.7,28.470934,77.009967
+ATT0970,D0230,Indian Transport history,Gurugram,Haryana,Arts,50,4,29.058776,76.085601
+ATT0971,D0230,Vintage camera museum,Gurugram,Haryana,Arts,0,4,29.058776,76.085601
+ATT0972,D0230,DLF CyberHub for shopping,Gurugram,Haryana,Shopping,0,4,28.495042,77.089095
+ATT0973,D0299,Kedarnath,Kedarnath,Uttarakhand,Spiritual,0,4.5,30.734627,79.066894
+ATT0974,D0299,Adi Shankaracharya Samadhi,Kedarnath,Uttarakhand,Spiritual,0,4.8,30.736124,79.066364
+ATT0975,D0299,Bhairavnath temple,Kedarnath,Uttarakhand,Spiritual,0,4.6,30.066753,79.0193
+ATT0976,D0299,Trekking to Vasuki Tal,Kedarnath,Uttarakhand,Adventure,0,4.7,30.907039,79.171652
+ATT0977,D0299,Sonprayag,Kedarnath,Uttarakhand,Adventure,0,4.8,30.632576,78.995275
+ATT0978,D0299,Chorabari lake,Kedarnath,Uttarakhand,Wildlife,0,4.9,30.066753,79.0193
+ATT0979,D0461,Promenade Beach,Puducherry,Puducherry,Wildlife,0,3.8,11.931277,79.835802
+ATT0980,D0461,Auroville,Puducherry,Puducherry,Heritage,0,4.1,12.005248,79.806892
+ATT0981,D0461,Casablanca mall,Puducherry,Puducherry,Shopping,0,4.2,11.941592,79.808313
+ATT0982,D0461,Saram China market,Puducherry,Puducherry,Shopping,0,4.2,11.940801,79.812104
+ATT0983,D0461,Pondicherry botanical garden,Puducherry,Puducherry,Wildlife,0,4.2,11.930214,79.822421
+ATT0984,D0461,Pondicherry museum,Puducherry,Puducherry,Arts,10,4.4,11.934488,79.83485
+ATT0985,D0461,Manakula Vinayagar temple,Puducherry,Puducherry,Spiritual,0,4.6,11.935776,79.833662
+ATT0986,D0461,Chunnambar boat house,Puducherry,Puducherry,Adventure,0,4.5,11.883812,79.800688
+ATT0987,D0461,Heritage walk by White town,Puducherry,Puducherry,Heritage,0,4.8,11.941592,79.808313
+ATT0988,D0461,Sightseeing at Green Quarter,Puducherry,Puducherry,Sightseeing,0,4.7,11.941592,79.808313
+ATT0989,D0461,Temple Adventures centre-Scuba diving,Puducherry,Puducherry,Adventure,0,3.9,11.941592,79.808313
+ATT0990,D0461,Paradise beach and island,Puducherry,Puducherry,Wildlife,0,4.4,11.941592,79.808313
+ATT0991,D0457,Kala Pani Cellular Jail,Port Blair,Andaman And Nicobar Islands,Heritage,50,4.5,11.674745,92.74786
+ATT0992,D0457,Ross island,Port Blair,Andaman And Nicobar Islands,Wildlife,0,4,11.67583,92.762425
+ATT0993,D0457,Underwater Sea walk,Port Blair,Andaman And Nicobar Islands,Adventure,1000,4,10.744887,92.499992
+ATT0994,D0457,Jolly Buoy island,Port Blair,Andaman And Nicobar Islands,Wildlife,0,4,11.507735,92.612149
+ATT0995,D0457,Mahatma Gandhi National Park,Port Blair,Andaman And Nicobar Islands,Wildlife,0,4.7,11.58709,92.61556
+ATT0996,D0457,Mount Harriet National park,Port Blair,Andaman And Nicobar Islands,Wildlife,400,4.8,11.720197,92.733455
+ATT0997,D0457,Barren island volcano,Port Blair,Andaman And Nicobar Islands,Wildlife,0,4.6,12.27923,93.86044
+ATT0998,D0244,Long island,Havelock Island,Andaman And Nicobar Islands,Sightseeing,0,4.3,11.991,92.942
+ATT0999,D0244,Elephant beach,Havelock Island,Andaman And Nicobar Islands,Wildlife,0,4.4,12.008108,92.941606
+ATT1000,D0244,Snorkelling at Kalapathar beach,Havelock Island,Andaman And Nicobar Islands,Adventure,1000,4.4,12.000611,93.007095
+ATT1001,D0244,Radhanagar Beach,Havelock Island,Andaman And Nicobar Islands,Wildlife,0,4.2,11.984455,92.950845
+ATT1002,D0421,Bharatpur Beach,Neil Island,Andaman And Nicobar Islands,Wildlife,0,4.8,11.835846,93.045101
+ATT1003,D0092,Mangrove creeks,Baratang Island,Andaman And Nicobar Islands,Wildlife,0,4.4,10.744887,92.499992
+ATT1004,D0092,Parrot island,Baratang Island,Andaman And Nicobar Islands,Wildlife,0,4.5,10.744887,92.499992
+ATT1005,D0092,Baludera beach,Baratang Island,Andaman And Nicobar Islands,Wildlife,0,4.5,12.13361,92.804238
+ATT1006,D0092,Coral gazing at Mohwa Dera,Baratang Island,Andaman And Nicobar Islands,Wildlife,0,4.8,10.744887,92.499992
+ATT1007,D0092,Limestone Caves,Baratang Island,Andaman And Nicobar Islands,Wildlife,0,4.9,10.744887,92.499992
+ATT1008,D0020,Naida Caves,Diu,Daman And Diu,Wildlife,200,3.9,20.710256,70.980716
+ATT1009,D0020,Diu Fort,Diu,Daman And Diu,Heritage,0,3.8,20.718689,70.987674
+ATT1010,D0180,Nani Daman market,Daman,Daman And Diu,Shopping,0,4.2,20.41487,72.8353
+ATT1011,D0020,DMC market,Diu,Daman And Diu,Shopping,0,5,20.718628,70.987048
+ATT1012,D0020,Basilica of Bom Jesus Church,Diu,Daman And Diu,Heritage,0,4.7,20.554665,71.885701
+ATT1013,D0020,Jampore beach,Diu,Daman And Diu,Wildlife,0,4.6,20.375971,72.825722
+ATT1014,D0020,Diu museum,Diu,Daman And Diu,Heritage,30,4,20.715569,70.989144
+ATT1015,D0180,St.Jerome Fort,Daman,Daman And Diu,Heritage,70,4,20.554665,71.885701

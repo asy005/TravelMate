@@ -1,81 +1,171 @@
-from fastapi import APIRouter, Depends
+import os
+import re
+import requests
+from typing import Literal
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
-import os, re, requests
-
-from app.services.rag_engine import query_knowledge_base, ensure_initialized
-from app.services.weather_service import cached_weather
 from app.database import get_db
 from app.models.destination import Destination
+from app.services.rag_engine import (
+    query_knowledge_base,
+    ensure_initialized,
+)
+from app.services.weather_service import cached_weather
+from app.services.ml_engine import ml_engine
 
 router = APIRouter(prefix="/recommend", tags=["recommend"])
 ensure_initialized()
 
 OPENWEATHER_KEY = os.getenv("OPENWEATHER_API_KEY")
 
+class MLRecommendationRequest(BaseModel):
+    age: int = Field(..., ge=1, le=120)
+    travel_style: str = Field(..., min_length=1)
+    budget: Literal["Low", "Medium", "High"]
+    preferred_category: str = Field(..., min_length=1)
+    preferred_season: str = Field(..., min_length=1)
+    top_k: int = Field(default=10, ge=1, le=20)
 
 def fetch_latlon(city: str):
-    """Auto-fetch city coordinates for weather."""
     if not OPENWEATHER_KEY:
         return None, None
-    try:
-        url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={OPENWEATHER_KEY}"
-        res = requests.get(url).json()
-        if isinstance(res, list) and res:
-            return res[0]["lat"], res[0]["lon"]
-    except:
-        pass
-    return None, None
 
+    try:
+        url = (
+            "https://api.openweathermap.org/geo/1.0/direct"
+            f"?q={city}&limit=1&appid={OPENWEATHER_KEY}"
+        )
+
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        data = response.json()
+
+        if isinstance(data, list) and data:
+            return data[0]["lat"], data[0]["lon"]
+
+    except requests.RequestException:
+        pass
+    except (ValueError, KeyError, TypeError):
+        pass
+
+    return None, None
 
 def dedupe(destinations):
     seen = set()
     final = []
-    for d in destinations:
-        key = (d["name"].lower(), d["country"].lower() if d["country"] else "")
+
+    for destination in destinations:
+        dest_name = (destination.get("name") or "").strip()
+        if not dest_name:
+            continue
+        key = (
+            dest_name.lower(),
+            (destination.get("country") or "").lower(),
+        )
+
         if key not in seen:
             seen.add(key)
-            final.append(d)
+            final.append(destination)
+
     return final
 
-
-# -----------------------
-# Extractors from context
-# -----------------------
 def extract_mood(context: str):
-    mood_keywords = ["Relaxing", "Adventure", "Romantic", "Cultural", "Spiritual"]
+    mood_keywords = [
+        "Relaxing",
+        "Adventure",
+        "Romantic",
+        "Cultural",
+        "Spiritual",
+    ]
+
     for word in mood_keywords:
         if re.search(rf"\b{word}\b", context, re.IGNORECASE):
             return word
+
     return "Relaxing"
 
 def extract_budget(context: str):
-    budget_keywords = ["Low", "Medium", "Luxury", "Affordable", "Expensive"]
+    budget_keywords = [
+        "Low",
+        "Medium",
+        "Luxury",
+        "Affordable",
+        "Expensive",
+    ]
+
     for word in budget_keywords:
         if re.search(rf"\b{word}\b", context, re.IGNORECASE):
             if word.lower() == "affordable":
                 return "Low"
-            elif word.lower() == "expensive":
+            if word.lower() == "expensive":
                 return "Luxury"
+
             return word
+
     return "Medium"
 
 def extract_best_time(context: str):
-    matches = re.findall(r"(January|February|March|April|May|June|July|August|September|October|November|December)", context, re.IGNORECASE)
-    months = list(dict.fromkeys(matches))  # Remove duplicates but keep order
+    matches = re.findall(
+        r"\b(January|February|March|April|May|June|July|August|"
+        r"September|October|November|December)\b",
+        context,
+        re.IGNORECASE,
+    )
+
+    months = list(dict.fromkeys(month.title() for month in matches))
+
     if months:
         return " to ".join([months[0], months[-1]])
+
     return "October to March"
 
+@router.post("/ml")
+def recommend_ml(request: MLRecommendationRequest):
+    profile = request.model_dump(exclude={"top_k"})
+
+    try:
+        recommendations = ml_engine.recommend_profile(
+            user_profile=profile,
+            top_k=request.top_k,
+            category_filter=request.preferred_category,
+        )
+
+        return {
+            "method": "machine_learning",
+            "count": len(recommendations),
+            "recommendations": recommendations,
+        }
+
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=422,
+            detail=str(exc),
+        ) from exc
+
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="The recommendation model or dataset is unavailable.",
+        ) from exc
+
+    except Exception as exc:
+        print(f"ML recommendation error: {exc}")
+
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to generate ML recommendations.",
+        ) from exc
 
 @router.get("/")
 def recommend(query: str, db: Session = Depends(get_db)):
-    print("🔍 Received user query:", query)
+    print("Received user query:", query)
+
     rag = query_knowledge_base(query)
-    print("📚 RAG raw output:", rag)
 
     if "error" in rag:
         fb = rag["fallback"]
-        print("⚠️ Using fallback due to RAG error")
+
         return {
             "destination": fb["destination"],
             "mood": fb["mood"],
@@ -88,53 +178,68 @@ def recommend(query: str, db: Session = Depends(get_db)):
 
     fb = rag["fallback"]
     context = rag.get("context", "")
-    print("📄 Extracting fields from context snippet...")
 
-    destination = fb["destination"]
+    destination = fb.get("destination") or rag.get("best_destination")
     mood = extract_mood(context)
     budget = extract_budget(context)
     best_time = extract_best_time(context)
     description = fb["description"]
-    dtype = fb["type"]
+    destination_type = fb["type"]
 
-    print("✅ Extracted:", {
-        "destination": destination,
-        "mood": mood,
-        "budget": budget,
-        "best_time": best_time
-    })
+    if destination:
+        results = (
+            db.query(Destination)
+            .filter(Destination.name.ilike(f"%{destination}%"))
+            .all()
+        )
+    else:
+        results = (
+            db.query(Destination)
+            .filter(Destination.category.ilike(f"%{destination_type}%"))
+            .limit(5)
+            .all()
+        )
+        if not results:
+            results = db.query(Destination).limit(3).all()
+        if results:
+            destination = results[0].name
 
-    results = db.query(Destination).filter(Destination.name.ilike(f"%{destination}%")).all()
     enriched = []
 
-    for d in results:
-        lat, lon = d.lat, d.lon
-        if not lat or not lon:
-            lat, lon = fetch_latlon(d.name)
+    for item in results:
+        lat, lon = item.lat, item.lon
+
+        if lat is None or lon is None:
+            lat, lon = fetch_latlon(item.name)
 
         enriched.append({
-            "id": d.id,
-            "name": d.name,
-            "country": d.country or "Unknown",
-            "type": dtype,
-            "description": d.description,
+            "id": item.id,
+            "name": item.name,
+            "country": item.country or "Unknown",
+            "type": destination_type,
+            "description": item.description,
             "lat": lat,
             "lon": lon,
-            "thumbnail_url": d.thumbnail_url or "",
+            "thumbnail_url": item.thumbnail_url or "",
             "mood": mood,
             "budget": budget,
             "best_time": best_time,
-            "weather": cached_weather(lat, lon) if lat and lon else None,
+            "weather": (
+                cached_weather(lat, lon)
+                if lat is not None and lon is not None
+                else None
+            ),
         })
 
     if not enriched:
-        print("⚠️ No DB result. Generating virtual recommendation...")
-        lat, lon = fetch_latlon(destination)
+        dest_fallback = destination or destination_type or "India"
+        lat, lon = fetch_latlon(dest_fallback)
+
         enriched.append({
             "id": 0,
-            "name": destination,
-            "country": "Unknown",
-            "type": dtype,
+            "name": dest_fallback,
+            "country": "India",
+            "type": destination_type,
             "description": description,
             "lat": lat,
             "lon": lon,
@@ -142,11 +247,14 @@ def recommend(query: str, db: Session = Depends(get_db)):
             "mood": mood,
             "budget": budget,
             "best_time": best_time,
-            "weather": cached_weather(lat, lon) if lat and lon else None,
+            "weather": (
+                cached_weather(lat, lon)
+                if lat is not None and lon is not None
+                else None
+            ),
         })
 
     enriched = dedupe(enriched)
-    print(f"✅ Final deduplicated destinations: {len(enriched)}")
 
     return {
         "destination": destination,
@@ -154,6 +262,6 @@ def recommend(query: str, db: Session = Depends(get_db)):
         "budget": budget,
         "best_time": best_time,
         "description": description,
-        "type": dtype,
+        "type": destination_type,
         "destinations": enriched,
     }

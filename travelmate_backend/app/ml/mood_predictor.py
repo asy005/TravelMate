@@ -1,4 +1,3 @@
-# app/ml/mood_predictor.py
 import os
 from sentence_transformers import SentenceTransformer
 import joblib
@@ -8,7 +7,6 @@ BASE = os.path.dirname(__file__)
 MODEL_DIR = os.path.join(BASE, "models")
 CLF_PATH = os.path.join(MODEL_DIR, "mood_clf.joblib")
 
-# lazy load
 _embed_model = None
 _clf = None
 

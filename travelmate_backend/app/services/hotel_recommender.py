@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.models.hotel import Hotel
 from app.services.budget_tiers import budget_tier as _budget_tier
+from app.utils.display_utils import clean_display_name
 
 
 def recommend_hotels(
@@ -47,8 +48,8 @@ def recommend_hotels(
     return [
         {
             "id": h.id,
-            "name": h.name,
-            "partner_name": h.partner_name,
+            "name": clean_display_name(h.name),
+            "partner_name": clean_display_name(h.partner_name) if h.partner_name else None,
             "is_partner_listing": h.partner_id is not None,
             "accommodation_type": h.accommodation_type,
             "price_tier": h.price_tier,

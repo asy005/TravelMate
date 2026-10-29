@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 from app.models.package import Package
 from app.models.partner import Partner
 from app.services.budget_tiers import budget_tier
+from app.utils.display_utils import clean_display_name
 
 
 def recommend_packages(
@@ -53,8 +54,8 @@ def recommend_packages(
     return [
         {
             "id": p.id,
-            "title": p.title,
-            "description": p.description,
+            "title": clean_display_name(p.title),
+            "description": clean_display_name(p.description),
             "category": p.category,
             "duration_days": p.duration_days,
             "capacity": p.capacity,
@@ -63,7 +64,7 @@ def recommend_packages(
             "rating": p.rating,
             "amenities": (p.amenities or "").split(",") if p.amenities else [],
             "thumbnail_url": p.thumbnail_url,
-            "partner_name": partner_names.get(p.partner_id),
+            "partner_name": clean_display_name(partner_names.get(p.partner_id)) if partner_names.get(p.partner_id) else None,
         }
         for p in results
     ]

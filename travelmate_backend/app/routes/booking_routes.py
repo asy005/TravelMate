@@ -8,12 +8,26 @@ from app.models.hotel import Hotel
 from app.schemas.booking_schema import BookingCreateIn, BookingOut, PaymentOrderOut, PaymentVerifyIn
 from app.services.booking_service import create_booking
 from app.services.auth_utils import get_current_user_optional
-from app.services.payment_service import create_order, verify_payment_signature, PaymentError
+from app.services.payment_service import (
+    create_order,
+    verify_payment_signature,
+    verify_demo_payment,
+    is_demo_order,
+    is_demo_payment_allowed,
+    PaymentError,
+)
 
 router = APIRouter(prefix="/bookings", tags=["bookings"])
 
 
 def _to_booking_out(booking: Booking, hotel: Hotel = None) -> BookingOut:
+    is_simulated = bool(
+        (booking.payment_reference and (
+            booking.payment_reference.startswith("demo_pay_")
+            or booking.payment_reference.startswith("SIMULATED_")
+        ))
+        or (booking.payment_order_id and booking.payment_order_id.startswith("demo_order_"))
+    )
     return BookingOut(
         booking_reference=booking.booking_reference,
         status=booking.status,
@@ -30,6 +44,7 @@ def _to_booking_out(booking: Booking, hotel: Hotel = None) -> BookingOut:
         total_amount=booking.total_amount,
         currency=booking.currency,
         payment_reference=booking.payment_reference,
+        is_simulated=is_simulated,
     )
 
 
@@ -59,11 +74,8 @@ def get_booking(booking_reference: str, db: Session = Depends(get_db)):
 @router.post("/{booking_reference}/create-order", response_model=PaymentOrderOut)
 def create_payment_order(booking_reference: str, db: Session = Depends(get_db)):
     """
-    Creates a Razorpay order for an existing (still Pending Payment) booking.
-    Reuses the booking's already-computed total_amount -- no new pricing
-    logic here, just handing that number to Razorpay. The order_id is
-    stored on the booking so verify-payment can confirm the signature
-    belongs to *this* booking's order, not just any valid signature.
+    Creates an order (real Razorpay order if configured, or simulated demo order
+    if ENABLE_DEMO_PAYMENT is enabled in dev/test) for an existing pending booking.
     """
     booking = db.query(Booking).filter(Booking.booking_reference == booking_reference).first()
     if not booking:
@@ -90,11 +102,11 @@ def create_payment_order(booking_reference: str, db: Session = Depends(get_db)):
 @router.post("/{booking_reference}/verify-payment", response_model=BookingOut)
 def verify_payment(booking_reference: str, payload: PaymentVerifyIn, db: Session = Depends(get_db)):
     """
-    Called by the frontend after Razorpay's checkout succeeds.
-    - Success: booking status -> "Confirmed", payment_reference stored.
-    - Failure (bad signature, or order_id doesn't match this booking): the
-      booking is left exactly as-is ("Pending Payment"), per spec -- no
-      partial/uncertain state is ever written.
+    Verifies payment completion:
+    - Real Razorpay verification when the order was created via Razorpay.
+    - Explicit simulated verification when the order was created in demo mode.
+    - Rejects demo verification if running in production or if demo payments disabled.
+    - Leaves booking as 'Pending Payment' on any verification failure.
     """
     booking = db.query(Booking).filter(Booking.booking_reference == booking_reference).first()
     if not booking:
@@ -103,6 +115,36 @@ def verify_payment(booking_reference: str, payload: PaymentVerifyIn, db: Session
     if not booking.payment_order_id or booking.payment_order_id != payload.razorpay_order_id:
         raise HTTPException(status_code=400, detail="This payment does not match this booking's order")
 
+    # If the booking's order is a demo order, verify via the explicit simulated path
+    if is_demo_order(booking.payment_order_id):
+        if not is_demo_payment_allowed():
+            raise HTTPException(
+                status_code=403,
+                detail="Simulated payments are not permitted in this environment.",
+            )
+
+        try:
+            is_valid = verify_demo_payment(
+                payload.razorpay_order_id,
+                payload.razorpay_payment_id,
+                payload.razorpay_signature,
+            )
+        except PaymentError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
+        if not is_valid:
+            raise HTTPException(status_code=400, detail="Payment verification failed")
+
+        booking.status = "Confirmed"
+        booking.payment_reference = payload.razorpay_payment_id
+        db.add(booking)
+        db.commit()
+        db.refresh(booking)
+
+        hotel = db.query(Hotel).filter(Hotel.id == booking.hotel_id).first()
+        return _to_booking_out(booking, hotel)
+
+    # Real Razorpay verification
     try:
         is_valid = verify_payment_signature(
             payload.razorpay_order_id,
@@ -113,8 +155,6 @@ def verify_payment(booking_reference: str, payload: PaymentVerifyIn, db: Session
         raise HTTPException(status_code=502, detail=str(e))
 
     if not is_valid:
-        # Explicitly do NOT touch booking.status or payment_reference here --
-        # it stays "Pending Payment" exactly as before this call.
         raise HTTPException(status_code=400, detail="Payment verification failed")
 
     booking.status = "Confirmed"

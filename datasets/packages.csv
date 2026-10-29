@@ -1,0 +1,221 @@
+package_id,partner_id,destination_id,package_name,days,nights,includes_hotel,includes_transport,meals_included,guide_included,price,description
+PKG0001,P02085,D0091,Bara Bazar Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Bara Bazar including stay at OYO Rooms Chandni Chowk Metro Station with sightseeing.
+PKG0002,P02098,D0288,Kargil Standard Package,2,1,True,True,False,False,6080.0,2D/1N Standard package to Kargil including stay at Hotel Siachen with sightseeing.
+PKG0003,P02095,D0340,Kushalnagar Deluxe Package,2,1,True,True,True,False,2400.0,2D/1N Deluxe package to Kushalnagar including stay at Qinn Hotel with sightseeing.
+PKG0004,P02106,D0460,Patipukur Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Patipukur including stay at OYO Rooms Lake Town Block A with sightseeing.
+PKG0005,P02063,D0211,Faizabad Basic Package,2,1,True,False,False,False,1040.0,2D/1N Basic package to Faizabad including stay at Hotel AP House with sightseeing.
+PKG0006,P02090,D0554,Tiruchchirappalli Standard Package,2,1,True,True,False,False,2030.0,2D/1N Standard package to Tiruchchirappalli including stay at Hotel Shri Swarna's Palace - A Business Class Hotel with sightseeing.
+PKG0007,P02059,D0025,Jaipur Deluxe Package,4,3,True,True,True,False,13440.0,4D/3N Deluxe package to Jaipur including stay at Royale Lalit Hotel Jaipur with sightseeing.
+PKG0008,P02090,D0355,Lukerganj Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Lukerganj including stay at Vista Rooms near Red Church with sightseeing.
+PKG0009,P02060,D0237,Hanumangarh Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Hanumangarh including stay at Singla Hotel with sightseeing.
+PKG0010,P02093,D0356,Madgaon Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Madgaon including stay at The Sapphire Comfort Hotel by Arora Hospitality with sightseeing.
+PKG0011,P02090,D0222,Gokarna Deluxe Package,2,1,True,True,True,False,6240.0,"2D/1N Deluxe package to Gokarna including stay at Lotus Beach Resort with Swimming, Snorkeling."
+PKG0012,P02097,D0033,Pushkar Super Deluxe Package,3,2,True,True,True,True,6300.0,"3D/2N Super Deluxe package to Pushkar including stay at Hotel Everest with Camel Rides, Sandboarding."
+PKG0013,P02117,D0519,Singrauli Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Singrauli including stay at Singrauli Palace Heritage Hotel with sightseeing.
+PKG0014,P02092,D0120,Bhimashankar Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Bhimashankar including stay at Hotel Center Point with sightseeing.
+PKG0015,P02103,D0029,Mysuru Deluxe Package,3,2,True,True,True,False,8000.0,3D/2N Deluxe package to Mysuru including stay at Spacious and yoga friendly apartment with sightseeing.
+PKG0016,P02100,D0287,Kiar Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Kiar including stay at Naldhera Golf View with sightseeing.
+PKG0017,P02101,D0052,Ahmadnagar Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Ahmadnagar including stay at Hotel Vaibhav with sightseeing.
+PKG0018,P02075,D0147,Chamba Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Chamba including stay at Hotel Bhagirathi with sightseeing.
+PKG0019,P02099,D0384,Meerut Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Meerut including stay at OYO Rooms Saket Main Road Meerut with sightseeing.
+PKG0020,P02077,D0065,Alto Porvorim Super Deluxe Package,2,1,True,True,True,True,9450.0,2D/1N Super Deluxe package to Alto Porvorim including stay at Highland Heritage with sightseeing.
+PKG0021,P02063,D0114,Bharuch Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Bharuch including stay at Vista Rooms At Bharuch Station with sightseeing.
+PKG0022,P02082,D0227,Guhagar Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Guhagar including stay at Mango Village Resort with sightseeing.
+PKG0023,P02089,D0171,Coimbatore Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Coimbatore including stay at Ranisgrand with sightseeing.
+PKG0024,P02088,D0276,Kammasandra Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Kammasandra including stay at A R Guest Rooms with sightseeing.
+PKG0025,P02105,D0527,Somnath Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Somnath including stay at Vista Rooms at Prabhas Patan 2 with sightseeing.
+PKG0026,P02078,D0466,Raipur Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Raipur including stay at Hotel Solitaire with sightseeing.
+PKG0027,P02069,D0138,Barkur Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Barkur including stay at Hotel Kirthi with sightseeing.
+PKG0028,P02098,D0087,Ballygunge Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Ballygunge including stay at OYO Rooms Southern Avenue with sightseeing.
+PKG0029,P02079,D0371,Manganam Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Manganam including stay at Camp Inn Caravan with sightseeing.
+PKG0030,P02102,D0298,Kaza Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Kaza including stay at Spiti Valley Hotel with sightseeing.
+PKG0031,P02078,D0168,Churu Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Churu including stay at Hotel Malji Ka Kamra with sightseeing.
+PKG0032,P02063,D0217,Ganpatipule Super Deluxe Package,2,1,True,True,True,True,1890.0,2D/1N Super Deluxe package to Ganpatipule including stay at Center Point Residency with sightseeing.
+PKG0033,P02104,D0518,Siliguri Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Siliguri including stay at Barsana Hotel & Resort with sightseeing.
+PKG0034,P02115,D0303,Khairla Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Khairla including stay at Hotel Rajputana Heights with sightseeing.
+PKG0035,P02087,D0493,Salcete Deluxe Package,2,1,True,True,True,False,12800.0,2D/1N Deluxe package to Salcete including stay at The Diwa Club with sightseeing.
+PKG0036,P02095,D0241,Harsola Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Harsola including stay at Meraki Inn with sightseeing.
+PKG0037,P02118,D0158,Chikmagalur Basic Package,2,1,True,False,False,False,1720.0,2D/1N Basic package to Chikmagalur including stay at Crystal Inn with sightseeing.
+PKG0038,P02068,D0146,Cavelossim Standard Package,2,1,True,True,False,False,2030.0,2D/1N Standard package to Cavelossim including stay at Dona Sa Maria with sightseeing.
+PKG0039,P02091,D0360,Mahabaleshwar Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Mahabaleshwar including stay at DV-Inns Devanand Villa with sightseeing.
+PKG0040,P02061,D0602,Wai Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Wai including stay at Milan Lodge with sightseeing.
+PKG0041,P02084,D0137,Bir Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Bir including stay at HOTAL PARADISE PALACE INN (HIGHWAY HOTEL) with sightseeing.
+PKG0042,P02109,D0256,Jagdalpur Standard Package,2,1,True,True,False,False,2030.0,2D/1N Standard package to Jagdalpur including stay at STARiHOTELS Geedam Road with sightseeing.
+PKG0043,P02059,D0523,Sikar Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Sikar including stay at Hotel Fortune Blue with sightseeing.
+PKG0044,P02096,D0165,Chakan Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Chakan including stay at OYO Apartments Chakan MIDC with sightseeing.
+PKG0045,P02115,D0586,Vayalar Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Vayalar including stay at Raindrops Heritage Homestay with sightseeing.
+PKG0046,P02064,D0501,Sasan Gir Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Sasan Gir including stay at The Wilds Villa Gir with sightseeing.
+PKG0047,P02094,D0424,New Delhi Deluxe Package,2,1,True,True,True,False,7200.0,2D/1N Deluxe package to New Delhi including stay at Hotel Ramhan Palace with sightseeing.
+PKG0048,P02105,D0169,Churi Jodhan Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Churi Jodhan including stay at Haveli Maharaja with sightseeing.
+PKG0049,P02083,D0608,Yercaud Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Yercaud including stay at MM Resorts with sightseeing.
+PKG0050,P02079,D0566,Turambhe Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Turambhe including stay at OYO Rooms Palm Beach Road with sightseeing.
+PKG0051,P02060,D0183,Daulatabad Deluxe Package,2,1,True,True,True,False,2400.0,2D/1N Deluxe package to Daulatabad including stay at Hotel Lotus with sightseeing.
+PKG0052,P02113,D0199,Diamond Harbour Super Deluxe Package,2,1,True,True,True,True,9450.0,2D/1N Super Deluxe package to Diamond Harbour including stay at Hotel Girish with sightseeing.
+PKG0053,P02093,D0441,Panchgani Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Panchgani including stay at Vista Exotic at Panchgani with sightseeing.
+PKG0054,P02087,D0596,Visakhapatnam Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Visakhapatnam including stay at Ginger Vizag with sightseeing.
+PKG0055,P02112,D0246,Hisar Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Hisar including stay at kartikay hotel with sightseeing.
+PKG0056,P02087,D0311,Khimsar Super Deluxe Package,2,1,True,True,True,True,16800.0,2D/1N Super Deluxe package to Khimsar including stay at WelcomHotel Khimsar Fort and Dunes - Member ITC Hotel Group with sightseeing.
+PKG0057,P02105,D0575,Vadodara Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Vadodara including stay at Vista Rooms near Sardar Patel Statue with sightseeing.
+PKG0058,P02094,D0376,Maraiyur Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Maraiyur including stay at Hilla Holiday with sightseeing.
+PKG0059,P02075,D0475,Renigunta Deluxe Package,2,1,True,True,True,False,2400.0,2D/1N Deluxe package to Renigunta including stay at Appanna Rest House with sightseeing.
+PKG0060,P02076,D0562,Tala Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Tala including stay at The Celebration Van Vilas Bandhavgarh with sightseeing.
+PKG0061,P02063,D0310,Khilchipur Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Khilchipur including stay at Machli A wildernessHome with sightseeing.
+PKG0062,P02073,D0563,Trichur Standard Package,2,1,True,True,False,False,6080.0,2D/1N Standard package to Trichur including stay at Pooram International with sightseeing.
+PKG0063,P02090,D0295,Katra Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Katra including stay at OYO Rooms Asia Chowk with sightseeing.
+PKG0064,P02087,D0152,Chegat Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Chegat including stay at Pugmarks Jungle Lodge with sightseeing.
+PKG0065,P02068,D0534,Srirangam Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Srirangam including stay at Jyothi Suites with sightseeing.
+PKG0066,P02086,D0105,Belgaum Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Belgaum including stay at Hotel Sankam Residency with sightseeing.
+PKG0067,P02106,D0500,Sarkhej Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Sarkhej including stay at OYO Rooms Prahlad Nagar with sightseeing.
+PKG0068,P02091,D0290,Karnal Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Karnal including stay at Hotel Dreamz Residency with sightseeing.
+PKG0069,P02062,D0352,Latur Basic Package,2,1,True,False,False,False,1720.0,2D/1N Basic package to Latur including stay at STARiHOTELS Tapdiya Market Latur with sightseeing.
+PKG0070,P02063,D0207,Davangere Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Davangere including stay at SANKAMA The Boutique Hotel with sightseeing.
+PKG0071,P02096,D0380,Masinagudi Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Masinagudi including stay at De Rock Jungle Living Masinagudi with sightseeing.
+PKG0072,P02065,D0414,Narela Super Deluxe Package,2,1,True,True,True,True,9450.0,2D/1N Super Deluxe package to Narela including stay at Fairmount Inns - Suites with sightseeing.
+PKG0073,P02070,D0193,Dhantoli Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Dhantoli including stay at OYO Rooms Nagpur Airport 2 with sightseeing.
+PKG0074,P02072,D0291,Karsiyang Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Karsiyang including stay at Goomtee Tea Resort with sightseeing.
+PKG0075,P02088,D0458,Pipalkoti Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Pipalkoti including stay at TRH Pipalkoti with sightseeing.
+PKG0076,P02086,D0358,Madurai Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Madurai including stay at Vedanta Wake Up – Arapalayam Bus Stand with sightseeing.
+PKG0077,P02068,D0197,Dhand Basic Package,2,1,True,False,False,False,5180.0,2D/1N Basic package to Dhand including stay at Lohagarh Fort Resort with sightseeing.
+PKG0078,P02100,D0407,Nagarbazar Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Nagarbazar including stay at OYO Premium Airport VIP Road II with sightseeing.
+PKG0079,P02098,D0317,Kanpur Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Kanpur including stay at Hotel May Fair Inn with sightseeing.
+PKG0080,P02084,D0465,Puvar Super Deluxe Package,2,1,True,True,True,True,9450.0,2D/1N Super Deluxe package to Puvar including stay at Club Mahindra Poovar with sightseeing.
+PKG0081,P02092,D0333,Kulan Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Kulan including stay at The Sultan Resort with sightseeing.
+PKG0082,P02106,D0417,Navi Mumbai Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Navi Mumbai including stay at OYO Rooms CBD Belapur Station with sightseeing.
+PKG0083,P02079,D0142,Calangute Deluxe Package,2,1,True,True,True,False,2400.0,2D/1N Deluxe package to Calangute including stay at Resort Village Royale with sightseeing.
+PKG0084,P02106,D0113,Bharatpur Super Deluxe Package,2,1,True,True,True,True,3150.0,2D/1N Super Deluxe package to Bharatpur including stay at Jawahar Resort with sightseeing.
+PKG0085,P02089,D0564,Trivandrum Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Trivandrum including stay at All Seasons Guest House with sightseeing.
+PKG0086,P02069,D0068,Ambalavayal Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Ambalavayal including stay at OYO Premium Hill Stays Kolagappara Near Sulthan Bathery with sightseeing.
+PKG0087,P02107,D0079,Avathi Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Avathi including stay at Athithi Homestay Chikmagalur with sightseeing.
+PKG0088,P02093,D0202,Dispur Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Dispur including stay at Himalaya Lodge with sightseeing.
+PKG0089,P02077,D0590,Verem Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Verem including stay at Ocean Heights with sightseeing.
+PKG0090,P02101,D0071,Angamali Standard Package,2,1,True,True,False,False,6080.0,"2D/1N Standard package to Angamali including stay at The Surya, Cochin with sightseeing."
+PKG0091,P02108,D0088,Bambolim Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Bambolim including stay at Casa D.C.M & Esmeralda with sightseeing.
+PKG0092,P02110,D0452,Perambalur Super Deluxe Package,2,1,True,True,True,True,3150.0,2D/1N Super Deluxe package to Perambalur including stay at Star MSR Residency with sightseeing.
+PKG0093,P02105,D0163,Chitradurga Basic Package,2,1,True,False,False,False,1720.0,2D/1N Basic package to Chitradurga including stay at Amogha International Hotel with sightseeing.
+PKG0094,P02093,D0535,Srivardhan Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Srivardhan including stay at Oceanside Beach Resort with sightseeing.
+PKG0095,P02064,D0484,Ramganj Mandi Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Ramganj Mandi including stay at Hotel Maharaja Palace with sightseeing.
+PKG0096,P02096,D0097,Basari Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Basari including stay at Hammeer Garhi Heritage Resort with sightseeing.
+PKG0097,P02075,D0400,Munroe Island Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Munroe Island including stay at Vinis Farm with sightseeing.
+PKG0098,P02068,D0551,Thekkady Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Thekkady including stay at Thekkady Woods with sightseeing.
+PKG0099,P02075,D0073,Arambol Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Arambol including stay at Hype Beach Resort with sightseeing.
+PKG0100,P02111,D0136,Bori Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Bori including stay at OYO Premium MIDC Butibori Nagpur with sightseeing.
+PKG0101,P02070,D0436,Palakkad Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Palakkad including stay at Riva Residency with sightseeing.
+PKG0102,P02104,D0578,Vallam Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Vallam including stay at MMD Residency with sightseeing.
+PKG0103,P02088,D0405,Muzaffarpur Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Muzaffarpur including stay at Hotel Central Park with sightseeing.
+PKG0104,P02111,D0030,Amritsar Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Amritsar including stay at Bridgeview Guest House with sightseeing.
+PKG0105,P02066,D0286,Kapurwahal Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Kapurwahal including stay at Hotel Amruta Garden Executive with sightseeing.
+PKG0106,P02070,D0176,Cuttack Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Cuttack including stay at Hotel Seetal with sightseeing.
+PKG0107,P02071,D0273,Kalpatta Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Kalpatta including stay at Sahyadri Homestay with sightseeing.
+PKG0108,P02118,D0476,Rhenok Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Rhenok including stay at Orange Court Resort with sightseeing.
+PKG0109,P02078,D0099,Bathinda Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Bathinda including stay at SherePunjab Hotel with sightseeing.
+PKG0110,P02088,D0491,Razole Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Razole including stay at Hotel Somisetty Landmark with sightseeing.
+PKG0111,P02103,D0449,Pauri Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Pauri including stay at Khirsu By GMVN with sightseeing.
+PKG0112,P02111,D0448,Patnem Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Patnem including stay at Om Shanti Patnem with sightseeing.
+PKG0113,P02113,D0446,Parra Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Parra including stay at Casa Lobo Homestay with sightseeing.
+PKG0114,P02073,D0322,Kolluru Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Kolluru including stay at Hotel Mahalakshmi Residency with sightseeing.
+PKG0115,P02111,D0423,Nellore Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Nellore including stay at Hotel Yesh Park with sightseeing.
+PKG0116,P02113,D0379,Mashobra Super Deluxe Package,2,1,True,True,True,True,9450.0,2D/1N Super Deluxe package to Mashobra including stay at Club Mahindra Mashobra with sightseeing.
+PKG0117,P02115,D0247,Hoshangabad Basic Package,2,1,True,False,False,False,1720.0,2D/1N Basic package to Hoshangabad including stay at STARiHOTELS Hoshangabad with sightseeing.
+PKG0118,P02087,D0166,Chopdem Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Chopdem including stay at OYO Rooms Morjim Ashvem Road with sightseeing.
+PKG0119,P02066,D0430,Nathdwara Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Nathdwara including stay at Hotel Gwal with sightseeing.
+PKG0120,P02091,D0347,Lokpal Super Deluxe Package,2,1,True,True,True,True,1890.0,2D/1N Super Deluxe package to Lokpal including stay at Kuber Annex with sightseeing.
+PKG0121,P02114,D0557,Tirupati Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Tirupati including stay at OYO Premium Tirumala Foothills with sightseeing.
+PKG0122,P02108,D0428,Noida Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Noida including stay at JNR Hospitality with sightseeing.
+PKG0123,P02060,D0195,Dharmsala Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Dharmsala including stay at Rudraaksh House with sightseeing.
+PKG0124,P02083,D0175,Curca Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Curca including stay at Sans Apartment with sightseeing.
+PKG0125,P02082,D0315,Kumudi Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Kumudi including stay at Tulsi Village Retreat Munnar with sightseeing.
+PKG0126,P02113,D0395,Maranhalli Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Maranhalli including stay at Hema Koota Homestay with sightseeing.
+PKG0127,P02090,D0173,Colva Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Colva including stay at Rainbow Rentals (Danika Residency) with sightseeing.
+PKG0128,P02074,D0254,Indore Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Indore including stay at OYO Rooms Gangwal Bus Stand with sightseeing.
+PKG0129,P02105,D0255,Jabalpur Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Jabalpur including stay at Hotel Shikhar Palace with sightseeing.
+PKG0130,P02073,D0574,Vadakkancheri Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Vadakkancheri including stay at Ayur Bethaniya with sightseeing.
+PKG0131,P02083,D0284,Kanyakumari Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Kanyakumari including stay at Seasun Residency with sightseeing.
+PKG0132,P02065,D0508,Shillong Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Shillong including stay at Shaurya Apartments with sightseeing.
+PKG0133,P02063,D0116,Bhilai Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Bhilai including stay at STARiHOTELS Durg Bhillai with sightseeing.
+PKG0134,P02100,D0154,Cherai Beach Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Cherai Beach including stay at Mare Blu Resort with sightseeing.
+PKG0135,P02107,D0524,Sam Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Sam including stay at Thar resort with sightseeing.
+PKG0136,P02098,D0212,Faridabad Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Faridabad including stay at Country Inn with sightseeing.
+PKG0137,P02095,D0482,Rama Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Rama including stay at The Castle Mewar with sightseeing.
+PKG0138,P02088,D0444,Paravur Standard Package,2,1,True,True,False,False,6080.0,2D/1N Standard package to Paravur including stay at Hotel Kaveri International with sightseeing.
+PKG0139,P02065,D0604,Wellington Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Wellington including stay at Vista Rooms at Cassiopiea with sightseeing.
+PKG0140,P02073,D0248,Hoshiarpur Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Hoshiarpur including stay at Hotel Royal Plaaza with sightseeing.
+PKG0141,P02116,D0089,Banar Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Banar including stay at Shagun Resorts with sightseeing.
+PKG0142,P02068,D0279,Kandaghat Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Kandaghat including stay at OYO Rooms Kandaghat with sightseeing.
+PKG0143,P02116,D0140,Bulandshahr Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Bulandshahr including stay at Whispering Woods with sightseeing.
+PKG0144,P02116,D0331,Kozhikode Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Kozhikode including stay at Santhas Service Apartment with sightseeing.
+PKG0145,P02074,D0084,Bahraich Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Bahraich including stay at Hotel Harsh Palace with sightseeing.
+PKG0146,P02097,D0585,Varca Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Varca including stay at F. D. Dezire with sightseeing.
+PKG0147,P02117,D0210,Eramalloor Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Eramalloor including stay at Hotel Mithila with sightseeing.
+PKG0148,P02085,D0085,Bajaura Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Bajaura including stay at J.J.Resort with sightseeing.
+PKG0149,P02062,D0468,Ramakkalmedu Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Ramakkalmedu including stay at Punarjani Ayurvedic Resorts with sightseeing.
+PKG0150,P02100,D0232,Guwahati Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Guwahati including stay at OYO Rooms Capital Travel Solapur Road with sightseeing.
+PKG0151,P02116,D0121,Bhim Tal Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Bhim Tal including stay at Silent Trail - Jilling Estate with sightseeing.
+PKG0152,P02084,D0353,Lucknow Super Deluxe Package,2,1,True,True,True,True,16800.0,2D/1N Super Deluxe package to Lucknow including stay at Renaissance Lucknow Hotel with sightseeing.
+PKG0153,P02063,D0047,Adur Basic Package,2,1,True,False,False,False,5180.0,2D/1N Basic package to Adur including stay at Park Residency with sightseeing.
+PKG0154,P02082,D0150,Chandoli Standard Package,2,1,True,True,False,False,3380.0,"2D/1N Standard package to Chandoli including stay at Hornbill Deluxe Hill Resort, Amba Ghat with sightseeing."
+PKG0155,P02060,D0178,Dahej Deluxe Package,2,1,True,True,True,False,7200.0,2D/1N Deluxe package to Dahej including stay at Hotel EL Magnifico with sightseeing.
+PKG0156,P02071,D0514,Shanti Niketan Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Shanti Niketan including stay at Muktadhara Guest House with sightseeing.
+PKG0157,P02098,D0056,Ajmer Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Ajmer including stay at Jagannath Lodge with sightseeing.
+PKG0158,P02098,D0440,Panchagani Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Panchagani including stay at Mount View Executive with sightseeing.
+PKG0159,P02062,D0513,Shivpuri Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Shivpuri including stay at The Nature Camp with sightseeing.
+PKG0160,P02100,D0421,Neil Island Super Deluxe Package,2,1,True,True,True,True,9030.0,"2D/1N Super Deluxe package to Neil Island including stay at Sea Shell Neil with Boat Rides, Snorkeling."
+PKG0161,P02104,D0249,Hospet Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Hospet including stay at Hotel Priyadarshini Pride with sightseeing.
+PKG0162,P02086,D0339,Kurnool Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Kurnool including stay at The Mourya Inn with sightseeing.
+PKG0163,P02083,D0403,Muthanga Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Muthanga including stay at Wild Tusker Resort Muthanga with sightseeing.
+PKG0164,P02083,D0294,Kasol Super Deluxe Package,2,1,True,True,True,True,7980.0,"2D/1N Super Deluxe package to Kasol including stay at Katagla Forest Retreat with Hiking, Trekking."
+PKG0165,P02101,D0205,Durgjan Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Durgjan including stay at Sukoon Houseboat with sightseeing.
+PKG0166,P02089,D0343,Lavasa Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Lavasa including stay at Alliance Hospitality Services with sightseeing.
+PKG0167,P02090,D0576,Vaduvanchal Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Vaduvanchal including stay at OYO Premium Sulthan Bathery Vaduvanchal Main Road with sightseeing.
+PKG0168,P02064,D0588,Vellore Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Vellore including stay at Rangalaya Royal with sightseeing.
+PKG0169,P02069,D0167,Chottanikara Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Chottanikara including stay at Lotus Tourist Home with sightseeing.
+PKG0170,P02060,D0132,Bundi Standard Package,2,1,True,True,False,False,2030.0,2D/1N Standard package to Bundi including stay at Bundi Inn - A Heritage Boutique Haveli with sightseeing.
+PKG0171,P02100,D0162,Chinnakanal Deluxe Package,2,1,True,True,True,False,12800.0,2D/1N Deluxe package to Chinnakanal including stay at Club Mahindra Munnar with sightseeing.
+PKG0172,P02089,D0263,Jhalamand Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Jhalamand including stay at Hotel Jhalamand Garh with sightseeing.
+PKG0173,P02099,D0433,Pachmarhi Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Pachmarhi including stay at Hotel New Banjara with sightseeing.
+PKG0174,P02107,D0420,Neemrana Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Neemrana including stay at Adhunik Hotel Neemrana with sightseeing.
+PKG0175,P02085,D0341,Lamaj Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Lamaj including stay at Sahyadri Eco Agro Tourism with sightseeing.
+PKG0176,P02094,D0464,Puttur Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Puttur including stay at Pride Inn Resort with sightseeing.
+PKG0177,P02077,D0133,Bodh Gaya Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Bodh Gaya including stay at Mahamaya Palace Hotel & Conference Center with sightseeing.
+PKG0178,P02089,D0532,Sriperumbudur Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Sriperumbudur including stay at Hotel Bashyam Park with sightseeing.
+PKG0179,P02090,D0228,Gulmarg Deluxe Package,2,1,True,True,True,False,7200.0,2D/1N Deluxe package to Gulmarg including stay at The Vintage Gulmarg with sightseeing.
+PKG0180,P02099,D0383,Mcleod Ganj Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Mcleod Ganj including stay at Dragon I Resorts with sightseeing.
+PKG0181,P02113,D0396,Matheran Basic Package,2,1,True,False,False,False,1720.0,2D/1N Basic package to Matheran including stay at Hotel Premdeep with sightseeing.
+PKG0182,P02091,D0399,Mundra Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Mundra including stay at Vista Rooms at Siddhi Park with sightseeing.
+PKG0183,P02069,D0219,Guduvancheri Deluxe Package,2,1,True,True,True,False,2400.0,2D/1N Deluxe package to Guduvancheri including stay at The Premium By World Choice with sightseeing.
+PKG0184,P02077,D0309,Khawasa Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Khawasa including stay at Olive Resort & Villas with sightseeing.
+PKG0185,P02102,D0185,Dehradun Basic Package,2,1,True,False,False,False,1720.0,2D/1N Basic package to Dehradun including stay at The Central Hotel with sightseeing.
+PKG0186,P02116,D0332,Krishnarajasagara Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Krishnarajasagara including stay at Hotel Coorg Mandarin with sightseeing.
+PKG0187,P02083,D0456,Pollachi Deluxe Package,2,1,True,True,True,False,7200.0,2D/1N Deluxe package to Pollachi including stay at Coco Lagoon by Great Mount Resort with sightseeing.
+PKG0188,P02093,D0387,Malegaon Super Deluxe Package,2,1,True,True,True,True,3150.0,2D/1N Super Deluxe package to Malegaon including stay at STARiHOTELS Camp Road Malegaon with sightseeing.
+PKG0189,P02073,D0374,Manali Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Manali including stay at Hotel Vikrant Inn with sightseeing.
+PKG0190,P02064,D0325,Korba Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Korba including stay at Relax Inn Hotel & Resort with sightseeing.
+PKG0191,P02060,D0321,Kolhapur Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Kolhapur including stay at Hotel Sri Sri Executive Lodging with sightseeing.
+PKG0192,P02102,D0323,Kolara Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Kolara including stay at The Bamboo Forest Safari Lodge with sightseeing.
+PKG0193,P02063,D0583,Vapi Basic Package,2,1,True,False,False,False,5180.0,2D/1N Basic package to Vapi including stay at Hotel Silver Leaf with sightseeing.
+PKG0194,P02073,D0143,Canacona Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Canacona including stay at Club Palolem Resort with sightseeing.
+PKG0195,P02073,D0357,Madikeri Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Madikeri including stay at Hotel Town Gate with sightseeing.
+PKG0196,P02061,D0233,Gwalior Super Deluxe Package,2,1,True,True,True,True,3150.0,2D/1N Super Deluxe package to Gwalior including stay at Hotel Mayur with sightseeing.
+PKG0197,P02114,D0009,Ooty Basic Package,4,3,True,False,False,False,8620.0,4D/3N Basic package to Ooty including stay at maple view resorts with sightseeing.
+PKG0198,P02087,D0415,Narendranagar Standard Package,2,1,True,True,False,False,10800.0,2D/1N Standard package to Narendranagar including stay at Ananda In The Himalayas with sightseeing.
+PKG0199,P02108,D0240,Haripur Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Haripur including stay at Aananda by the Brook with sightseeing.
+PKG0200,P02059,D0542,Takdah Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Takdah including stay at Pine Haven Resorts with sightseeing.
+PKG0201,P02076,D0115,Bhatkal Basic Package,2,1,True,False,False,False,5180.0,2D/1N Basic package to Bhatkal including stay at Wild Woods Spa & Resort with sightseeing.
+PKG0202,P02105,D0337,Kumbhalgarh Standard Package,2,1,True,True,False,False,6080.0,2D/1N Standard package to Kumbhalgarh including stay at Club Mahindra Kumbhalgarh with sightseeing.
+PKG0203,P02077,D0082,Baddi Deluxe Package,2,1,True,True,True,False,2400.0,2D/1N Deluxe package to Baddi including stay at Apex Hotel with sightseeing.
+PKG0204,P02114,D0512,Shivpuri Super Deluxe Package,2,1,True,True,True,True,1890.0,2D/1N Super Deluxe package to Shivpuri including stay at Hotel P S Residency with sightseeing.
+PKG0205,P02059,D0117,Bhilwara Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Bhilwara including stay at Ashoka Residency Hotel with sightseeing.
+PKG0206,P02114,D0559,Tiruvallam Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Tiruvallam including stay at Oceana Homestay with sightseeing.
+PKG0207,P02111,D0221,Ghaziabad Deluxe Package,2,1,True,True,True,False,7200.0,2D/1N Deluxe package to Ghaziabad including stay at Mahagun Sarovar Portico Suites with sightseeing.
+PKG0208,P02105,D0177,Dagshai Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Dagshai including stay at Nature Treat with sightseeing.
+PKG0209,P02066,D0516,Siddapur Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Siddapur including stay at cinnamon cottage with sightseeing.
+PKG0210,P02116,D0550,Thaska Miranji Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Thaska Miranji including stay at Prakriti Farm with sightseeing.
+PKG0211,P02096,D0372,Manimala Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Manimala including stay at Jungle Castle Home Stay with sightseeing.
+PKG0212,P02113,D0106,Belparao Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Belparao including stay at Corbett Holiday Forest Resort with sightseeing.
+PKG0213,P02062,D0019,Puri Basic Package,3,2,True,False,False,False,5750.0,3D/2N Basic package to Puri including stay at Hotel Shree Hari with sightseeing.
+PKG0214,P02097,D0573,Uttarkashi Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Uttarkashi including stay at Ekant Resort with sightseeing.
+PKG0215,P02072,D0367,Mandrem Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Mandrem including stay at Shiva Sea Side with sightseeing.
+PKG0216,P02062,D0413,Nandi Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Nandi including stay at Discovery village nandi hills with sightseeing.
+PKG0217,P02111,D0046,Abdullapuram Basic Package,2,1,True,False,False,False,2880.0,2D/1N Basic package to Abdullapuram including stay at 14 Square Manapakkam with sightseeing.
+PKG0218,P02106,D0179,Dalhousie Standard Package,2,1,True,True,False,False,3380.0,2D/1N Standard package to Dalhousie including stay at Indraprastha Resort with sightseeing.
+PKG0219,P02112,D0194,Dharamshala Deluxe Package,2,1,True,True,True,False,4000.0,2D/1N Deluxe package to Dharamshala including stay at Hotel Nature's View with sightseeing.
+PKG0220,P02113,D0520,Sinquerim Super Deluxe Package,2,1,True,True,True,True,5250.0,2D/1N Super Deluxe package to Sinquerim including stay at Goa Holiday Villas with sightseeing.

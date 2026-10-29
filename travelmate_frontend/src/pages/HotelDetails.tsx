@@ -16,9 +16,13 @@ import {
 import { PageLoader } from "@/components/PageLoader";
 import { getHotelDetails, selectHotel } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
+import { ReviewsSection } from "@/components/ReviewsSection";
 
 const PLACEHOLDER_PHOTO =
   "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80";
+
+const cleanLabel = (text?: string): string =>
+  text ? text.replace(/^\s*\[demo\]\s*/i, "").replace(/\[demo\]/gi, "").trim() : "";
 
 const DestinationHotelPage = () => {
   const { id } = useParams();
@@ -106,7 +110,7 @@ const DestinationHotelPage = () => {
         <Card className="p-6 bg-card/95 backdrop-blur-md border border-white/20 shadow-xl">
           <div className="flex items-start justify-between flex-wrap gap-2">
             <div>
-              <h1 className="text-3xl font-bold">{hotel.name}</h1>
+              <h1 className="text-3xl font-bold">{cleanLabel(hotel.name)}</h1>
               <p className="flex items-center gap-1 text-muted-foreground text-sm mt-1">
                 <MapPin className="h-4 w-4" />
                 {hotel.location?.destination_name}
@@ -235,6 +239,11 @@ const DestinationHotelPage = () => {
             </Button>
           </div>
         </Card>
+
+        {/* Guest Reviews (Phase 3) */}
+        <div className="mt-8">
+          <ReviewsSection entityType="hotel" entityId={hotel.id} />
+        </div>
       </div>
     </div>
   );

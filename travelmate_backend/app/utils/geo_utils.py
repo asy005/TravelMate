@@ -1,9 +1,7 @@
-# app/services/geo_utils.py
 import math
 from typing import Tuple
 
 def haversine_km(a: Tuple[float,float], b: Tuple[float,float]):
-    # returns kilometers distance between a and b
     lat1, lon1 = a
     lat2, lon2 = b
     R = 6371.0

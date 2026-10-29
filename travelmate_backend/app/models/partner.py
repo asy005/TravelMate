@@ -1,5 +1,5 @@
 # app/models/partner.py
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, JSON
 from sqlalchemy.sql import func
 from app.database import Base
 
@@ -22,6 +22,15 @@ class Partner(Base):
     contact_phone = Column(String(64), nullable=True)
     description = Column(String(1024), nullable=True)
 
+    # Location fields for physical property / business location
+    address = Column(String(256), nullable=True)
+    city = Column(String(128), nullable=True)
+    state = Column(String(128), nullable=True)
+    postal_code = Column(String(32), nullable=True)
+
+    # Property photos (list of stored photo URLs / paths)
+    photos = Column(JSON, nullable=True, default=list)
+
     # No admin-approval workflow yet (that's part of the Admin Dashboard
     # module) -- partners are auto-approved so they aren't blocked with no
     # way to unblock themselves. Field exists so approval can be added later
@@ -29,3 +38,4 @@ class Partner(Base):
     status = Column(String(32), nullable=False, default="approved")
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+

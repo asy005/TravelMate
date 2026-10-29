@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Optional, List, Dict
 from app.services.rag_engine import query_knowledge_base, ensure_initialized
+from app.services.route_optimizer import optimize_trip_builder_plan
 
 router = APIRouter(prefix="/plan", tags=["plan"])
 ensure_initialized()
@@ -65,6 +66,7 @@ def generate_plan(req: PlanRequest):
             day_items = ["Free time / relax"]
         plan[f"day_{d}"] = day_items
 
+    plan = optimize_trip_builder_plan(req.destination, plan)
     return {
         "destination": req.destination,
         "days": days,

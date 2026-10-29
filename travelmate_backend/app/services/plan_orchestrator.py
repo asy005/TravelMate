@@ -5,6 +5,7 @@ from app.models.destination import Destination
 from app.services.rag_engine import query_knowledge_base
 from app.services.weather_service import cached_weather
 from app.services.route_service import get_route_osrm
+from app.services.route_optimizer import optimize_day_route
 from app.services.packing_service import generate_packing
 from app.services.highlights_service import top_highlights_from_rag
 from app.services.geo_lookup import guess_coordinates, get_nearby_attractions
@@ -31,10 +32,17 @@ def _ml_profile_from_slots(slots: Dict[str, Any]) -> Dict[str, Any]:
 
     style = str(slots.get("travel_style") or "relaxing").strip().lower()
     interests = str(slots.get("interests") or "").strip().lower()
+    notes = str(slots.get("additional_notes") or "").strip().lower()
+    combined = f"{interests} {style} {notes}"
 
     category_map = {
         "beach": "Beach",
         "beaches": "Beach",
+        "coastal": "Beach",
+        "seaside": "Beach",
+        "sea": "Beach",
+        "ocean": "Beach",
+        "hill station": "Hill Station",
         "hill": "Hill Station",
         "hills": "Hill Station",
         "mountain": "Hill Station",
@@ -42,23 +50,45 @@ def _ml_profile_from_slots(slots: Dict[str, Any]) -> Dict[str, Any]:
         "heritage": "Heritage",
         "historical": "Heritage",
         "history": "Heritage",
+        "cultural": "Heritage",
+        "temple": "Heritage",
+        "monument": "Heritage",
         "forest": "Forest",
         "wildlife": "Forest",
+        "jungle": "Forest",
+        "safari": "Forest",
         "desert": "Desert",
         "adventure": "Adventure",
+        "adventurous": "Adventure",
+        "trekking": "Adventure",
+        "rafting": "Adventure",
         "city": "Urban",
         "cities": "Urban",
         "urban": "Urban",
+        "nature": "Forest",
     }
 
-    preferred_category = next(
-        (
-            category
-            for keyword, category in category_map.items()
-            if keyword in interests
-        ),
-        "Urban",
-    )
+    found_cat = None
+    for keyword, cat in category_map.items():
+        if keyword in combined:
+            found_cat = cat
+            break
+
+    if not found_cat:
+        if "relax" in style or "chill" in style or "romantic" in style:
+            found_cat = "Beach"
+        elif "adventur" in style or "thrill" in style:
+            found_cat = "Hill Station"
+        elif "cultur" in style or "heritage" in style or "spiritual" in style:
+            found_cat = "Heritage"
+        elif "nature" in style:
+            found_cat = "Forest"
+        elif "family" in style:
+            found_cat = "Hill Station"
+        else:
+            found_cat = "Beach"
+
+    preferred_category = found_cat
 
     raw_budget = str(slots.get("budget") or "").strip().lower()
     digits = raw_budget.replace(",", "").replace("₹", "").replace("rs.", "").replace("rs", "").strip()
@@ -120,7 +150,13 @@ def _find_ml_candidate_destinations(
     max_results: int = 3,
 ) -> List[Destination]:
     requested_destination = str(slots.get("destination") or "").strip()
+    profile = _ml_profile_from_slots(slots)
+    category = profile["preferred_category"]
 
+    results = []
+    seen_ids = set()
+
+    # If the user explicitly chose a destination, place it first
     if requested_destination:
         exact = (
             db.query(Destination)
@@ -128,28 +164,16 @@ def _find_ml_candidate_destinations(
             .first()
         )
         if exact:
-            return [exact]
-
-    profile = _ml_profile_from_slots(slots)
-
-    category = profile["preferred_category"]
-    category_requested = any(
-        term in str(slots.get("interests") or "").lower()
-        for term in (
-            "beach", "hill", "mountain", "heritage",
-            "historical", "history", "forest", "wildlife",
-            "desert", "adventure", "city", "urban",
-        )
-    )
+            results.append(exact)
+            seen_ids.add(exact.id)
+            if exact.category:
+                category = exact.category
 
     recommendations = ml_engine.recommend_profile(
         profile,
         top_k=20,
-        category_filter=category if category_requested else None,
+        category_filter=category,
     )
-
-    results = []
-    seen_ids = set()
 
     for item in recommendations:
         name = str(item.get("destination_name") or "").strip()
@@ -169,7 +193,23 @@ def _find_ml_candidate_destinations(
         if len(results) >= max_results:
             break
 
-    return results
+    # If fewer than max_results found, complete with verified destinations from the same category
+    if len(results) < max_results:
+        fallbacks = (
+            db.query(Destination)
+            .filter(Destination.category == category)
+            .order_by(Destination.avg_rating.desc())
+            .limit(10)
+            .all()
+        )
+        for fb in fallbacks:
+            if fb.id not in seen_ids:
+                results.append(fb)
+                seen_ids.add(fb.id)
+            if len(results) >= max_results:
+                break
+
+    return results[:max_results]
 
 def _find_candidate_destinations(
     db: Session,
@@ -382,6 +422,7 @@ def _day_wise_itinerary(
     destination: Destination,
     duration_days: int,
     highlights: List[str],
+    day_activities: Optional[List[List[Dict[str, Any]]]] = None,
 ) -> List[Dict[str, Any]]:
     duration_days = max(1, min(int(duration_days or 3), 30))
     destination_name = str(
@@ -608,17 +649,28 @@ def _day_wise_itinerary(
     days: List[Dict[str, Any]] = []
 
     for index in range(duration_days):
-        if index < len(candidates):
-            activity = candidates[index]
-        elif candidates:
-            base = candidates[index % len(candidates)]
-            activity = f"Enjoy additional leisure and exploration: {base}"
+        if day_activities and index < len(day_activities) and day_activities[index]:
+            stops = day_activities[index]
+            route_meta = optimize_day_route(stops, destination_name=destination_name)
+            activity_names = [s.get("name", "Attraction") for s in route_meta["ordered_stops"]]
+            activity = ", ".join(activity_names)
         else:
-            activity = f"Explore {destination_name} at your own pace."
+            if index < len(candidates):
+                activity = candidates[index]
+            elif candidates:
+                base = candidates[index % len(candidates)]
+                activity = f"Enjoy additional leisure and exploration: {base}"
+            else:
+                activity = f"Explore {destination_name} at your own pace."
+
+            stops = [{"name": activity, "original_index": 0}]
+            route_meta = optimize_day_route(stops, destination_name=destination_name)
 
         days.append({
             "day": index + 1,
             "summary": f"Day {index + 1} in {destination_name}: {activity}",
+            "activities": [s.get("name", activity) for s in route_meta["ordered_stops"]],
+            "route": route_meta,
         })
 
     return days
@@ -628,29 +680,85 @@ def itinerary_with_package(
     duration_days: int,
     package: Dict[str, Any],
 ) -> List[Dict[str, Any]]:
+    """
+    Build a day-wise itinerary that reflects the package's actual destination,
+    duration, inclusions, and activities. Falls back gracefully when package
+    data is sparse. Never invents inclusions or attractions not listed.
+    """
     package_days = max(
         1,
         min(int(package.get("duration_days") or duration_days or 3), 30),
     )
-    inclusions = package.get("amenities") or []
-    days = []
+    inclusions = [s.strip() for s in (package.get("amenities") or []) if s and str(s).strip()]
+    title = str(package.get("title") or "your travel package").strip()
+    partner = str(package.get("partner_name") or "").strip()
+    category = str(package.get("category") or "").strip()
+    description = str(package.get("description") or "").strip()
 
-    for day_num in range(1, package_days + 1):
+    def _day_summary_heuristic(day_num: int) -> str:
         if day_num == 1:
-            summary = (
-                f"Begin '{package.get('title', 'your travel package')}' "
-                f"with {package.get('partner_name') or 'your tour partner'}."
+            partner_suffix = f" with {partner}" if partner else ""
+            desc_hint = f" {description[:120].rstrip('.')}" + "." if description else ""
+            return (
+                f"Day 1: Arrive at {destination_name} and begin '{title}'{partner_suffix}.{desc_hint}"
+            ).strip()
+        if inclusions:
+            inclusion_idx = (day_num - 2) % len(inclusions)
+            inclusion = inclusions[inclusion_idx]
+            return (
+                f"Day {day_num} at {destination_name}: {inclusion.capitalize()} "
+                f"\u2014 included in '{title}'."
             )
-        elif inclusions:
-            inclusion = inclusions[(day_num - 2) % len(inclusions)]
-            summary = (
-                f"Day {day_num} of '{package.get('title', 'your travel package')}' "
-                f"— includes {str(inclusion).strip()}."
-            )
-        else:
-            summary = f"Explore {destination_name} on day {day_num}."
+        if category:
+            cat_label = category.replace("_", " ").lower()
+            return f"Day {day_num} at {destination_name}: Explore {cat_label} activities as part of '{title}'."
+        return (
+            f"Day {day_num} at {destination_name}: Continue the '{title}' itinerary "
+            "(full schedule confirmed by the tour provider)."
+        )
 
-        days.append({"day": day_num, "summary": summary})
+    # Attempt LLM enrichment only when we have genuine package data to work with
+    llm_days: Optional[List[str]] = None
+    if inclusions and len(inclusions) >= 2 and package_days >= 2:
+        inclusions_str = ", ".join(inclusions[:8])
+        prompt = (
+            f"Create a {package_days}-day travel itinerary for the package titled '{title}' "
+            f"at {destination_name}."
+            + (f" Provider: {partner}." if partner else "")
+            + (f" Category: {category}." if category else "")
+            + f" Confirmed inclusions: {inclusions_str}."
+            + (f" Package description: {description[:200]}." if description else "")
+            + " Write one concise summary sentence per day (Day 1, Day 2, ...) using ONLY the "
+            "provided inclusions and destination. Do NOT invent attractions, prices, or services "
+            "not listed. Return only the day summaries, one per line, starting with 'Day N:'."
+        )
+        try:
+            raw = chat_completion(
+                [{"role": "user", "content": prompt}],
+                json_mode=False,
+                temperature=0.2,
+                max_tokens=400,
+            )
+            lines = [l.strip() for l in raw.splitlines() if l.strip() and "Day" in l]
+            if len(lines) >= package_days:
+                llm_days = lines[:package_days]
+        except Exception:
+            pass  # Fall through to heuristic construction
+
+    days = []
+    for day_num in range(1, package_days + 1):
+        if llm_days and day_num <= len(llm_days):
+            summary = llm_days[day_num - 1]
+        else:
+            summary = _day_summary_heuristic(day_num)
+
+        route_meta = optimize_day_route([{"name": summary}], destination_name=destination_name)
+        days.append({
+            "day": day_num,
+            "summary": summary,
+            "activities": [summary],
+            "route": route_meta,
+        })
 
     return days
 
@@ -773,13 +881,26 @@ def generate_plan(
             else []
         )
 
+        from app.utils.image_resolver import resolve_destination_image
+        thumb = destination.thumbnail_url
+        if not thumb:
+            thumb = resolve_destination_image(destination.id, getattr(destination, "csv_destination_id", None))
+
+        match_idx = len(destination_blocks)
+        match_label = "Top Match" if match_idx == 0 else ("Great Match" if match_idx == 1 else "Recommended Match")
+
         destination_blocks.append({
             "id": destination.id,
             "name": destination.name,
-            "country": destination.country,
+            "country": destination.country or "India",
+            "state": getattr(destination, "state", None),
+            "category": getattr(destination, "category", None),
             "description": destination.description,
-            "thumbnail_url": destination.thumbnail_url,
+            "thumbnail_url": thumb,
             "avg_rating": destination.avg_rating,
+            "average_budget": getattr(destination, "average_budget", None),
+            "ideal_duration": getattr(destination, "ideal_duration", None),
+            "match_label": match_label,
             "explanation": _llm_explanation(destination, slots),
             "weather": weather,
             "recommended_hotels": recommend_hotels(db, destination.id, slots),
@@ -860,13 +981,24 @@ def generate_plan(
         duration_days,
         travelers,
         destination_id=primary.id if primary else None,
-        selected_hotel=None,
+        selected_hotel=(destination_blocks[0].get('selected_hotel') if destination_blocks else None),
+        selected_package=(destination_blocks[0].get('selected_package') if destination_blocks else None),
     )
 
     tips = _llm_travel_tips(
         [item["name"] for item in destination_blocks] or ["your destination"],
         slots,
     )
+    total_itinerary_km = sum(
+        d.get("route", {}).get("total_distance_km", 0.0) for d in itinerary
+    )
+    itinerary_route_summary = {
+        "total_itinerary_distance_km": round(total_itinerary_km, 2),
+        "distance_as_proxy": True,
+        "algorithm": "Nearest-Neighbor with 2-opt local search (heuristic, not globally optimal)",
+        "notes": "Route optimization computed per day with destination and day isolation.",
+    }
+
     return {
         "trip_overview": {
             "origin": slots.get("origin"),
@@ -885,4 +1017,5 @@ def generate_plan(
         "route": route,
         "travel_tips": tips,
         "slots_used": slots,
+        "itinerary_route_summary": itinerary_route_summary,
     }

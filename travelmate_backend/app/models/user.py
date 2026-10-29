@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship   # ← THIS WAS MISSING
+from sqlalchemy.orm import relationship   # THIS WAS MISSING
 from app.database import Base
 
 class User(Base):
@@ -23,3 +23,6 @@ class User(Base):
 
     # relation to favorites
     favorites = relationship("Favorite", back_populates="user")
+
+    # relation to reviews (Phase 3)
+    reviews = relationship("Review", back_populates="user", cascade="all, delete-orphan")

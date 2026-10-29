@@ -37,6 +37,7 @@ const App = () => (
 
           {/* Auth */}
           <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+          <Route path="/partner/login" element={<PageTransition><Login isPartner={true} /></PageTransition>} />
           <Route path="/signup" element={<PageTransition><Signup /></PageTransition>} />
           <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
           <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />

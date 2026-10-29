@@ -1,6 +1,8 @@
 # app/routes/hotel_routes.py
+import copy
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.attributes import flag_modified
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 
@@ -11,6 +13,7 @@ from app.models.conversation import ConversationSession
 from app.services.hotel_recommender import recommend_hotels
 from app.services.geo_lookup import guess_coordinates, get_nearby_attractions
 from app.services.budget_optimizer import allocate_budget
+from app.utils.display_utils import clean_display_name
 
 router = APIRouter(prefix="/hotels", tags=["hotels"])
 
@@ -77,8 +80,8 @@ def get_hotel_details(hotel_id: int, db: Session = Depends(get_db)):
 
     return {
         "id": hotel.id,
-        "name": hotel.name,
-        "partner_name": hotel.partner_name,
+        "name": clean_display_name(hotel.name),
+        "partner_name": clean_display_name(hotel.partner_name) if hotel.partner_name else None,
         "accommodation_type": hotel.accommodation_type,
         "price_tier": hotel.price_tier,
         "price_per_night": hotel.price_per_night,
@@ -103,6 +106,10 @@ def select_hotel(payload: SelectHotelIn, db: Session = Depends(get_db)):
     Updates the AI-generated plan stored on a conversation session with the
     user's chosen hotel for a given destination. Booking/payment are not
     implemented -- this only records the selection on the plan.
+
+    Uses flag_modified() so that SQLAlchemy detects the in-place mutation of
+    the JSON column and persists the change. Without this, mutations to
+    nested dicts inside a JSON column are silently dropped on commit.
     """
     session = db.query(ConversationSession).filter(
         ConversationSession.session_id == payload.session_id
@@ -118,12 +125,18 @@ def select_hotel(payload: SelectHotelIn, db: Session = Depends(get_db)):
     if not plan:
         raise HTTPException(status_code=400, detail="This session has no generated plan yet")
 
+    # Work on a deep copy so SQLAlchemy sees a brand-new object (belt-and-suspenders
+    # alongside flag_modified, because some DB drivers/SA versions need the
+    # object identity to change, not just the flag).
+    plan = copy.deepcopy(plan)
+
     updated = False
+    hotel_dict: Dict[str, Any] = {}
     for dest_block in plan.get("destinations", []):
         if dest_block.get("id") == payload.destination_id:
             hotel_dict = {
                 "id": hotel.id,
-                "name": hotel.name,
+                "name": clean_display_name(hotel.name),
                 "price_per_night": hotel.price_per_night,
                 "star_rating": hotel.star_rating,
                 "accommodation_type": hotel.accommodation_type,
@@ -153,6 +166,7 @@ def select_hotel(payload: SelectHotelIn, db: Session = Depends(get_db)):
     )
 
     session.generated_plan = plan
+    flag_modified(session, "generated_plan")
     db.add(session)
     db.commit()
     db.refresh(session)

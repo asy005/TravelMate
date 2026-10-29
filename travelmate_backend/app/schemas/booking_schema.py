@@ -1,7 +1,7 @@
 # app/schemas/booking_schema.py
-from pydantic import BaseModel, EmailStr
 from datetime import date
 from typing import Optional
+from pydantic import BaseModel, EmailStr
 
 
 class BookingCreateIn(BaseModel):
@@ -36,6 +36,7 @@ class BookingOut(BaseModel):
     total_amount: Optional[float] = None
     currency: str
     payment_reference: Optional[str] = None
+    is_simulated: Optional[bool] = False
 
     class Config:
         orm_mode = True
@@ -47,6 +48,8 @@ class PaymentOrderOut(BaseModel):
     currency: str
     key_id: str
     booking_reference: str
+    is_demo: bool = False
+    simulation_notice: Optional[str] = None
 
 
 class PaymentVerifyIn(BaseModel):

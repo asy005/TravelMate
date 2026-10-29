@@ -1,4 +1,3 @@
-# scripts/seed_global_destinations.py
 import os
 import sys
 sys.path.append(os.path.abspath("."))
@@ -6,13 +5,8 @@ sys.path.append(os.path.abspath("."))
 from app.database import SessionLocal, engine, Base   # adjust import if your project uses different names
 from app.models.destination import Destination        # adjust if import path differs
 
-# Create tables if not exists
 Base.metadata.create_all(bind=engine)
 
-# NOTE: field names below match the actual Destination model
-# (name, country, description, lat, lon, tags, thumbnail_url, avg_rating).
-# "best_season" and "climate" are folded into the free-text `tags` field so
-# they remain useful for the mood-based tag filtering in plan_routes.py.
 DESTINATIONS = [
     {"name": "Goa", "country": "India", "description": "Beaches, nightlife and laid-back coastal vibe.",
      "lat": 15.4909, "lon": 73.8278, "tags": "beach,tropical,best:Nov-Mar", "thumbnail_url": "", "avg_rating": 4.1},

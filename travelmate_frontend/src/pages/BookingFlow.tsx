@@ -105,7 +105,36 @@ const BookingFlow = () => {
         ...form,
       });
 
-      // 2. Kick off Razorpay checkout for that booking's amount.
+      // 2. Create payment order (supports real Razorpay or safe simulated demo)
+      const order = await createPaymentOrder(booking.booking_reference);
+
+      if (order.is_demo) {
+        toast({
+          title: "Demo Mode Payment",
+          description: order.simulation_notice || "Processing simulated payment for local development...",
+        });
+        try {
+          await verifyPayment(booking.booking_reference, {
+            razorpay_order_id: order.order_id,
+            razorpay_payment_id: `demo_pay_${Date.now()}`,
+            razorpay_signature: `demo_sig_${order.order_id}`,
+          });
+          toast({
+            title: "Simulated Payment Successful",
+            description: "Your booking is confirmed in demo mode. No real payment was charged.",
+          });
+        } catch {
+          toast({
+            title: "Payment verification failed",
+            description: "Your booking is saved as Pending Payment.",
+            variant: "destructive",
+          });
+        }
+        navigate(`/booking-confirmation/${booking.booking_reference}`);
+        return;
+      }
+
+      // 3. Real Razorpay checkout when real credentials are configured
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         toast({
@@ -115,8 +144,6 @@ const BookingFlow = () => {
         navigate(`/booking-confirmation/${booking.booking_reference}`);
         return;
       }
-
-      const order = await createPaymentOrder(booking.booking_reference);
 
       const razorpay = new (window as any).Razorpay({
         key: order.key_id,

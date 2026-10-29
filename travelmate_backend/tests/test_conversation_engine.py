@@ -6,6 +6,7 @@ from app.services.conversation_engine import (
     is_ready_for_plan,
     process_message,
     EMPTY_SLOTS,
+    extract_explicit_slots,
 )
 from app.services.llm_gateway import LLMGatewayError
 
@@ -79,3 +80,81 @@ def test_process_message_merges_llm_extracted_slots():
     assert updated_slots["travelers"] == 2
     assert ready is True
     assert "starting from" in reply
+
+
+def test_extracts_budget_from_common_natural_language():
+    assert extract_explicit_slots("My budget is 15000")["budget"] == "15000"
+    assert extract_explicit_slots("Budget around 15k")["budget"] == "15000"
+    assert extract_explicit_slots("I have a budget of ₹15,000")["budget"] == "15000"
+
+
+def test_explicit_extraction_does_not_confuse_duration_with_budget():
+    slots = extract_explicit_slots("2 people for 3 days, relaxing beach trip")
+    assert "budget" not in slots
+    assert slots["travelers"] == 2
+    assert slots["duration_days"] == 3
+    assert slots["travel_style"] == "relaxing"
+
+
+def test_extracts_singular_beach_interest():
+    slots = extract_explicit_slots(
+        "I want a relaxing beach trip from Bangalore for 2 people, "
+        "for 4 days, with a budget of ₹15,000. I prefer travelling by car "
+        "and vegetarian food."
+    )
+    assert slots["origin"] == "Bangalore"
+    assert slots["interests"] == "beaches"
+    assert slots["travel_style"] == "relaxing"
+    assert slots["budget"] == "15000"
+    assert slots["duration_days"] == 4
+    assert slots["travelers"] == 2
+    assert slots["transport_pref"] == "car"
+    assert slots["food_pref"] == "vegetarian"
+
+
+def test_extracts_plural_beaches_interest():
+    assert extract_explicit_slots("We want to visit beaches") ["interests"] == "beaches"
+
+def test_tolerant_budget_extraction_examples():
+    # Budget examples required by user:
+    # "approximately 15000", "around ₹15,000", "15k", "under 20,000"
+    assert extract_explicit_slots("approximately 15000")["budget"] == "15000"
+    assert extract_explicit_slots("around ₹15,000")["budget"] == "15000"
+    assert extract_explicit_slots("15k")["budget"] == "15000"
+    assert extract_explicit_slots("under 20,000")["budget"] == "20000"
+
+
+def test_tolerant_duration_extraction_examples():
+    # Duration examples required by user:
+    # "3 days", "three days", "about three days", "a long weekend"
+    assert extract_explicit_slots("3 days")["duration_days"] == 3
+    assert extract_explicit_slots("three days")["duration_days"] == 3
+    assert extract_explicit_slots("about three days")["duration_days"] == 3
+    assert extract_explicit_slots("a long weekend")["duration_days"] == 3
+
+
+def test_tolerant_travelers_extraction_examples():
+    # Travellers examples required by user:
+    # "one person", "just me", "alone", "solo", "two people", "four of us"
+    assert extract_explicit_slots("one person")["travelers"] == 1
+    assert extract_explicit_slots("just me")["travelers"] == 1
+    assert extract_explicit_slots("alone")["travelers"] == 1
+    assert extract_explicit_slots("solo")["travelers"] == 1
+    assert extract_explicit_slots("two people")["travelers"] == 2
+    assert extract_explicit_slots("four of us")["travelers"] == 4
+
+
+def test_contextual_slot_answering_preserves_preferences():
+    # Assistant asks for budget, user gives a concise budget answer
+    reply, updated, ready = process_message(
+        prior_slots={"duration_days": 3, "travelers": 2, "travel_style": "relaxing"},
+        conversation_history=[
+            {"role": "assistant", "content": "What's your approximate budget for this trip?"}
+        ],
+        user_message="under 20,000",
+    )
+    assert updated["budget"] == "20000"
+    assert updated["duration_days"] == 3
+    assert updated["travelers"] == 2
+    assert updated["travel_style"] == "relaxing"
+    assert ready is True

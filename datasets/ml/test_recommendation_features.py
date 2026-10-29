@@ -1,13 +1,16 @@
+from pathlib import Path
 import pandas as pd
+
 from recommendation_features import (
     build_user_destination_features,
     MODEL_FEATURES,
+    calculate_season_match,
 )
 
-DESTINATION_FILE = "destination_features.csv"
+ML_DIR = Path(__file__).resolve().parent
 
 destinations = pd.read_csv(
-    DESTINATION_FILE
+    ML_DIR / "destination_features.csv"
 )
 
 user = {
@@ -78,3 +81,13 @@ else:
     print(
         "FAIL: Feature order mismatch."
     )
+
+assert len(enriched) == 614
+assert len(features) == 614
+assert list(features.columns) == MODEL_FEATURES
+assert calculate_season_match("Winter", "Oct-Mar") == 1.0
+assert abs(calculate_season_match("Sep-Mar", "Oct-Mar") - (6 / 7)) < 1e-9
+
+print("PASS: Destination count")
+print("PASS: ML feature count and order")
+print("PASS: Named and range-based season matching")

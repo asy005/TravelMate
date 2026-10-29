@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+import os
 
 from app.config import settings
 from app.database import engine, Base
@@ -26,6 +29,11 @@ from app.routes import assistant_routes
 from app.routes import booking_routes
 from app.routes import partner_routes
 from app.routes import package_routes
+from app.routes import review_routes  # Phase 3
+from app.routes import voice_routes
+from app.routes import ocr_routes  # Phase 6
+from app.routes import translation_routes
+from app.routes import currency_routes  # Phase 7  # Phase 6  # Phase 5
 
 app = FastAPI()
 
@@ -40,7 +48,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as exc:
+    print(f"[DB] Notice: Could not connect to database on import ({exc}). Live DB required for runtime operations.")
 
 
 @app.on_event("startup")
@@ -70,6 +81,34 @@ app.include_router(assistant_routes.router)
 app.include_router(booking_routes.router)
 app.include_router(partner_routes.router)
 app.include_router(package_routes.router)
+app.include_router(review_routes.router)  # Phase 3
+app.include_router(voice_routes.router)  # Phase 5
+app.include_router(ocr_routes.router)  # Phase 6
+app.include_router(translation_routes.router)  # Phase 6
+app.include_router(currency_routes.router)  # Phase 7
+
+# ----------------------------
+# Static file serving for uploads (partner photos, etc.)
+# Served at /uploads/<path>; stored in travelmate_backend/uploads/
+# ----------------------------
+_UPLOADS_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads")
+os.makedirs(_UPLOADS_DIR, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=_UPLOADS_DIR), name="uploads")
+
+# ----------------------------
+# Static file serving for dataset images (destinations, attractions, hotels, activities)
+# Served at /dataset-images/<subfolder>/<filename>
+# Path: main.py -> app -> travelmate_backend -> project_root -> datasets/images
+# ----------------------------
+_DATASET_IMAGES_DIR = Path(__file__).resolve().parents[2] / "datasets" / "images"
+if _DATASET_IMAGES_DIR.exists():
+    app.mount(
+        "/dataset-images",
+        StaticFiles(directory=str(_DATASET_IMAGES_DIR)),
+        name="dataset-images",
+    )
+else:
+    print(f"[WARNING] Dataset images directory not found at {_DATASET_IMAGES_DIR}; /dataset-images mount skipped.")
 
 
 @app.get("/")
