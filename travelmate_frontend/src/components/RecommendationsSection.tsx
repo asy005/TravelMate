@@ -1,7 +1,7 @@
 /**
  * RecommendationsSection — Destination Explorer
  * Pulls the full 614-destination catalogue from the backend API.
- * Supports live search, category, budget, and state dropdown filters with Previous/Next pagination.
+ * Supports live search, category, budget, season, and state dropdown filters with pagination.
  * Filters and page changes never produce duplicate records.
  */
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -29,6 +29,8 @@ import {
   AlertTriangle,
   MapPin,
   Wallet,
+  Calendar,
+  X,
 } from "lucide-react";
 import {
   getDestinationsPage,
@@ -58,12 +60,18 @@ const BUDGET_OPTIONS = [
   { value: "high", label: "Luxury (> ₹4,000)" },
 ];
 
+const SEASON_OPTIONS = [
+  { value: "All", label: "All Seasons" },
+  { value: "winter", label: "Winter (Nov - Feb)" },
+  { value: "summer", label: "Summer (Mar - Jun)" },
+  { value: "monsoon", label: "Monsoon (Jul - Sep)" },
+];
+
 /**
  * Map API destination fields so DestinationCard works with both the curated
  * local shape and the live API shape.
  */
 function normalizeDestination(d: any) {
-  // Derive mood / budget from description & category when not present
   const cat = (d.category || d.type || "").toLowerCase();
   let mood = d.mood;
   if (!mood) {
@@ -76,8 +84,8 @@ function normalizeDestination(d: any) {
   let budget = d.budget;
   if (!budget && d.average_budget) {
     const b = Number(d.average_budget);
-    if (b < 2000) budget = "Low";
-    else if (b < 5000) budget = "Medium";
+    if (b <= 2000) budget = "Low";
+    else if (b <= 4000) budget = "Medium";
     else budget = "Luxury";
   }
 
@@ -99,6 +107,7 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedBudget, setSelectedBudget] = useState("All");
   const [selectedState, setSelectedState] = useState("All");
+  const [selectedSeason, setSelectedSeason] = useState("All");
 
   // Dynamic states populated from the backend API
   const [availableStates, setAvailableStates] = useState<string[]>([]);
@@ -136,13 +145,24 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
     };
   }, []);
 
+  // Debounced search typing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCommittedSearch(searchInput.trim());
+      setPage(1);
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
   const fetchPage = useCallback(
     async (
       p: number,
       q: string,
       category: string,
       budget: string,
-      state: string
+      state: string,
+      season: string
     ) => {
       if (abortRef.current) abortRef.current.abort();
       abortRef.current = new AbortController();
@@ -158,6 +178,7 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
           category: category !== "All" ? category : undefined,
           budget: budget !== "All" ? budget : undefined,
           state: state !== "All" ? state : undefined,
+          season: season !== "All" ? season : undefined,
         });
         setPageData(data);
       } catch (err: any) {
@@ -171,25 +192,23 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
     []
   );
 
-  // Fetch whenever committed search, category, budget, state, or page changes
+  // Fetch whenever committed search, category, budget, state, season, or page changes
   useEffect(() => {
-    fetchPage(page, committedSearch, selectedCategory, selectedBudget, selectedState);
-  }, [page, committedSearch, selectedCategory, selectedBudget, selectedState, fetchPage]);
+    fetchPage(page, committedSearch, selectedCategory, selectedBudget, selectedState, selectedSeason);
+  }, [page, committedSearch, selectedCategory, selectedBudget, selectedState, selectedSeason, fetchPage]);
 
   // Re-fetch when AI recommendations event fires (to merge AI picks at top)
   useEffect(() => {
     if (aiOutput) {
-      fetchPage(page, committedSearch, selectedCategory, selectedBudget, selectedState);
+      fetchPage(page, committedSearch, selectedCategory, selectedBudget, selectedState, selectedSeason);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [aiOutput]);
+  }, [aiOutput, page, committedSearch, selectedCategory, selectedBudget, selectedState, selectedSeason, fetchPage]);
 
   const totalPages = pageData ? Math.ceil(pageData.total / PAGE_SIZE) : 1;
   const items = (pageData?.items || []).map(normalizeDestination);
   const totalCount = pageData?.total ?? 0;
 
-  // Commit search on Enter or button click
-  const handleSearch = () => {
+  const handleSearchClick = () => {
     setPage(1);
     setCommittedSearch(searchInput.trim());
   };
@@ -209,12 +228,18 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
     setPage(1);
   };
 
+  const handleSeasonChange = (sn: string) => {
+    setSelectedSeason(sn);
+    setPage(1);
+  };
+
   const handleResetFilters = () => {
     setSearchInput("");
     setCommittedSearch("");
     setSelectedCategory("All");
     setSelectedBudget("All");
     setSelectedState("All");
+    setSelectedSeason("All");
     setPage(1);
   };
 
@@ -222,7 +247,8 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
     committedSearch !== "" ||
     selectedCategory !== "All" ||
     selectedBudget !== "All" ||
-    selectedState !== "All";
+    selectedState !== "All" ||
+    selectedSeason !== "All";
 
   const handlePlanTrip = (destination: any) => {
     const destName = destination?.name || "";
@@ -236,7 +262,7 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
 
   return (
     <section id="recommendations-section" className="py-20 bg-gradient-to-b from-background to-secondary/30">
-      <div className="container mx-auto px-6 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-2 mb-3">
@@ -245,21 +271,21 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
               Explore Destinations
             </h2>
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Browse all {totalCount > 0 ? totalCount.toLocaleString() : "614+"} destinations — search by name, filter by state, budget & type, and navigate page by page.
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+            Browse all {totalCount > 0 ? totalCount.toLocaleString() : "614+"} destinations across India — search by landmark or state, filter by budget, travel type, and season.
           </p>
         </div>
 
         {/* Filter / Search Card */}
-        <div className="bg-card rounded-2xl border border-border/60 shadow-sm p-6 mb-10 space-y-5">
+        <div className="bg-card rounded-2xl border border-border/60 shadow-sm p-5 sm:p-6 mb-10 space-y-5">
           <div className="flex items-center justify-between flex-wrap gap-2 border-b border-border/50 pb-3">
             <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <Filter className="h-4 w-4 text-primary" />
-              <span>Search & Filter</span>
+              <span>Search &amp; Filter</span>
               {!loading && pageData && (
-                <span className="text-xs text-muted-foreground font-normal ml-2">
-                  Showing {items.length} of {totalCount.toLocaleString()} places
-                </span>
+                <Badge variant="secondary" className="text-xs font-normal ml-2">
+                  {totalCount.toLocaleString()} destinations found
+                </Badge>
               )}
             </div>
 
@@ -270,32 +296,45 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
                 onClick={handleResetFilters}
                 className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground flex items-center gap-1"
               >
-                <RotateCcw className="h-3 w-3" /> Clear all
+                <RotateCcw className="h-3 w-3" /> Clear all filters
               </Button>
             )}
           </div>
 
           {/* Search bar & Dropdowns row */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
             {/* Search Input */}
-            <div className="md:col-span-6 flex items-center gap-2">
+            <div className="lg:col-span-5 flex items-center gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search destinations by name or place..."
+                  placeholder="Search destinations by name, city, or state..."
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                  className="pl-9 h-10"
+                  onKeyDown={(e) => e.key === "Enter" && handleSearchClick()}
+                  className="pl-9 pr-8 h-10 text-xs sm:text-sm"
                 />
+                {searchInput && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchInput("");
+                      setCommittedSearch("");
+                    }}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    title="Clear search"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                )}
               </div>
-              <Button size="sm" onClick={handleSearch} className="shrink-0 h-10 px-4">
+              <Button size="sm" onClick={handleSearchClick} className="shrink-0 h-10 px-4 text-xs font-medium">
                 Search
               </Button>
             </div>
 
             {/* State Selector */}
-            <div className="md:col-span-3">
+            <div className="lg:col-span-3">
               <Select value={selectedState} onValueChange={handleStateChange}>
                 <SelectTrigger className="h-10 text-xs w-full">
                   <div className="flex items-center gap-1.5 truncate">
@@ -317,7 +356,7 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
             </div>
 
             {/* Budget Selector */}
-            <div className="md:col-span-3">
+            <div className="lg:col-span-2">
               <Select value={selectedBudget} onValueChange={handleBudgetChange}>
                 <SelectTrigger className="h-10 text-xs w-full">
                   <div className="flex items-center gap-1.5 truncate">
@@ -334,11 +373,30 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Season Selector */}
+            <div className="lg:col-span-2">
+              <Select value={selectedSeason} onValueChange={handleSeasonChange}>
+                <SelectTrigger className="h-10 text-xs w-full">
+                  <div className="flex items-center gap-1.5 truncate">
+                    <Calendar className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                    <SelectValue placeholder="All Seasons" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {SEASON_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value} className="text-xs">
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          {/* Category Filter */}
+          {/* Category Filter Badges */}
           <div className="flex items-center gap-2 flex-wrap pt-1">
-            <span className="text-xs font-medium text-muted-foreground w-14 shrink-0">Type:</span>
+            <span className="text-xs font-medium text-muted-foreground w-14 shrink-0">Category:</span>
             <div className="flex items-center gap-1.5 flex-wrap">
               {CATEGORY_FILTERS.map((cat) => {
                 const active = selectedCategory === cat;
@@ -365,7 +423,7 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Loading destinations...</p>
+            <p className="text-sm text-muted-foreground">Searching destinations...</p>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
@@ -375,7 +433,7 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
               variant="outline"
               size="sm"
               onClick={() =>
-                fetchPage(page, committedSearch, selectedCategory, selectedBudget, selectedState)
+                fetchPage(page, committedSearch, selectedCategory, selectedBudget, selectedState, selectedSeason)
               }
               className="flex items-center gap-1 text-xs"
             >
@@ -393,8 +451,8 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
               </h3>
               <p className="text-sm text-muted-foreground">
                 {hasActiveFilters
-                  ? "No places matched your search, category, budget, or state criteria. Try adjusting your filters."
-                  : "The destination catalogue is empty."}
+                  ? "No places matched your search query or selected filters. Try broadening your criteria."
+                  : "The destination catalogue is currently empty."}
               </p>
             </div>
             {hasActiveFilters && (
@@ -404,7 +462,7 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
                 onClick={handleResetFilters}
                 className="inline-flex items-center gap-1 text-xs"
               >
-                <RotateCcw className="h-3.5 w-3.5" /> Clear Filters
+                <RotateCcw className="h-3.5 w-3.5" /> Clear All Filters
               </Button>
             )}
           </div>
@@ -429,11 +487,11 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
                   size="sm"
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page <= 1 || loading}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs"
                 >
                   <ChevronLeft className="h-4 w-4" /> Previous
                 </Button>
-                <span className="text-sm text-muted-foreground font-medium px-2">
+                <span className="text-xs sm:text-sm text-muted-foreground font-medium px-2">
                   Page {page} of {totalPages}
                 </span>
                 <Button
@@ -441,7 +499,7 @@ export const RecommendationsSection = ({ aiOutput }: { aiOutput?: string }) => {
                   size="sm"
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page >= totalPages || loading}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs"
                 >
                   Next <ChevronRight className="h-4 w-4" />
                 </Button>

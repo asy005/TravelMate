@@ -5,7 +5,7 @@ from ..database import get_db
 from ..models.destination import Destination
 from ..schemas.destination import DestinationOut
 from ..services.weather_service import cached_weather
-from ..utils.image_resolver import resolve_destination_image
+from ..utils.image_resolver import resolve_destination_image, resolve_attraction_image
 import requests
 import os
 
@@ -181,8 +181,120 @@ def list_states(db: Session = Depends(get_db)):
     return [s[0] for s in states if s[0]]
 
 
+_attractions_by_dest = None
+_activities_by_dest = None
+
+
+def _get_dest_attractions(csv_dest_id):
+    global _attractions_by_dest
+    if _attractions_by_dest is None:
+        import csv
+        from pathlib import Path
+        cache = {}
+        possible_paths = [
+            Path(__file__).resolve().parents[3] / "datasets" / "attractions.csv",
+            Path(os.getcwd()) / "datasets" / "attractions.csv",
+            Path(os.getcwd()).parent / "datasets" / "attractions.csv",
+        ]
+        csv_path = None
+        for p in possible_paths:
+            if p.exists() and p.is_file():
+                csv_path = p
+                break
+
+        if csv_path:
+            try:
+                with open(csv_path, mode="r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for r in reader:
+                        did = (r.get("destination_id") or "").strip().upper()
+                        if not did:
+                            continue
+                        att_id = (r.get("attraction_id") or "").strip()
+                        img_path = resolve_attraction_image(att_id)
+                        fee_str = (r.get("entry_fee") or "0").replace(",", "").strip()
+                        fee = float(fee_str) if fee_str.replace(".", "", 1).isdigit() else 0.0
+                        rating_str = (r.get("rating") or "4.5").replace(",", "").strip()
+                        rating = float(rating_str) if rating_str.replace(".", "", 1).isdigit() else 4.5
+                        lat_str = (r.get("latitude") or "").strip()
+                        lon_str = (r.get("longitude") or "").strip()
+                        lat_val = float(lat_str) if lat_str and lat_str.replace("-", "", 1).replace(".", "", 1).isdigit() else None
+                        lon_val = float(lon_str) if lon_str and lon_str.replace("-", "", 1).replace(".", "", 1).isdigit() else None
+
+                        entry = {
+                            "id": att_id,
+                            "name": r.get("attraction_name", ""),
+                            "city": r.get("city", ""),
+                            "state": r.get("state", ""),
+                            "category": r.get("category", ""),
+                            "entry_fee": fee,
+                            "rating": rating,
+                            "lat": lat_val,
+                            "lon": lon_val,
+                            "image": img_path,
+                        }
+                        cache.setdefault(did, []).append(entry)
+                for did in cache:
+                    cache[did].sort(key=lambda x: x.get("rating", 0), reverse=True)
+            except Exception:
+                pass
+        _attractions_by_dest = cache
+
+    if not csv_dest_id:
+        return []
+    return _attractions_by_dest.get(csv_dest_id.strip().upper(), [])
+
+
+def _get_dest_activities(csv_dest_id):
+    global _activities_by_dest
+    if _activities_by_dest is None:
+        import csv
+        from pathlib import Path
+        cache = {}
+        possible_paths = [
+            Path(__file__).resolve().parents[3] / "datasets" / "activities.csv",
+            Path(os.getcwd()) / "datasets" / "activities.csv",
+            Path(os.getcwd()).parent / "datasets" / "activities.csv",
+        ]
+        csv_path = None
+        for p in possible_paths:
+            if p.exists() and p.is_file():
+                csv_path = p
+                break
+
+        if csv_path:
+            try:
+                with open(csv_path, mode="r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for r in reader:
+                        did = (r.get("destination_id") or "").strip().upper()
+                        if not did:
+                            continue
+                        price_str = (r.get("price") or "0").replace(",", "").strip()
+                        price = float(price_str) if price_str.replace(".", "", 1).isdigit() else 0.0
+                        dur_str = (r.get("duration") or "2").strip()
+                        duration = int(dur_str) if dur_str.isdigit() else 2
+
+                        entry = {
+                            "id": r.get("activity_id", ""),
+                            "name": r.get("activity_name", ""),
+                            "category": r.get("category", ""),
+                            "price": price,
+                            "duration": duration,
+                            "best_season": r.get("best_season", ""),
+                        }
+                        cache.setdefault(did, []).append(entry)
+            except Exception:
+                pass
+        _activities_by_dest = cache
+
+    if not csv_dest_id:
+        return []
+    return _activities_by_dest.get(csv_dest_id.strip().upper(), [])
+
+
 # --------------------------
-# GET ONE DESTINATION WITH WEATHER
+# GET ONE DESTINATION WITH WEATHER, ATTRACTIONS & ACTIVITIES
 # --------------------------
 @router.get("/{dest_id}", response_model=DestinationOut)
 def get_destination(dest_id: int, db: Session = Depends(get_db)):
@@ -191,10 +303,13 @@ def get_destination(dest_id: int, db: Session = Depends(get_db)):
     if not d:
         raise HTTPException(status_code=404, detail="Destination not found")
 
-    # Use DB thumbnail_url if set; otherwise resolve from dataset images at runtime
+    csv_id = getattr(d, "csv_destination_id", None)
     thumbnail = d.thumbnail_url
     if not thumbnail:
-        thumbnail = resolve_destination_image(d.id, getattr(d, "csv_destination_id", None))
+        thumbnail = resolve_destination_image(d.id, csv_id)
+
+    attractions = _get_dest_attractions(csv_id)
+    activities = _get_dest_activities(csv_id)
 
     obj = {
         "id": d.id,
@@ -205,7 +320,15 @@ def get_destination(dest_id: int, db: Session = Depends(get_db)):
         "lon": d.lon,
         "tags": d.tags,
         "thumbnail_url": thumbnail,
-        "avg_rating": d.avg_rating, "state": getattr(d, "state", None), "category": getattr(d, "category", None), "average_budget": getattr(d, "average_budget", None),
+        "avg_rating": d.avg_rating,
+        "state": getattr(d, "state", None),
+        "city": getattr(d, "city", None),
+        "category": getattr(d, "category", None),
+        "average_budget": getattr(d, "average_budget", None),
+        "best_season": getattr(d, "best_season", None),
+        "ideal_duration": getattr(d, "ideal_duration", None),
+        "attractions": attractions,
+        "activities": activities,
     }
 
     if d.lat and d.lon:

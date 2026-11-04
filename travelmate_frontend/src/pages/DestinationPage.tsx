@@ -12,9 +12,20 @@ import {
   MapPin,
   RefreshCcw,
   Compass,
+  Calendar,
+  Clock,
+  Sparkles,
+  Ticket,
+  Activity,
+  DollarSign,
+  Layers,
+  Star,
+  CheckCircle2,
+  MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 import { HighlightsBox } from "@/components/HighlightsBox";
 import { PackingListBox } from "@/components/PackingListBox";
@@ -48,6 +59,9 @@ const WEATHER_CODE_MAP: Record<number, { label: string; icon: string }> = {
   99: { label: "Thunderstorm with heavy hail", icon: "⛈️" },
 };
 
+const DEFAULT_IMAGE =
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200";
+
 const DestinationPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -59,6 +73,7 @@ const DestinationPage = () => {
   const [descLang, setDescLang] = useState<string>(getStoredLanguage());
   const [translatedDesc, setTranslatedDesc] = useState<string | null>(null);
   const [isTranslatingDesc, setIsTranslatingDesc] = useState(false);
+  const [activeImage, setActiveImage] = useState<string>(DEFAULT_IMAGE);
 
   const fetchWeather = async (lat: number, lon: number) => {
     setWeatherLoading(true);
@@ -77,59 +92,76 @@ const DestinationPage = () => {
   };
 
   useEffect(() => {
-    let foundDest: any = null;
+    let isMounted = true;
+    setLoading(true);
 
-    // 1. Check Landmark Recognition History (localStorage)
-    try {
-      const landmarkSaved = localStorage.getItem("travelmate_landmark_history");
-      if (landmarkSaved) {
-        const landmarkList = JSON.parse(landmarkSaved);
-        foundDest = landmarkList.find(
-          (d: any) => String(d.id) === id || (d.name && String(d.name) === id)
-        );
-      }
-    } catch {}
+    const loadData = async () => {
+      let foundDest: any = null;
 
-    // 2. Check Curated Local Dataset (matches DB IDs)
-    if (!foundDest) {
-      foundDest = DESTINATIONS.find(
-        (d) => String(d.id) === id || d.name.toLowerCase() === id?.toLowerCase()
-      );
-    }
-
-    // 3. Check AI Recommendations (localStorage)
-    if (!foundDest) {
+      // 1. Check Landmark Recognition History (localStorage)
       try {
-        const recSaved = localStorage.getItem("travelmate_recommendations");
-        if (recSaved) {
-          const parsed = JSON.parse(recSaved);
-          foundDest = (parsed.destinations || []).find((d: any) => String(d.id) === id);
+        const landmarkSaved = localStorage.getItem("travelmate_landmark_history");
+        if (landmarkSaved) {
+          const landmarkList = JSON.parse(landmarkSaved);
+          foundDest = landmarkList.find(
+            (d: any) => String(d.id) === id || (d.name && String(d.name) === id)
+          );
         }
       } catch {}
-    }
 
-    if (foundDest) {
-      setDestination(foundDest);
-      setLoading(false);
-      if (foundDest.lat && foundDest.lon) {
-        fetchWeather(foundDest.lat, foundDest.lon);
+      // 2. Check Curated Local Dataset (matches DB IDs)
+      if (!foundDest) {
+        foundDest = DESTINATIONS.find(
+          (d) => String(d.id) === id || d.name.toLowerCase() === id?.toLowerCase()
+        );
       }
-    } else {
-      // 4. Fetch from Backend API: /destinations/:id
-      getDestinationById(id)
-        .then((data) => {
-          setDestination(data);
-          if (data.lat && data.lon) {
-            fetchWeather(data.lat, data.lon);
+
+      // 3. Check AI Recommendations (localStorage)
+      if (!foundDest) {
+        try {
+          const recSaved = localStorage.getItem("travelmate_recommendations");
+          if (recSaved) {
+            const parsed = JSON.parse(recSaved);
+            foundDest = (parsed.destinations || []).find((d: any) => String(d.id) === id);
           }
-        })
-        .catch(() => {
-          setDestination(null);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+        } catch {}
+      }
+
+      // 4. Fetch from Backend API: /destinations/:id (Always attempt backend for full attractions/activities)
+      try {
+        if (id) {
+          const apiData = await getDestinationById(id);
+          if (apiData && isMounted) {
+            foundDest = { ...foundDest, ...apiData };
+          }
+        }
+      } catch {
+        // Use local fallback if backend request failed
+      }
+
+      if (!isMounted) return;
+
+      if (foundDest) {
+        setDestination(foundDest);
+        const resolvedHero =
+          resolveImageUrl(foundDest.image || foundDest.thumbnail_url) || DEFAULT_IMAGE;
+        setActiveImage(resolvedHero);
+        setLoading(false);
+
+        if (foundDest.lat && foundDest.lon) {
+          fetchWeather(foundDest.lat, foundDest.lon);
+        }
+      } else {
+        setDestination(null);
+        setLoading(false);
+      }
+    };
+
+    loadData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   const handleDescLangChange = async (newLang: string) => {
@@ -145,7 +177,7 @@ const DestinationPage = () => {
         setTranslatedDesc(res.translated_text);
       }
     } catch {
-      // Fallback
+      // Fallback to original
     } finally {
       setIsTranslatingDesc(false);
     }
@@ -153,11 +185,17 @@ const DestinationPage = () => {
 
   const handlePlanTrip = () => {
     navigate(`/?destination=${encodeURIComponent(destination?.name || "")}#trip-chat-input`);
-    const inputEl = document.getElementById("trip-chat-input");
-    if (inputEl) {
-      inputEl.scrollIntoView({ behavior: "smooth", block: "center" });
-      inputEl.focus();
-    }
+    setTimeout(() => {
+      const inputEl = document.getElementById("trip-chat-input");
+      if (inputEl) {
+        inputEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        inputEl.focus();
+      }
+    }, 150);
+  };
+
+  const handleOpenAIChat = () => {
+    navigate(`/chat?destination=${encodeURIComponent(destination?.name || "")}`);
   };
 
   if (loading) {
@@ -182,19 +220,33 @@ const DestinationPage = () => {
           </p>
         </div>
         <Button onClick={() => navigate("/")} className="mt-2 flex items-center gap-2">
-          <ArrowLeft className="h-4 w-4" /> Back to Home
+          <ArrowLeft className="h-4 w-4" /> Back to Explore
         </Button>
       </div>
     );
   }
 
   const weatherInfo = weather ? WEATHER_CODE_MAP[weather.weathercode] : null;
+  const attractions = Array.isArray(destination.attractions) ? destination.attractions : [];
+  const activities = Array.isArray(destination.activities) ? destination.activities : [];
+
+  const categoryName = destination.category || destination.type || "Attraction";
+  const stateDisplay = destination.state || destination.region || "";
+  const locationLabel = [destination.city, stateDisplay, destination.country || "India"]
+    .filter(Boolean)
+    .join(", ");
+
+  const bestSeasonText = destination.best_season || "October - March";
+  const durationText = destination.ideal_duration ? `${destination.ideal_duration} Days` : "3 - 5 Days";
+  const budgetText = destination.average_budget
+    ? `₹${Math.round(Number(destination.average_budget)).toLocaleString("en-IN")}`
+    : "₹2,500";
 
   return (
     <div className="min-h-screen bg-background">
       {/* Top Navigation Bar */}
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50 px-6 py-3">
-        <div className="container mx-auto flex items-center justify-between">
+        <div className="container mx-auto flex items-center justify-between gap-3">
           <Button
             variant="ghost"
             size="sm"
@@ -203,61 +255,180 @@ const DestinationPage = () => {
           >
             <ArrowLeft className="h-4 w-4" /> Back
           </Button>
-          <Button
-            size="sm"
-            onClick={handlePlanTrip}
-            className="text-xs h-8 flex items-center gap-1.5"
-          >
-            <Compass className="h-3.5 w-3.5" /> Plan Trip Here
-          </Button>
+
+          <span className="font-semibold text-sm truncate hidden sm:inline max-w-xs">
+            {destination.name}
+          </span>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleOpenAIChat}
+              className="text-xs h-8 flex items-center gap-1.5"
+            >
+              <MessageCircle className="h-3.5 w-3.5 text-primary" />
+              <span className="hidden sm:inline">AI Chat</span>
+            </Button>
+            <Button
+              size="sm"
+              onClick={handlePlanTrip}
+              className="text-xs h-8 flex items-center gap-1.5 font-medium"
+            >
+              <Compass className="h-3.5 w-3.5" /> Plan Trip Here
+            </Button>
+          </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-8 max-w-5xl space-y-8 animate-fade-up">
+      <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl space-y-8 animate-fade-up">
         {/* Title Header */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
-              {destination.name}
-            </h1>
-            {destination.type && (
-              <Badge variant="outline" className="text-xs">
-                {destination.type}
-              </Badge>
-            )}
-            {destination.mood && (
-              <Badge variant="secondary" className="text-xs">
-                {destination.mood}
-              </Badge>
-            )}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+                  {destination.name}
+                </h1>
+                <Badge variant="secondary" className="text-xs py-0.5 px-2.5 font-medium">
+                  {categoryName}
+                </Badge>
+                {destination.mood && (
+                  <Badge variant="default" className="text-xs py-0.5 px-2.5 font-medium">
+                    {destination.mood}
+                  </Badge>
+                )}
+              </div>
+              <p className="text-sm text-muted-foreground flex items-center gap-1.5 font-medium">
+                <MapPin className="h-4 w-4 text-coral shrink-0" />
+                <span>{locationLabel}</span>
+              </p>
+            </div>
+
+            <Button
+              size="lg"
+              onClick={handlePlanTrip}
+              className="text-sm font-semibold shadow-sm flex items-center gap-2 px-5"
+            >
+              <Compass className="h-4 w-4" /> Plan a Trip to {destination.name}
+            </Button>
           </div>
-          <p className="text-sm text-muted-foreground flex items-center gap-1.5 font-medium">
-            <MapPin className="h-4 w-4 text-coral shrink-0" />
-            {[destination.city || destination.state, destination.country || "India"]
-              .filter(Boolean)
-              .join(", ")}
-          </p>
         </div>
 
-        {/* Hero Image */}
-        <div className="w-full h-72 sm:h-96 rounded-2xl overflow-hidden shadow-md border border-border/50 relative bg-muted">
-          <img
-            src={
-              destination.image ||
-              destination.thumbnail_url ||
-              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200"
-            }
-            alt={destination.name}
-            className="w-full h-full object-cover"
-          />
+        {/* Hero Image Showcase */}
+        <div className="space-y-3">
+          <div className="w-full h-72 sm:h-96 rounded-2xl overflow-hidden shadow-md border border-border/50 relative bg-muted group">
+            <img
+              src={activeImage}
+              alt={destination.name}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
+              <span className="font-semibold text-lg drop-shadow-sm">{destination.name}</span>
+              {destination.avg_rating && (
+                <span className="bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-xs font-semibold text-amber-300">
+                  <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
+                  {Number(destination.avg_rating).toFixed(1)} Rating
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Attraction Thumbnails Strip if attractions have photos */}
+          {attractions.some((a: any) => a.image) && (
+            <div className="flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-none">
+              <button
+                type="button"
+                onClick={() =>
+                  setActiveImage(
+                    resolveImageUrl(destination.image || destination.thumbnail_url) || DEFAULT_IMAGE
+                  )
+                }
+                className={`relative h-16 w-24 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+                  activeImage === (resolveImageUrl(destination.image || destination.thumbnail_url) || DEFAULT_IMAGE)
+                    ? "border-primary ring-2 ring-primary/20"
+                    : "border-border/60 opacity-70 hover:opacity-100"
+                }`}
+              >
+                <img
+                  src={resolveImageUrl(destination.image || destination.thumbnail_url) || DEFAULT_IMAGE}
+                  alt={destination.name}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+              {attractions
+                .filter((a: any) => a.image)
+                .slice(0, 6)
+                .map((a: any) => {
+                  const resolved = resolveImageUrl(a.image);
+                  return (
+                    <button
+                      key={a.id}
+                      type="button"
+                      onClick={() => setActiveImage(resolved)}
+                      title={a.name}
+                      className={`relative h-16 w-24 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+                        activeImage === resolved
+                          ? "border-primary ring-2 ring-primary/20"
+                          : "border-border/60 opacity-70 hover:opacity-100"
+                      }`}
+                    >
+                      <img src={resolved} alt={a.name} className="w-full h-full object-cover" />
+                    </button>
+                  );
+                })}
+            </div>
+          )}
         </div>
 
-        {/* Weather Card */}
+        {/* Quick Travel Information Strip (Overview Cards) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+          <Card className="p-4 bg-card/80 backdrop-blur-md border-border/60 space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+              <Calendar className="h-3.5 w-3.5 text-primary" />
+              <span>Best Time to Visit</span>
+            </div>
+            <p className="text-base font-bold text-foreground">{bestSeasonText}</p>
+            <p className="text-[11px] text-muted-foreground">Optimal weather & sights</p>
+          </Card>
+
+          <Card className="p-4 bg-card/80 backdrop-blur-md border-border/60 space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+              <Clock className="h-3.5 w-3.5 text-coral" />
+              <span>Ideal Duration</span>
+            </div>
+            <p className="text-base font-bold text-foreground">{durationText}</p>
+            <p className="text-[11px] text-muted-foreground">Recommended itinerary</p>
+          </Card>
+
+          <Card className="p-4 bg-card/80 backdrop-blur-md border-border/60 space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+              <DollarSign className="h-3.5 w-3.5 text-emerald-500" />
+              <span>Est. Daily Budget</span>
+            </div>
+            <p className="text-base font-bold text-foreground">{budgetText}/day</p>
+            <p className="text-[11px] text-muted-foreground">Per person avg. stay & food</p>
+          </Card>
+
+          <Card className="p-4 bg-card/80 backdrop-blur-md border-border/60 space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+              <Layers className="h-3.5 w-3.5 text-sky-500" />
+              <span>Travel Style</span>
+            </div>
+            <p className="text-base font-bold text-foreground">{categoryName}</p>
+            <p className="text-[11px] text-muted-foreground">
+              {destination.mood ? `${destination.mood} vibe` : "Scenic exploration"}
+            </p>
+          </Card>
+        </div>
+
+        {/* Live Weather Forecast Card */}
         <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/60">
           <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
             <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
               <Sun className="h-5 w-5 text-amber-500" />
-              <span>Current Weather</span>
+              <span>Current Weather in {destination.name}</span>
             </h2>
             {destination.lat && destination.lon && (
               <Button
@@ -327,10 +498,10 @@ const DestinationPage = () => {
           )}
         </div>
 
-        {/* About this Destination */}
+        {/* Overview & Description with Translation */}
         <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/60 space-y-3">
           <div className="flex items-center justify-between flex-wrap gap-2 border-b border-border/50 pb-3">
-            <h2 className="text-xl font-bold text-foreground">About this Destination</h2>
+            <h2 className="text-xl font-bold text-foreground">Overview &amp; Description</h2>
             <div className="flex items-center gap-2">
               <span className="text-xs text-muted-foreground font-medium">Translate:</span>
               <LanguageSelector
@@ -345,9 +516,154 @@ const DestinationPage = () => {
               ? "Translating description..."
               : translatedDesc ||
                 destination.description ||
-                "A captivating destination offering rich culture, memorable sightseeing, and delightful local experiences."}
+                `Discover ${destination.name}, a captivating destination in ${locationLabel} offering rich cultural heritage, scenic landmarks, and memorable experiences for travelers.`}
           </p>
+
+          {destination.tags && (
+            <div className="flex items-center gap-1.5 flex-wrap pt-2">
+              <span className="text-xs text-muted-foreground font-medium">Tags:</span>
+              {destination.tags.split(",").map((t: string, idx: number) => (
+                <Badge key={idx} variant="outline" className="text-[11px] py-0 px-2 font-normal">
+                  {t.trim()}
+                </Badge>
+              ))}
+            </div>
+          )}
         </div>
+
+        {/* Major Attractions & Places to Visit */}
+        {attractions.length > 0 && (
+          <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/60 space-y-4">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
+                  <Ticket className="h-5 w-5 text-primary" />
+                  <span>Major Attractions &amp; Places to Visit</span>
+                </h2>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Must-visit sights and tourist points in {destination.name} ({attractions.length} places)
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {attractions.map((att: any) => {
+                const attImg = resolveImageUrl(att.image) || activeImage;
+                return (
+                  <div
+                    key={att.id || att.name}
+                    className="group rounded-xl border border-border/60 bg-muted/20 hover:bg-muted/40 transition-all overflow-hidden flex flex-col justify-between"
+                  >
+                    <div>
+                      {att.image && (
+                        <div className="relative h-32 w-full overflow-hidden bg-muted">
+                          <img
+                            src={attImg}
+                            alt={att.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = "none";
+                            }}
+                          />
+                        </div>
+                      )}
+
+                      <div className="p-3.5 space-y-1.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <h4 className="font-bold text-sm text-foreground group-hover:text-primary transition-colors">
+                            {att.name}
+                          </h4>
+                          {att.rating && (
+                            <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-amber-500 shrink-0">
+                              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                              {Number(att.rating).toFixed(1)}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground">
+                          {att.category && (
+                            <Badge variant="outline" className="text-[10px] py-0 px-1.5 h-4">
+                              {att.category}
+                            </Badge>
+                          )}
+                          <span className="text-[11px] font-medium">
+                            {att.entry_fee > 0 ? `Entry: ₹${att.entry_fee}` : "Free Entry"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-3.5 pt-0">
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          att.name + ", " + destination.name
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[11px] text-primary hover:underline font-medium"
+                      >
+                        <ExternalLink className="h-3 w-3" /> Map &amp; Directions
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Activities and Experiences */}
+        {activities.length > 0 && (
+          <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/60 space-y-4">
+            <div>
+              <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
+                <Activity className="h-5 w-5 text-coral" />
+                <span>Activities &amp; Experiences</span>
+              </h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Popular things to do and curated outdoor experiences in {destination.name}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+              {activities.map((act: any) => (
+                <div
+                  key={act.id || act.name}
+                  className="p-4 rounded-xl border border-border/60 bg-muted/20 hover:border-coral/40 transition-colors space-y-2 flex flex-col justify-between"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-semibold text-sm text-foreground">{act.name}</span>
+                      {act.price > 0 ? (
+                        <span className="text-xs font-bold text-foreground">₹{act.price}</span>
+                      ) : (
+                        <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                          Free
+                        </span>
+                      )}
+                    </div>
+
+                    {act.category && (
+                      <p className="text-xs text-muted-foreground">{act.category}</p>
+                    )}
+                  </div>
+
+                  <div className="pt-2 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" /> {act.duration}h
+                    </span>
+                    {act.best_season && (
+                      <span className="flex items-center gap-1 truncate max-w-[140px]">
+                        <Calendar className="h-3 w-3 text-primary" /> {act.best_season}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* AI Highlights Box */}
         <HighlightsBox destination={destination} />
@@ -366,6 +682,11 @@ const DestinationPage = () => {
               lat: destination.lat,
               lon: destination.lon,
             },
+            ...(attractions.slice(0, 4).map((a: any) => ({
+              name: a.name,
+              lat: a.lat,
+              lon: a.lon,
+            }))),
           ]}
           destinationName={destination.name}
         />
@@ -374,7 +695,6 @@ const DestinationPage = () => {
         <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/60 space-y-4">
           <h2 className="text-xl font-bold text-foreground">Route Map &amp; Navigation</h2>
 
-          {/* Clean fallback panel with actionable Google Maps directions */}
           <div className="w-full rounded-xl border border-dashed border-border bg-muted/20 flex flex-col items-center justify-center gap-3 p-8 text-center">
             <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
               <Compass className="h-5 w-5" />
@@ -463,6 +783,39 @@ const DestinationPage = () => {
             >
               🧳 Explore Packages
             </button>
+          </div>
+        </div>
+
+        {/* Call to Action: Plan a Trip with AI */}
+        <div className="rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-primary/10 via-primary/5 to-coral/10 border border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="space-y-1 text-center sm:text-left">
+            <h3 className="text-xl font-bold text-foreground flex items-center justify-center sm:justify-start gap-2">
+              <Sparkles className="h-5 w-5 text-coral" />
+              <span>Ready to visit {destination.name}?</span>
+            </h3>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-lg">
+              Let TravelMate's AI assistant craft a customized, day-by-day plan with attractions, hotels, and packing essentials tailored to your dates and budget.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2.5 shrink-0 flex-wrap justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleOpenAIChat}
+              className="text-xs h-9 px-3.5 flex items-center gap-1.5"
+            >
+              <MessageCircle className="h-4 w-4 text-primary" />
+              <span>Open in AI Chat</span>
+            </Button>
+            <Button
+              size="sm"
+              onClick={handlePlanTrip}
+              className="text-xs h-9 px-4 flex items-center gap-1.5 font-medium shadow-sm"
+            >
+              <Compass className="h-4 w-4" />
+              <span>Start Trip Planning</span>
+            </Button>
           </div>
         </div>
       </div>
