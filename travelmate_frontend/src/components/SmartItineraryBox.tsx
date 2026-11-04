@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, Calendar, RefreshCcw, AlertCircle, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { generatePlan } from "@/lib/api";
 
 interface SmartItineraryBoxProps {
   destination?: any;
@@ -23,20 +24,10 @@ export const SmartItineraryBox = ({ destination }: SmartItineraryBoxProps) => {
     setError(null);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/plan/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          destination: destName, // String guaranteed
-          days: Math.max(1, Math.min(14, Number(days) || 3)),
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error(`Itinerary service error (${res.status})`);
-      }
-
-      const data = await res.json();
+      const data = await generatePlan(
+        destName,
+        Math.max(1, Math.min(14, Number(days) || 3))
+      );
       setPlan(data.plan || null);
     } catch (err: any) {
       console.error("Itinerary error:", err);

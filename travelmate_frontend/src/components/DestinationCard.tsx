@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, MapPin, Heart, Compass, ArrowRight } from "lucide-react";
+import { addFavorite } from "@/lib/api";
 
 export const DestinationCard = ({ destination, onPlanTrip }: any) => {
   const navigate = useNavigate();
@@ -72,15 +73,7 @@ export const DestinationCard = ({ destination, onPlanTrip }: any) => {
 
         const token = localStorage.getItem("travelmate_token");
         if (token) {
-          const params = new URLSearchParams({ destination_id: String(destination.id) });
-          fetch(`http://127.0.0.1:8000/favorites/add?${params.toString()}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(payload),
-          }).catch(() => {
+          addFavorite(destination.id, payload).catch(() => {
             // Local persistence succeeded
           });
         }

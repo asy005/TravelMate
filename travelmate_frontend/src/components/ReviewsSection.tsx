@@ -15,8 +15,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Star, ThumbsUp, ThumbsDown, Minus } from "lucide-react";
+import { API_BASE_URL } from "@/lib/api";
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = API_BASE_URL;
 
 interface ReviewOut {
   id: number;

@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { resolveImageUrl } from "@/lib/api";
 import {
   Sparkles,
   MapPin,
@@ -226,13 +227,7 @@ export const TopRecommendations = ({ slots = {}, onSelect, className = "" }: Pro
             color: "bg-primary text-white",
           };
 
-          const imgSrc =
-            rec.image ||
-            (rec.thumbnail_url
-              ? rec.thumbnail_url.startsWith("http")
-                ? rec.thumbnail_url
-                : `http://127.0.0.1:8000${rec.thumbnail_url}`
-              : DEFAULT_IMAGE);
+          const imgSrc = resolveImageUrl(rec.image || rec.thumbnail_url) || DEFAULT_IMAGE;
 
           const reasonText =
             rec.reason && !rec.reason.includes("%")

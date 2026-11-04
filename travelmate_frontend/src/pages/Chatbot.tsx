@@ -13,7 +13,7 @@ import {
   SpeechPlaybackControls,
 } from "@/components/VoiceControls";
 import { LanguageSelector, getStoredLanguage } from "@/components/LanguageSelector";
-import { translateText } from "@/lib/api";
+import { translateText, chatWithBot } from "@/lib/api";
 
 export default function Chatbot() {
   const [searchParams] = useSearchParams();
@@ -62,12 +62,7 @@ export default function Chatbot() {
     setTranslationError(null);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/chat/bot", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-      const j = await res.json();
+      const j = await chatWithBot(prompt);
       let responseText = j.reply || j.error || "No response";
 
       if (selectedLang !== "en" && responseText) {

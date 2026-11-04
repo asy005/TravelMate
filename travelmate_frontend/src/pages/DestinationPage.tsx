@@ -21,7 +21,7 @@ import { PackingListBox } from "@/components/PackingListBox";
 import { RouteOptimizerBox } from "@/components/RouteOptimizerBox";
 import { SmartItineraryBox } from "@/components/SmartItineraryBox";
 import { LanguageSelector, getStoredLanguage } from "@/components/LanguageSelector";
-import { translateText } from "@/lib/api";
+import { translateText, getDestinationById, resolveImageUrl } from "@/lib/api";
 import { DESTINATIONS } from "@/data/destinations";
 
 const WEATHER_CODE_MAP: Record<number, { label: string; icon: string }> = {
@@ -116,11 +116,7 @@ const DestinationPage = () => {
       }
     } else {
       // 4. Fetch from Backend API: /destinations/:id
-      fetch(`http://127.0.0.1:8000/destinations/${id}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Destination not found");
-          return res.json();
-        })
+      getDestinationById(id)
         .then((data) => {
           setDestination(data);
           if (data.lat && data.lon) {

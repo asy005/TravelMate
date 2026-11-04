@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles, RefreshCcw, AlertCircle } from "lucide-react";
+import { getHighlights } from "@/lib/api";
 
 interface HighlightsBoxProps {
   destination?: any;
@@ -26,15 +27,7 @@ export const HighlightsBox = ({ destination, query }: HighlightsBoxProps) => {
     setError(null);
 
     try {
-      const res = await fetch(
-        `http://127.0.0.1:8000/highlights/?query=${encodeURIComponent(
-          targetQuery
-        )}&destination=${encodeURIComponent(targetQuery)}`
-      );
-      if (!res.ok) {
-        throw new Error(`Highlights service error (${res.status})`);
-      }
-      const data = await res.json();
+      const data = await getHighlights(targetQuery, targetQuery);
       setHighlights(data.highlights || []);
     } catch (err: any) {
       console.error("Highlights error:", err);

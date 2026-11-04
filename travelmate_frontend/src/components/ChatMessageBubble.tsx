@@ -2,6 +2,7 @@ import { Sparkles, User, Volume2, Square, MapPin, ArrowRight } from "lucide-reac
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { resolveImageUrl } from "@/lib/api";
 
 export interface ChatMessage {
   role: "user" | "assistant";
@@ -90,11 +91,7 @@ export const ChatMessageBubble = ({
                 (idx === 0 ? "Top Match" : idx === 1 ? "Great Match" : "Recommended Match");
               const badgeColor =
                 MATCH_COLORS[matchLabel] || "bg-primary text-white";
-              const imgSrc = dest.thumbnail_url
-                ? dest.thumbnail_url.startsWith("http")
-                  ? dest.thumbnail_url
-                  : `http://127.0.0.1:8000${dest.thumbnail_url}`
-                : DEFAULT_IMG;
+              const imgSrc = resolveImageUrl(dest.thumbnail_url) || DEFAULT_IMG;
 
               return (
                 <div

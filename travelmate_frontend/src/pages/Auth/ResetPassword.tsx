@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { KeyRound, Lock, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { confirmPasswordReset } from "@/lib/api";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -21,30 +22,13 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/auth/password-reset/confirm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, new_password: newPassword }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast({
-          title: "Couldn't reset your password",
-          description: data.detail || "This reset link is invalid or has expired.",
-          variant: "destructive",
-        });
-        setLoading(false);
-        return;
-      }
-
+      await confirmPasswordReset({ token, new_password: newPassword });
       setSuccess(true);
       setTimeout(() => navigate("/login"), 1500);
-    } catch {
+    } catch (err: any) {
       toast({
-        title: "Server error",
-        description: "Please try again in a moment.",
+        title: "Couldn't reset your password",
+        description: err?.message || "This reset link is invalid or has expired.",
         variant: "destructive",
       });
     }

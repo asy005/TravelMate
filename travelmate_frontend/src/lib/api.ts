@@ -1,16 +1,53 @@
-export async function analyzeMood(mood: string) {
-  const url = `http://127.0.0.1:8000/recommend?query=${encodeURIComponent(mood)}`;
+/**
+ * TravelMate Frontend API Client
+ * Centralized API calls, base URL configuration, authentication headers,
+ * and error handling.
+ */
 
-  const response = await fetch(url, {
-    method: "GET",
-  });
+export const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000"
+).replace(/\/$/, "");
 
-  if (!response.ok) {
-    throw new Error("Backend error");
+/**
+ * Resolves relative or absolute asset/image URLs against the backend API_BASE_URL.
+ * Preserves remote (Unsplash, external) and data: URIs as-is.
+ */
+export function resolveImageUrl(path?: string | null): string {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("data:")) {
+    return path;
   }
-
-  return response.json();
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return `${API_BASE_URL}${clean}`;
 }
+
+export function authHeaders(): Record<string, string> {
+  const token =
+    localStorage.getItem("travelmate_token") ||
+    localStorage.getItem("access_token");
+  return {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+}
+
+export function extractErrorMessage(data: any, fallback: string): string {
+  if (!data) return fallback;
+  if (typeof data.detail === "string") return data.detail;
+  if (Array.isArray(data.detail) && data.detail.length > 0) {
+    return data.detail
+      .map((item: any) => {
+        if (typeof item === "string") return item;
+        const loc = item.loc ? item.loc.slice(-1)[0] : "";
+        return loc ? `${loc}: ${item.msg || "invalid"}` : (item.msg || JSON.stringify(item));
+      })
+      .join(", ");
+  }
+  if (typeof data.message === "string") return data.message;
+  return fallback;
+}
+
+// ─── Assistant & Conversational Engine ───────────────────────────────────────
 
 export interface AssistantMessageResponse {
   session_id: string;
@@ -26,7 +63,7 @@ export async function sendAssistantMessage(
   sessionId: string | null,
   message: string
 ): Promise<AssistantMessageResponse> {
-  const response = await fetch("http://127.0.0.1:8000/assistant/message", {
+  const response = await fetch(`${API_BASE_URL}/assistant/message`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ session_id: sessionId, message }),
@@ -41,7 +78,7 @@ export async function sendAssistantMessage(
 
 export async function getAssistantSession(sessionId: string) {
   const response = await fetch(
-    `http://127.0.0.1:8000/assistant/session/${sessionId}`
+    `${API_BASE_URL}/assistant/session/${sessionId}`
   );
 
   if (!response.ok) {
@@ -51,159 +88,92 @@ export async function getAssistantSession(sessionId: string) {
   return response.json();
 }
 
-export interface BookingCreatePayload {
-  hotel_id: number;
-  destination_id?: number;
-  session_id?: string;
-  guest_name: string;
-  guest_email: string;
-  guest_phone: string;
-  check_in_date: string;
-  check_out_date: string;
-  num_rooms: number;
-  num_guests: number;
-  special_requests?: string;
-}
-
-export async function createBooking(payload: BookingCreatePayload) {
-  const token = localStorage.getItem("travelmate_token") || localStorage.getItem("access_token");
-  const response = await fetch("http://127.0.0.1:8000/bookings/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    const data = await response.json().catch(() => ({}));
-    throw new Error(data.detail || "Failed to create booking");
-  }
-
-  return response.json();
-}
-
-export interface PaymentOrderResponse {
-  order_id: string;
-  amount: number;
-  currency: string;
-  key_id: string;
-  booking_reference: string;
-  is_demo?: boolean;
-  simulation_notice?: string | null;
-}
-
-export async function createPaymentOrder(bookingReference: string): Promise<PaymentOrderResponse> {
-  const response = await fetch(
-    `http://127.0.0.1:8000/bookings/${bookingReference}/create-order`,
-    { method: "POST" }
-  );
-  if (!response.ok) {
-    const data = await response.json().catch(() => ({}));
-    throw new Error(data.detail || "Failed to start payment");
-  }
-  return response.json();
-}
-
-export interface VerifyPaymentPayload {
-  razorpay_order_id: string;
-  razorpay_payment_id: string;
-  razorpay_signature: string;
-}
-
-export async function verifyPayment(bookingReference: string, payload: VerifyPaymentPayload) {
-  const response = await fetch(
-    `http://127.0.0.1:8000/bookings/${bookingReference}/verify-payment`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    }
-  );
-  if (!response.ok) {
-    const data = await response.json().catch(() => ({}));
-    throw new Error(data.detail || "Payment verification failed");
-  }
-  return response.json();
-}
-
-export async function getBooking(bookingReference: string) {
-  const response = await fetch(`http://127.0.0.1:8000/bookings/${bookingReference}`);
-  if (!response.ok) {
-    throw new Error("Booking not found");
-  }
-  return response.json();
-}
-export async function getHotelDetails(hotelId: string | number) {
-  const response = await fetch(`http://127.0.0.1:8000/hotels/${hotelId}`);
-  if (!response.ok) {
-    throw new Error("Failed to load hotel details");
-  }
-  return response.json();
-}
-
-export async function getPackageDetails(packageId: string | number) {
-  const response = await fetch(`http://127.0.0.1:8000/packages/${packageId}`);
-  if (!response.ok) {
-    throw new Error("Failed to load package details");
-  }
-  return response.json();
-}
-
-export async function selectPackage(
-  sessionId: string,
-  destinationId: number,
-  packageId: number
-) {
-  const response = await fetch("http://127.0.0.1:8000/packages/select", {
+export async function resetAssistantSession(sessionId: string) {
+  const response = await fetch(`${API_BASE_URL}/assistant/reset`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      session_id: sessionId,
-      destination_id: destinationId,
-      package_id: packageId,
-    }),
+    body: JSON.stringify({ session_id: sessionId }),
   });
 
   if (!response.ok) {
-    throw new Error("Failed to select package");
+    throw new Error("Failed to reset assistant session");
   }
 
   return response.json();
 }
 
-export async function selectHotel(
-  sessionId: string,
-  destinationId: number,
-  hotelId: number
-) {
-  const response = await fetch("http://127.0.0.1:8000/hotels/select", {
+export async function chatWithBot(prompt: string): Promise<{ reply?: string; error?: string }> {
+  const res = await fetch(`${API_BASE_URL}/chat/bot`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      session_id: sessionId,
-      destination_id: destinationId,
-      hotel_id: hotelId,
-    }),
+    body: JSON.stringify({ prompt }),
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to select hotel");
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(extractErrorMessage(data, `Chat failed (${res.status})`));
   }
-
-  return response.json();
+  return res.json();
 }
-// -------- Partner Portal --------
+
+// ─── Destinations ────────────────────────────────────────────────────────────
+
+export interface DestinationsPage {
+  items: any[];
+  total: number;
+}
+
+export async function getDestinationsPage(opts: {
+  skip?: number;
+  limit?: number;
+  q?: string;
+  category?: string;
+  budget?: string;
+  state?: string;
+  mood?: string;
+  season?: string;
+}): Promise<DestinationsPage> {
+  const params = new URLSearchParams({
+    skip: String(opts.skip ?? 0),
+    limit: String(opts.limit ?? 20),
+    paginated: "true",
+  });
+  if (opts.q) params.set("q", opts.q);
+  if (opts.category && opts.category !== "All") params.set("category", opts.category);
+  if (opts.budget && opts.budget !== "All") params.set("budget", opts.budget);
+  if (opts.state && opts.state !== "All") params.set("state", opts.state);
+  if (opts.mood && opts.mood !== "All") params.set("mood", opts.mood);
+  if (opts.season && opts.season !== "All") params.set("season", opts.season);
+  const res = await fetch(`${API_BASE_URL}/destinations/?${params.toString()}`);
+  if (!res.ok) throw new Error("Failed to load destinations");
+  const data = await res.json();
+  if (Array.isArray(data)) return { items: data, total: data.length };
+  return data as DestinationsPage;
+}
+
 export async function getDestinationsList() {
-  const res = await fetch("http://127.0.0.1:8000/destinations/?limit=100");
+  const res = await fetch(`${API_BASE_URL}/destinations/?limit=100`);
   if (!res.ok) throw new Error("Failed to load destinations");
   return res.json();
 }
 
-// ─── Destination Explorer: Paginated API ─────────────────────────────────────
+export async function getDestinationById(id: string | number) {
+  const res = await fetch(`${API_BASE_URL}/destinations/${id}`);
+  if (!res.ok) throw new Error("Destination not found");
+  return res.json();
+}
 
-// ML Recommendations pipeline
+export async function getDestinationStates(): Promise<string[]> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/destinations/states`);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
+// ─── ML Recommendations ─────────────────────────────────────────────────────
+
 export interface MLRecommendation {
   destination_id: string;
   destination_name: string;
@@ -241,7 +211,7 @@ export async function getMLRecommendations(opts: {
     preferred_season: opts.preferred_season ?? "winter",
     top_k: opts.top_k ?? 3,
   };
-  const res = await fetch("http://127.0.0.1:8000/recommend/ml", {
+  const res = await fetch(`${API_BASE_URL}/recommend/ml`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -249,72 +219,341 @@ export async function getMLRecommendations(opts: {
   if (!res.ok) throw new Error(`ML recommendations failed: ${res.status}`);
   return res.json();
 }
-export interface DestinationsPage {
-  items: any[];
-  total: number;
+
+export async function analyzeMood(mood: string) {
+  const url = `${API_BASE_URL}/recommend?query=${encodeURIComponent(mood)}`;
+  const response = await fetch(url, { method: "GET" });
+  if (!response.ok) throw new Error("Backend error");
+  return response.json();
 }
-export async function getDestinationsPage(opts: {
-  skip?: number;
-  limit?: number;
-  q?: string;
-  category?: string;
-  budget?: string;
-  state?: string;
-  mood?: string;
-  season?: string;
-}): Promise<DestinationsPage> {
-  const params = new URLSearchParams({
-    skip: String(opts.skip ?? 0),
-    limit: String(opts.limit ?? 20),
-    paginated: "true",
+
+// ─── Hotels & Packages ───────────────────────────────────────────────────────
+
+export async function getHotelDetails(hotelId: string | number) {
+  const response = await fetch(`${API_BASE_URL}/hotels/${hotelId}`);
+  if (!response.ok) throw new Error("Failed to load hotel details");
+  return response.json();
+}
+
+export async function getPackageDetails(packageId: string | number) {
+  const response = await fetch(`${API_BASE_URL}/packages/${packageId}`);
+  if (!response.ok) throw new Error("Failed to load package details");
+  return response.json();
+}
+
+export async function selectPackage(
+  sessionId: string,
+  destinationId: number,
+  packageId: number
+) {
+  const response = await fetch(`${API_BASE_URL}/packages/select`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      session_id: sessionId,
+      destination_id: destinationId,
+      package_id: packageId,
+    }),
   });
-  if (opts.q) params.set("q", opts.q);
-  if (opts.category && opts.category !== "All") params.set("category", opts.category);
-  if (opts.budget && opts.budget !== "All") params.set("budget", opts.budget);
-  if (opts.state && opts.state !== "All") params.set("state", opts.state);
-  if (opts.mood && opts.mood !== "All") params.set("mood", opts.mood);
-  if (opts.season && opts.season !== "All") params.set("season", opts.season);
-  const res = await fetch(`http://127.0.0.1:8000/destinations/?${params.toString()}`);
-  if (!res.ok) throw new Error("Failed to load destinations");
-  const data = await res.json();
-  // Backend returns { items, total } when paginated=true
-  if (Array.isArray(data)) return { items: data, total: data.length };
-  return data as DestinationsPage;
+  if (!response.ok) throw new Error("Failed to select package");
+  return response.json();
 }
 
-export async function getDestinationStates(): Promise<string[]> {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/destinations/states");
-    if (!res.ok) return [];
-    return await res.json();
-  } catch {
-    return [];
+export async function selectHotel(
+  sessionId: string,
+  destinationId: number,
+  hotelId: number
+) {
+  const response = await fetch(`${API_BASE_URL}/hotels/select`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      session_id: sessionId,
+      destination_id: destinationId,
+      hotel_id: hotelId,
+    }),
+  });
+  if (!response.ok) throw new Error("Failed to select hotel");
+  return response.json();
+}
+
+// ─── Bookings & Payments ─────────────────────────────────────────────────────
+
+export interface BookingCreatePayload {
+  hotel_id: number;
+  destination_id?: number;
+  session_id?: string;
+  guest_name: string;
+  guest_email: string;
+  guest_phone: string;
+  check_in_date: string;
+  check_out_date: string;
+  num_rooms: number;
+  num_guests: number;
+  special_requests?: string;
+}
+
+export async function createBooking(payload: BookingCreatePayload) {
+  const response = await fetch(`${API_BASE_URL}/bookings/`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.detail || "Failed to create booking");
   }
+
+  return response.json();
 }
 
-function authHeaders() {
+export interface PaymentOrderResponse {
+  order_id: string;
+  amount: number;
+  currency: string;
+  key_id: string;
+  booking_reference: string;
+  is_demo?: boolean;
+  simulation_notice?: string | null;
+}
+
+export async function createPaymentOrder(bookingReference: string): Promise<PaymentOrderResponse> {
+  const response = await fetch(
+    `${API_BASE_URL}/bookings/${bookingReference}/create-order`,
+    { method: "POST" }
+  );
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.detail || "Failed to start payment");
+  }
+  return response.json();
+}
+
+export interface VerifyPaymentPayload {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
+
+export async function verifyPayment(bookingReference: string, payload: VerifyPaymentPayload) {
+  const response = await fetch(
+    `${API_BASE_URL}/bookings/${bookingReference}/verify-payment`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }
+  );
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.detail || "Payment verification failed");
+  }
+  return response.json();
+}
+
+export async function getBooking(bookingReference: string) {
+  const response = await fetch(`${API_BASE_URL}/bookings/${bookingReference}`);
+  if (!response.ok) throw new Error("Booking not found");
+  return response.json();
+}
+
+// ─── Favorites ───────────────────────────────────────────────────────────────
+
+export async function getFavorites(): Promise<any[]> {
+  const res = await fetch(`${API_BASE_URL}/favorites`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to load favorites");
+  return res.json();
+}
+
+export async function addFavorite(destinationId: number | string, payload?: any) {
+  const res = await fetch(`${API_BASE_URL}/favorites/add?destination_id=${destinationId}`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload || {}),
+  });
+  if (!res.ok) throw new Error("Failed to add favorite");
+  return res.json();
+}
+
+export async function removeFavorite(destinationId: number | string) {
+  const res = await fetch(`${API_BASE_URL}/favorites/${destinationId}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (res.ok) return res.json();
+
+  // Fallback to query param if router used legacy path
+  const fallback = await fetch(`${API_BASE_URL}/favorites/remove?destination_id=${destinationId}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (!fallback.ok) throw new Error("Failed to remove favorite");
+  return fallback.json();
+}
+
+// ─── Image Landmark & Photo Mood ─────────────────────────────────────────────
+
+export async function predictLandmark(file: File) {
   const token = localStorage.getItem("travelmate_token") || localStorage.getItem("access_token");
-  return {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch(`${API_BASE_URL}/image/landmark`, {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: formData,
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(extractErrorMessage(data, `Landmark detection failed (${res.status})`));
+  }
+  return res.json();
 }
 
-function extractErrorMessage(data: any, fallback: string): string {
-  if (!data) return fallback;
-  if (typeof data.detail === "string") return data.detail;
-  if (Array.isArray(data.detail) && data.detail.length > 0) {
-    return data.detail
-      .map((item: any) => {
-        if (typeof item === "string") return item;
-        const loc = item.loc ? item.loc.slice(-1)[0] : "";
-        return loc ? `${loc}: ${item.msg || "invalid"}` : (item.msg || JSON.stringify(item));
-      })
-      .join(", ");
+export async function predictPhotoMood(file: File) {
+  const token = localStorage.getItem("travelmate_token") || localStorage.getItem("access_token");
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch(`${API_BASE_URL}/photo/mood`, {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: formData,
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(extractErrorMessage(data, `Photo mood prediction failed (${res.status})`));
   }
-  if (typeof data.message === "string") return data.message;
-  return fallback;
+  return res.json();
 }
+
+// ─── Highlights, Nearby & Route Optimization ─────────────────────────────────
+
+export async function getHighlights(query: string, destination?: string) {
+  const target = destination || query;
+  const res = await fetch(
+    `${API_BASE_URL}/highlights/?query=${encodeURIComponent(query)}&destination=${encodeURIComponent(target)}`
+  );
+  if (!res.ok) throw new Error(`Highlights service error (${res.status})`);
+  return res.json();
+}
+
+export async function getNearbySpots(lat: number | string, lon: number | string) {
+  const res = await fetch(`${API_BASE_URL}/nearby/?lat=${lat}&lon=${lon}`);
+  if (!res.ok) throw new Error(`Nearby service error (${res.status})`);
+  return res.json();
+}
+
+export async function optimizeRoute(payload: {
+  points: any[];
+  return_to_start?: boolean;
+  destination_name?: string;
+}) {
+  const res = await fetch(`${API_BASE_URL}/routes/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error(`Route optimization failed (${res.status})`);
+  return res.json();
+}
+
+export async function generatePackingList(payload: {
+  destination: string;
+  days: number;
+  weather?: string;
+  activities?: string[];
+}) {
+  const res = await fetch(`${API_BASE_URL}/packing/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error(`Packing service error (${res.status})`);
+  return res.json();
+}
+
+export async function generatePlan(destination: string, days: number) {
+  const res = await fetch(`${API_BASE_URL}/plan/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ destination, days }),
+  });
+  if (!res.ok) throw new Error(`Plan generation failed (${res.status})`);
+  return res.json();
+}
+
+// ─── Authentication Endpoints ────────────────────────────────────────────────
+
+export async function loginUser(payload: any, signal?: AbortSignal) {
+  const res = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    signal,
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(extractErrorMessage(data, "Invalid email or password"));
+  }
+  return data;
+}
+
+export async function signupUser(payload: any) {
+  const res = await fetch(`${API_BASE_URL}/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(extractErrorMessage(data, "Signup failed"));
+  }
+  return data;
+}
+
+export async function requestPasswordReset(email: string) {
+  return fetch(`${API_BASE_URL}/auth/password-reset/request`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+}
+
+export async function confirmPasswordReset(payload: { token: string; new_password: string }) {
+  const res = await fetch(`${API_BASE_URL}/auth/password-reset/confirm`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(extractErrorMessage(data, "Password reset failed"));
+  }
+  return data;
+}
+
+export async function logoutUser(refreshToken?: string | null) {
+  if (!refreshToken) return;
+  return fetch(`${API_BASE_URL}/auth/logout`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh_token: refreshToken }),
+  }).catch(() => {});
+}
+
+export async function refreshAuthToken(refreshToken: string) {
+  const res = await fetch(`${API_BASE_URL}/auth/refresh`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh_token: refreshToken }),
+  });
+  if (!res.ok) throw new Error("Session expired");
+  return res.json();
+}
+
+// ─── Partner Portal ──────────────────────────────────────────────────────────
 
 export interface PartnerRegisterPayload {
   business_name: string;
@@ -334,7 +573,7 @@ export async function uploadPartnerPhoto(file: File): Promise<{ url: string; fil
   if (!token) throw new Error("You must be logged in to upload photos.");
   const formData = new FormData();
   formData.append("file", file);
-  const res = await fetch("http://127.0.0.1:8000/partners/upload-photo", {
+  const res = await fetch(`${API_BASE_URL}/partners/upload-photo`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
     body: formData,
@@ -347,7 +586,7 @@ export async function uploadPartnerPhoto(file: File): Promise<{ url: string; fil
 }
 
 export async function registerPartner(payload: PartnerRegisterPayload) {
-  const res = await fetch("http://127.0.0.1:8000/partners/register", {
+  const res = await fetch(`${API_BASE_URL}/partners/register`, {
     method: "POST",
     headers: authHeaders(),
     body: JSON.stringify(payload),
@@ -360,14 +599,14 @@ export async function registerPartner(payload: PartnerRegisterPayload) {
 }
 
 export async function getMyPartnerProfile() {
-  const res = await fetch("http://127.0.0.1:8000/partners/me", { headers: authHeaders() });
+  const res = await fetch(`${API_BASE_URL}/partners/me`, { headers: authHeaders() });
   if (res.status === 401) throw new Error("401");
   if (!res.ok) return null;
   return res.json();
 }
 
 export async function getMyListings() {
-  const res = await fetch("http://127.0.0.1:8000/partners/listings", { headers: authHeaders() });
+  const res = await fetch(`${API_BASE_URL}/partners/listings`, { headers: authHeaders() });
   if (!res.ok) throw new Error("Failed to load listings");
   return res.json();
 }
@@ -387,7 +626,7 @@ export interface ListingPayload {
 }
 
 export async function createListing(listingType: "hotel" | "package", payload: ListingPayload) {
-  const res = await fetch(`http://127.0.0.1:8000/partners/listings/${listingType}`, {
+  const res = await fetch(`${API_BASE_URL}/partners/listings/${listingType}`, {
     method: "POST",
     headers: authHeaders(),
     body: JSON.stringify(payload),
@@ -404,7 +643,7 @@ export async function updateListing(
   listingId: number,
   payload: Partial<ListingPayload>
 ) {
-  const res = await fetch(`http://127.0.0.1:8000/partners/listings/${listingType}/${listingId}`, {
+  const res = await fetch(`${API_BASE_URL}/partners/listings/${listingType}/${listingId}`, {
     method: "PUT",
     headers: authHeaders(),
     body: JSON.stringify(payload),
@@ -414,13 +653,13 @@ export async function updateListing(
 }
 
 export async function getPartnerBookings() {
-  const res = await fetch("http://127.0.0.1:8000/partners/bookings", { headers: authHeaders() });
+  const res = await fetch(`${API_BASE_URL}/partners/bookings`, { headers: authHeaders() });
   if (!res.ok) throw new Error("Failed to load bookings");
   return res.json();
 }
 
 export async function updateBookingStatus(bookingReference: string, status: string) {
-  const res = await fetch(`http://127.0.0.1:8000/partners/bookings/${bookingReference}/status`, {
+  const res = await fetch(`${API_BASE_URL}/partners/bookings/${bookingReference}/status`, {
     method: "PATCH",
     headers: authHeaders(),
     body: JSON.stringify({ status }),
@@ -430,29 +669,12 @@ export async function updateBookingStatus(bookingReference: string, status: stri
 }
 
 export async function getPartnerAnalytics() {
-  const res = await fetch("http://127.0.0.1:8000/partners/analytics", { headers: authHeaders() });
+  const res = await fetch(`${API_BASE_URL}/partners/analytics`, { headers: authHeaders() });
   if (!res.ok) throw new Error("Failed to load analytics");
   return res.json();
 }
-export async function resetAssistantSession(sessionId: string) {
-  const response = await fetch("http://127.0.0.1:8000/assistant/reset", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ session_id: sessionId }),
-  });
 
-  if (!response.ok) {
-    throw new Error("Failed to reset assistant session");
-  }
-
-  return response.json();
-}
-
-// ============================================================
-// Phase 3 — Reviews API
-// ============================================================
-
-const API_BASE = "http://127.0.0.1:8000";
+// ─── Reviews API ─────────────────────────────────────────────────────────────
 
 export interface ReviewSubmitPayload {
   hotel_id?: number;
@@ -490,10 +712,9 @@ export interface ReviewSummaryOut {
   recent_reviews: ReviewOut[];
 }
 
-/** Submit a new review (requires authentication token). */
 export async function submitReview(payload: ReviewSubmitPayload): Promise<ReviewOut> {
   const token = localStorage.getItem("travelmate_token") || localStorage.getItem("access_token");
-  const res = await fetch(`${API_BASE}/reviews/`, {
+  const res = await fetch(`${API_BASE_URL}/reviews/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -508,33 +729,28 @@ export async function submitReview(payload: ReviewSubmitPayload): Promise<Review
   return res.json();
 }
 
-/** Fetch review summary (with recent reviews) for a hotel. */
 export async function getHotelReviews(hotelId: number): Promise<ReviewSummaryOut> {
-  const res = await fetch(`${API_BASE}/reviews/hotel/${hotelId}`);
+  const res = await fetch(`${API_BASE_URL}/reviews/hotel/${hotelId}`);
   if (!res.ok) throw new Error("Failed to fetch hotel reviews");
   return res.json();
 }
 
-/** Fetch review summary (with recent reviews) for a package. */
 export async function getPackageReviews(packageId: number): Promise<ReviewSummaryOut> {
-  const res = await fetch(`${API_BASE}/reviews/package/${packageId}`);
+  const res = await fetch(`${API_BASE_URL}/reviews/package/${packageId}`);
   if (!res.ok) throw new Error("Failed to fetch package reviews");
   return res.json();
 }
 
-/** Fetch the current user's own reviews. */
 export async function getMyReviews(): Promise<ReviewOut[]> {
   const token = localStorage.getItem("travelmate_token") || localStorage.getItem("access_token");
-  const res = await fetch(`${API_BASE}/reviews/me`, {
+  const res = await fetch(`${API_BASE_URL}/reviews/me`, {
     headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
   if (!res.ok) throw new Error("Failed to fetch your reviews");
   return res.json();
 }
 
-// --- Phase 6: OCR & Translation -------------------------------------------
-
-const BASE = "http://127.0.0.1:8000";
+// ─── OCR & Translation ───────────────────────────────────────────────────────
 
 export interface OCRResult {
   text: string | null;
@@ -571,7 +787,10 @@ export interface LanguageOption {
 export async function extractOCRText(file: File, lang = "eng"): Promise<OCRResult> {
   const form = new FormData();
   form.append("file", file);
-  const res = await fetch(`${BASE}/ocr/extract?lang=${encodeURIComponent(lang)}`, { method: "POST", body: form });
+  const res = await fetch(`${API_BASE_URL}/ocr/extract?lang=${encodeURIComponent(lang)}`, {
+    method: "POST",
+    body: form,
+  });
   if (!res.ok) throw new Error(`OCR request failed: ${res.status}`);
   return res.json();
 }
@@ -581,7 +800,7 @@ export async function translateText(
   targetLang: string,
   sourceLang = "auto"
 ): Promise<TranslateResult> {
-  const res = await fetch(`${BASE}/translate/text`, {
+  const res = await fetch(`${API_BASE_URL}/translate/text`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text, target_lang: targetLang, source_lang: sourceLang }),
@@ -607,7 +826,7 @@ export async function translateTextsBatch(
   targetLang: string,
   sourceLang = "auto"
 ): Promise<BatchTranslateResponse> {
-  const res = await fetch(`${BASE}/translate/batch`, {
+  const res = await fetch(`${API_BASE_URL}/translate/batch`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ texts, target_lang: targetLang, source_lang: sourceLang }),
@@ -619,7 +838,6 @@ export async function translateTextsBatch(
   return res.json();
 }
 
-
 export async function ocrAndTranslate(
   file: File,
   targetLang: string,
@@ -628,7 +846,7 @@ export async function ocrAndTranslate(
   const form = new FormData();
   form.append("file", file);
   const res = await fetch(
-    `${BASE}/translate/ocr?target_lang=${encodeURIComponent(targetLang)}&ocr_lang=${encodeURIComponent(ocrLang)}`,
+    `${API_BASE_URL}/translate/ocr?target_lang=${encodeURIComponent(targetLang)}&ocr_lang=${encodeURIComponent(ocrLang)}`,
     {
       method: "POST",
       body: form,
@@ -639,14 +857,12 @@ export async function ocrAndTranslate(
 }
 
 export async function getSupportedLanguages(): Promise<LanguageOption[]> {
-  const res = await fetch(`${BASE}/translate/languages`);
+  const res = await fetch(`${API_BASE_URL}/translate/languages`);
   if (!res.ok) throw new Error(`Languages request failed: ${res.status}`);
   return res.json();
 }
 
-// ----------------------------------------------------
-// Phase 7: Currency Conversion & Budget Multi-Currency
-// ----------------------------------------------------
+// ─── Multi-Currency Conversion ───────────────────────────────────────────────
 
 export interface SupportedCurrency {
   code: string;
@@ -720,19 +936,21 @@ export interface ConvertedBudgetResponse {
 }
 
 export async function getSupportedCurrencies(): Promise<SupportedCurrency[]> {
-  const res = await fetch(`${BASE}/currency/supported`);
+  const res = await fetch(`${API_BASE_URL}/currency/supported`);
   if (!res.ok) throw new Error(`Supported currencies request failed: ${res.status}`);
   return res.json();
 }
 
 export async function getCurrencyRates(base = "INR", forceRefresh = false): Promise<CurrencyRatesResponse> {
-  const res = await fetch(`${BASE}/currency/rates?base=${encodeURIComponent(base)}&force_refresh=${forceRefresh}`);
+  const res = await fetch(
+    `${API_BASE_URL}/currency/rates?base=${encodeURIComponent(base)}&force_refresh=${forceRefresh}`
+  );
   if (!res.ok) throw new Error(`Currency rates request failed: ${res.status}`);
   return res.json();
 }
 
 export async function convertSingleAmount(amount: number, targetCurrency: string): Promise<ConvertedAmountResponse> {
-  const res = await fetch(`${BASE}/currency/convert`, {
+  const res = await fetch(`${API_BASE_URL}/currency/convert`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ amount, target_currency: targetCurrency }),
@@ -742,7 +960,7 @@ export async function convertSingleAmount(amount: number, targetCurrency: string
 }
 
 export async function convertBudgetData(budget: any, targetCurrency: string): Promise<ConvertedBudgetResponse> {
-  const res = await fetch(`${BASE}/currency/convert-budget`, {
+  const res = await fetch(`${API_BASE_URL}/currency/convert-budget`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ budget, target_currency: targetCurrency }),

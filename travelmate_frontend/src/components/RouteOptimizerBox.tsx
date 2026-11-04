@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, Map, Plus, Trash2, RefreshCcw, AlertCircle, Navigation } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { optimizeRoute } from "@/lib/api";
 
 interface Point {
   name: string;
@@ -56,20 +57,10 @@ export const RouteOptimizerBox = ({
     setError(null);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/routes/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          points: stops,
-          destination_name: destinationName,
-        }),
+      const data = await optimizeRoute({
+        points: stops,
+        destination_name: destinationName,
       });
-
-      if (!res.ok) {
-        throw new Error(`Route optimization failed (${res.status})`);
-      }
-
-      const data = await res.json();
       setRoute(data.ordered_points || []);
       setSummary(data.summary || null);
       setTotalKm(data.total_distance_km ?? null);

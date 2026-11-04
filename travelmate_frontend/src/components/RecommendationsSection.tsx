@@ -34,6 +34,7 @@ import {
   getDestinationsPage,
   getDestinationStates,
   DestinationsPage,
+  resolveImageUrl,
 } from "@/lib/api";
 
 const PAGE_SIZE = 20;
@@ -82,7 +83,7 @@ function normalizeDestination(d: any) {
 
   return {
     ...d,
-    image: d.image || (d.thumbnail_url ? `http://127.0.0.1:8000${d.thumbnail_url}` : null),
+    image: resolveImageUrl(d.image || d.thumbnail_url) || null,
     mood,
     budget,
     type: d.type || d.category,

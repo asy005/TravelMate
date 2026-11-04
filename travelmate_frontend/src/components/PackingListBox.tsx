@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, Backpack, RefreshCcw, AlertCircle, Check } from "lucide-react";
+import { generatePackingList } from "@/lib/api";
 
 interface PackingListBoxProps {
   destination?: any;
@@ -44,17 +45,14 @@ export const PackingListBox = ({ destination, weather: propWeather }: PackingLis
     };
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/packing/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+      const data = await generatePackingList({
+        destination: destName,
+        days: Math.max(1, Number(days) || 3),
+        weather: weatherHint.trim() || undefined,
+        activities: activities
+          ? activities.split(",").map((x) => x.trim()).filter(Boolean)
+          : [],
       });
-
-      if (!res.ok) {
-        throw new Error(`Packing service error (${res.status})`);
-      }
-
-      const data = await res.json();
       setPackingList(data.packing_list || []);
     } catch (err: any) {
       console.error("Packing error:", err);

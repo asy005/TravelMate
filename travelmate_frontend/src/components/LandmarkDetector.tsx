@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { predictLandmark } from "@/lib/api";
 
 export interface LandmarkHistoryItem {
   id: number;
@@ -87,16 +88,7 @@ export const LandmarkDetector = () => {
     formData.append("file", file);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/image/landmark", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        throw new Error(`Landmark detection service error (${res.status})`);
-      }
-
-      const data = await res.json();
+      const data = await predictLandmark(file);
       setResult(data);
 
       // Save to landmark recognition history (NEVER mix into travelmate_recommendations!)

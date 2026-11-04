@@ -25,6 +25,7 @@ import {
   ArrowRight,
   Info,
 } from "lucide-react";
+import { getFavorites, removeFavorite, resolveImageUrl } from "@/lib/api";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -103,10 +104,7 @@ const Favorites = () => {
 
     // Also sync with backend favorites if logged in
     if (token) {
-      fetch("http://127.0.0.1:8000/favorites", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.json())
+      getFavorites()
         .then((data: any[]) => {
           if (!Array.isArray(data) || data.length === 0) return;
           // Merge backend favorites into localStorage (add any missing ones)
@@ -160,13 +158,7 @@ const Favorites = () => {
       );
       const destId = payload?.destination_payload?.id;
       if (destId) {
-        fetch(
-          `http://127.0.0.1:8000/favorites/remove?destination_id=${destId}`,
-          {
-            method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        ).catch(() => {
+        removeFavorite(destId).catch(() => {
           // ignore — local removal already done
         });
       }
@@ -235,11 +227,7 @@ const Favorites = () => {
               const state = dest.state || dest.region || "";
               const image =
                 dest.image ||
-                (dest.thumbnail_url
-                  ? dest.thumbnail_url.startsWith("http")
-                    ? dest.thumbnail_url
-                    : `http://127.0.0.1:8000${dest.thumbnail_url}`
-                  : null);
+                (dest.thumbnail_url ? resolveImageUrl(dest.thumbnail_url) : null);
               const budget = dest.budget;
               const type = dest.type || dest.category;
 

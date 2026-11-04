@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Mail, Lock, LogIn, Building2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { loginUser, extractErrorMessage } from "@/lib/api";
 
 interface LoginProps {
   isPartner?: boolean;
@@ -43,31 +44,7 @@ const Login = ({ isPartner: propIsPartner }: LoginProps) => {
     const timeoutId = setTimeout(() => controller.abort(), 12000);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-        signal: controller.signal,
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        let errorText = "Invalid email or password. Please verify your credentials.";
-        if (typeof data.detail === "string") {
-          errorText = data.detail;
-        } else if (Array.isArray(data.detail) && data.detail.length > 0) {
-          errorText = data.detail.map((d: any) => d.msg || d).join(", ");
-        }
-
-        setErrorMessage(errorText);
-        toast({
-          title: "Sign in failed",
-          description: errorText,
-          variant: "destructive",
-        });
-        return;
-      }
+      const data = await loginUser(form, controller.signal);
 
       const token = data.token || data.access_token;
       const refreshToken = data.refresh_token || data.refreshToken;
@@ -117,13 +94,13 @@ const Login = ({ isPartner: propIsPartner }: LoginProps) => {
         }
       }
     } catch (err: any) {
-      let desc = "Unable to connect to the server. Please check your network connection.";
+      let desc = err?.message || "Unable to connect to the server. Please check your network connection.";
       if (err?.name === "AbortError") {
         desc = "Connection timed out. Please check that the backend server is running.";
       }
       setErrorMessage(desc);
       toast({
-        title: "Connection error",
+        title: "Sign in failed",
         description: desc,
         variant: "destructive",
       });

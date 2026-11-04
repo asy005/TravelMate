@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { User, Mail, Lock, UserPlus, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { signupUser } from "@/lib/api";
 
 const Signup = () => {
   const { login } = useContext(AuthContext);
@@ -33,34 +34,7 @@ const Signup = () => {
     setError("");
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        const message =
-          typeof data.detail === "string"
-            ? data.detail
-            : Array.isArray(data.detail) && data.detail.length > 0
-            ? data.detail.map((d: any) => d.msg || d).join(", ")
-            : "Unable to create your account. Please try again.";
-
-        setError(message);
-
-        toast({
-          title: "Sign up failed",
-          description: message,
-          variant: "destructive",
-        });
-
-        return;
-      }
+      const data = await signupUser(form);
 
       // Supports either an object response or a raw string token.
       const token =
@@ -87,14 +61,14 @@ const Signup = () => {
 
       login(token, refreshToken);
       window.location.href = "/";
-    } catch {
+    } catch (err: any) {
       const message =
-        "Unable to connect to the server. Please try again.";
+        err?.message || "Unable to connect to the server. Please try again.";
 
       setError(message);
 
       toast({
-        title: "Connection error",
+        title: "Sign up failed",
         description: message,
         variant: "destructive",
       });

@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { logoutUser, refreshAuthToken } from "@/lib/api";
 
 export const AuthContext = createContext({
   token: null as string | null,
@@ -6,6 +7,14 @@ export const AuthContext = createContext({
   login: (token: string, refreshToken?: string, role?: string, email?: string, username?: string) => {},
   logout: () => {},
 });
+
+function clearAuthStorage() {
+  localStorage.removeItem("travelmate_token");
+  localStorage.removeItem("travelmate_refresh_token");
+  localStorage.removeItem("travelmate_role");
+  localStorage.removeItem("travelmate_email");
+  localStorage.removeItem("travelmate_username");
+}
 
 export const AuthProvider = ({ children }: any) => {
   const [token, setToken] = useState<string | null>(() => {
@@ -52,18 +61,10 @@ export const AuthProvider = ({ children }: any) => {
     // Best-effort server-side revocation -- logout should still succeed
     // locally even if this request fails (e.g. offline).
     if (refreshToken) {
-      fetch("http://127.0.0.1:8000/auth/logout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refresh_token: refreshToken }),
-      }).catch(() => {});
+      logoutUser(refreshToken);
     }
 
-    localStorage.removeItem("travelmate_token");
-    localStorage.removeItem("travelmate_refresh_token");
-    localStorage.removeItem("travelmate_role");
-    localStorage.removeItem("travelmate_email");
-    localStorage.removeItem("travelmate_username");
+    clearAuthStorage();
     setToken(null);
     setRole(null);
     window.location.href = "/";
@@ -86,27 +87,16 @@ export async function refreshAccessToken(): Promise<string | null> {
   if (!refreshToken) return null;
 
   try {
-    const res = await fetch("http://127.0.0.1:8000/auth/refresh", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh_token: refreshToken }),
-    });
-
-    if (!res.ok) {
-      localStorage.removeItem("travelmate_token");
-      localStorage.removeItem("travelmate_refresh_token");
-      localStorage.removeItem("travelmate_role");
-      return null;
-    }
-
-    const data = await res.json();
-    const newAccessToken = data.token || data.access_token;
+    const data = await refreshAuthToken(refreshToken);
+    const newAccessToken = data?.token || data?.access_token;
     if (newAccessToken) {
       localStorage.setItem("travelmate_token", newAccessToken);
       return newAccessToken;
     }
+    clearAuthStorage();
     return null;
   } catch {
+    clearAuthStorage();
     return null;
   }
 }

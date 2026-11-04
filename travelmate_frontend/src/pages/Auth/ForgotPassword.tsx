@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { KeyRound, Mail, CheckCircle2 } from "lucide-react";
+import { requestPasswordReset } from "@/lib/api";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -14,11 +15,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      await fetch("http://127.0.0.1:8000/auth/password-reset/request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      await requestPasswordReset(email);
     } catch {
       // Intentionally still shown as "sent" -- the endpoint never reveals
       // whether an email is registered, so there's nothing account-specific
