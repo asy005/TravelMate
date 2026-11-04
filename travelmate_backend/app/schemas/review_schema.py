@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -68,17 +68,20 @@ class ReviewOut(BaseModel):
 
 
 class ReviewSummaryOut(BaseModel):
-    """Aggregated review summary for a hotel or package."""
+    """Aggregated review summary for a hotel, package, destination, attraction, or restaurant."""
 
-    entity_type: str            # 'hotel' | 'package'
-    entity_id: int
+    entity_type: str            # 'hotel' | 'package' | 'destination' | 'attraction' | 'restaurant'
+    entity_id: Union[int, str]
     total_reviews: int
     average_rating: Optional[float] = None
-    positive_count: int
-    neutral_count: int
-    negative_count: int
-    positive_pct: float
-    negative_pct: float
+    positive_count: int = 0
+    neutral_count: int = 0
+    negative_count: int = 0
+    positive_pct: float = 0.0
+    negative_pct: float = 0.0
+    sentiment_summary: Optional[str] = None
+    praised_aspects: List[str] = []
+    recurring_complaints: List[str] = []
     recent_reviews: List[ReviewOut] = []
 
     model_config = {"from_attributes": True}

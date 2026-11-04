@@ -22,11 +22,13 @@ import {
   Star,
   CheckCircle2,
   MessageCircle,
+  Utensils,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 
+import { ReviewsSection } from "@/components/ReviewsSection";
 import { HighlightsBox } from "@/components/HighlightsBox";
 import { PackingListBox } from "@/components/PackingListBox";
 import { RouteOptimizerBox } from "@/components/RouteOptimizerBox";
@@ -98,7 +100,6 @@ const DestinationPage = () => {
     const loadData = async () => {
       let foundDest: any = null;
 
-      // 1. Check Landmark Recognition History (localStorage)
       try {
         const landmarkSaved = localStorage.getItem("travelmate_landmark_history");
         if (landmarkSaved) {
@@ -109,14 +110,12 @@ const DestinationPage = () => {
         }
       } catch {}
 
-      // 2. Check Curated Local Dataset (matches DB IDs)
       if (!foundDest) {
         foundDest = DESTINATIONS.find(
           (d) => String(d.id) === id || d.name.toLowerCase() === id?.toLowerCase()
         );
       }
 
-      // 3. Check AI Recommendations (localStorage)
       if (!foundDest) {
         try {
           const recSaved = localStorage.getItem("travelmate_recommendations");
@@ -127,7 +126,6 @@ const DestinationPage = () => {
         } catch {}
       }
 
-      // 4. Fetch from Backend API: /destinations/:id (Always attempt backend for full attractions/activities)
       try {
         if (id) {
           const apiData = await getDestinationById(id);
@@ -136,7 +134,6 @@ const DestinationPage = () => {
           }
         }
       } catch {
-        // Use local fallback if backend request failed
       }
 
       if (!isMounted) return;
@@ -177,7 +174,6 @@ const DestinationPage = () => {
         setTranslatedDesc(res.translated_text);
       }
     } catch {
-      // Fallback to original
     } finally {
       setIsTranslatingDesc(false);
     }
@@ -229,6 +225,7 @@ const DestinationPage = () => {
   const weatherInfo = weather ? WEATHER_CODE_MAP[weather.weathercode] : null;
   const attractions = Array.isArray(destination.attractions) ? destination.attractions : [];
   const activities = Array.isArray(destination.activities) ? destination.activities : [];
+  const restaurants = Array.isArray(destination.restaurants) ? destination.restaurants : [];
 
   const categoryName = destination.category || destination.type || "Attraction";
   const stateDisplay = destination.state || destination.region || "";
@@ -581,7 +578,7 @@ const DestinationPage = () => {
                           )}
                         </div>
 
-                        <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground">
+                        <div className="flex items-center gap-1.5 flex-wrap text-xs text-muted-foreground">
                           {att.category && (
                             <Badge variant="outline" className="text-[10px] py-0 px-1.5 h-4">
                               {att.category}
@@ -590,6 +587,18 @@ const DestinationPage = () => {
                           <span className="text-[11px] font-medium">
                             {att.entry_fee > 0 ? `Entry: ₹${att.entry_fee}` : "Free Entry"}
                           </span>
+                          {att.rating && (
+                            <Badge
+                              variant="secondary"
+                              className="text-[10px] py-0 px-1.5 h-4 font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800"
+                            >
+                              {Number(att.rating) >= 4.5
+                                ? "Top Rated"
+                                : Number(att.rating) >= 4.0
+                                ? "Highly Rated"
+                                : "Visitor Rated"}
+                            </Badge>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -663,6 +672,98 @@ const DestinationPage = () => {
               ))}
             </div>
           </div>
+        )}
+
+        {/* Popular Restaurants & Dining (Phase 3) */}
+        {restaurants.length > 0 && (
+          <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/60 space-y-4">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
+                  <Utensils className="h-5 w-5 text-amber-500" />
+                  <span>Popular Restaurants &amp; Dining</span>
+                </h2>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Dining options and available visitor ratings in {destination.name} ({restaurants.length} places)
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {restaurants.slice(0, 9).map((rst: any) => (
+                <div
+                  key={rst.id || rst.name}
+                  className="p-4 rounded-xl border border-border/60 bg-muted/20 hover:border-amber-500/40 transition-colors space-y-3 flex flex-col justify-between"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <h4 className="font-bold text-sm text-foreground">
+                        {rst.name}
+                      </h4>
+                      {rst.rating && (
+                        <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-amber-500 shrink-0">
+                          <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                          {Number(rst.rating).toFixed(1)}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-1.5 flex-wrap text-xs text-muted-foreground">
+                      {rst.cuisine && (
+                        <Badge variant="outline" className="text-[10px] py-0 px-1.5 h-4">
+                          {rst.cuisine}
+                        </Badge>
+                      )}
+                      {rst.price_range && (
+                        <span className="text-[11px] font-medium text-foreground/80">
+                          ₹{rst.price_range} for two
+                        </span>
+                      )}
+                      {rst.rating && (
+                        <Badge
+                          variant="secondary"
+                          className="text-[10px] py-0 px-1.5 h-4 font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800"
+                        >
+                          {Number(rst.rating) >= 4.0 ? "Recommended" : "Popular Choice"}
+                        </Badge>
+                      )}
+                    </div>
+
+                    {rst.address && (
+                      <p className="text-[11px] text-muted-foreground line-clamp-2">
+                        📍 {rst.address}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="pt-2 border-t border-border/40 flex items-center justify-between text-[11px]">
+                    <span className="text-muted-foreground text-[10px]">
+                      Available diner rating
+                    </span>
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        rst.name + ", " + (rst.city || destination.name)
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-primary hover:underline font-medium"
+                    >
+                      <ExternalLink className="h-3 w-3" /> Map &amp; Directions
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Destination Guest Reviews & Sentiment Insights (Phase 3) */}
+        {destination.id && (
+          <ReviewsSection
+            entityType="destination"
+            entityId={Number(destination.id)}
+            title={`Guest Reviews & Sentiment Insights for ${destination.name}`}
+          />
         )}
 
         {/* AI Highlights Box */}

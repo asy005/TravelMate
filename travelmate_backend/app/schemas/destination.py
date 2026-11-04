@@ -20,6 +20,7 @@ class DestinationOut(BaseModel):
     weather: Optional[Any] = None
     attractions: Optional[List[Dict[str, Any]]] = None
     activities: Optional[List[Dict[str, Any]]] = None
+    restaurants: Optional[List[Dict[str, Any]]] = None
 
     class Config:
         orm_mode = True

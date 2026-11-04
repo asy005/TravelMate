@@ -236,8 +236,9 @@ def _get_dest_attractions(csv_dest_id):
                         cache.setdefault(did, []).append(entry)
                 for did in cache:
                     cache[did].sort(key=lambda x: x.get("rating", 0), reverse=True)
-            except Exception:
-                pass
+            except Exception as exc:
+                import logging
+                logging.getLogger(__name__).error("Failed to load attractions: %s", exc, exc_info=True)
         _attractions_by_dest = cache
 
     if not csv_dest_id:
@@ -284,8 +285,9 @@ def _get_dest_activities(csv_dest_id):
                             "best_season": r.get("best_season", ""),
                         }
                         cache.setdefault(did, []).append(entry)
-            except Exception:
-                pass
+            except Exception as exc:
+                import logging
+                logging.getLogger(__name__).error("Failed to load activities: %s", exc, exc_info=True)
         _activities_by_dest = cache
 
     if not csv_dest_id:
@@ -293,8 +295,68 @@ def _get_dest_activities(csv_dest_id):
     return _activities_by_dest.get(csv_dest_id.strip().upper(), [])
 
 
+_restaurants_by_dest = None
+
+
+def _get_dest_restaurants(csv_dest_id):
+    global _restaurants_by_dest
+    if _restaurants_by_dest is None:
+        import csv
+        from pathlib import Path
+        cache = {}
+        possible_paths = [
+            Path(__file__).resolve().parents[3] / "datasets" / "restaurants.csv",
+            Path(os.getcwd()) / "datasets" / "restaurants.csv",
+            Path(os.getcwd()).parent / "datasets" / "restaurants.csv",
+        ]
+        csv_path = None
+        for p in possible_paths:
+            if p.exists() and p.is_file():
+                csv_path = p
+                break
+
+        if csv_path:
+            try:
+                with open(csv_path, mode="r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for r in reader:
+                        did = (r.get("destination_id") or "").strip().upper()
+                        if not did:
+                            continue
+                        rst_id = (r.get("restaurant_id") or "").strip()
+                        rating_raw = (r.get("rating") or "").replace(",", "").strip()
+                        rating = float(rating_raw) if rating_raw.replace(".", "", 1).isdigit() and 1.0 <= float(rating_raw) <= 5.0 else None
+                        lat_str = (r.get("latitude") or "").strip()
+                        lon_str = (r.get("longitude") or "").strip()
+                        lat_val = float(lat_str) if lat_str and lat_str.replace("-", "", 1).replace(".", "", 1).isdigit() else None
+                        lon_val = float(lon_str) if lon_str and lon_str.replace("-", "", 1).replace(".", "", 1).isdigit() else None
+
+                        entry = {
+                            "id": rst_id,
+                            "name": r.get("restaurant_name", ""),
+                            "city": r.get("city", ""),
+                            "cuisine": r.get("cuisine", ""),
+                            "price_range": r.get("price_range", ""),
+                            "rating": rating,
+                            "address": r.get("address", ""),
+                            "lat": lat_val,
+                            "lon": lon_val,
+                        }
+                        cache.setdefault(did, []).append(entry)
+                for did in cache:
+                    cache[did].sort(key=lambda x: (x.get("rating") is not None, x.get("rating") or 0), reverse=True)
+            except Exception as exc:
+                import logging
+                logging.getLogger(__name__).error("Failed to load restaurants: %s", exc, exc_info=True)
+        _restaurants_by_dest = cache
+
+    if not csv_dest_id:
+        return []
+    return _restaurants_by_dest.get(csv_dest_id.strip().upper(), [])
+
+
 # --------------------------
-# GET ONE DESTINATION WITH WEATHER, ATTRACTIONS & ACTIVITIES
+# GET ONE DESTINATION WITH WEATHER, ATTRACTIONS, ACTIVITIES & RESTAURANTS
 # --------------------------
 @router.get("/{dest_id}", response_model=DestinationOut)
 def get_destination(dest_id: int, db: Session = Depends(get_db)):
@@ -310,6 +372,7 @@ def get_destination(dest_id: int, db: Session = Depends(get_db)):
 
     attractions = _get_dest_attractions(csv_id)
     activities = _get_dest_activities(csv_id)
+    restaurants = _get_dest_restaurants(csv_id)
 
     obj = {
         "id": d.id,
@@ -329,6 +392,7 @@ def get_destination(dest_id: int, db: Session = Depends(get_db)):
         "ideal_duration": getattr(d, "ideal_duration", None),
         "attractions": attractions,
         "activities": activities,
+        "restaurants": restaurants,
     }
 
     if d.lat and d.lon:

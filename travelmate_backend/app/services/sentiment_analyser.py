@@ -1,46 +1,10 @@
-# app/services/sentiment_analyser.py
-"""
-Lightweight lexicon-based sentiment analyser for review text.
-
-Design goals
-------------
-* Zero extra runtime dependencies -- uses only the Python standard library.
-* Explainable: scoring rules are readable and testable.
-* Safe on empty/None input: always returns a SentimentResult.
-* Deterministic: same text always produces the same result.
-
-Algorithm
----------
-1. Tokenise text into lowercase words (strip punctuation).
-2. Score each token against a curated positive/negative word set.
-3. Apply a simple negation window (up to 3 tokens before a scored word flip
-   its valence).
-4. Normalise the raw sum to [-1, +1] using a soft clamp.
-5. Map to a label:
-     compound >= +0.05  -> 'positive'
-     compound <= -0.05  -> 'negative'
-     otherwise          -> 'neutral'
-   (thresholds match the VADER convention for comparability.)
-
-Accuracy note
--------------
-This is a rule-based approximation suitable for travel review text.  It has
-not been evaluated on a labelled benchmark; treat outputs as indicative, not
-ground-truth.  For high-stakes decisions, replace with a transformer model.
-"""
 from __future__ import annotations
-
 import re
 import unicodedata
 from dataclasses import dataclass
 from typing import Optional
 
-# ---------------------------------------------------------------------------
-# Lexicon -- curated for travel / hospitality domain
-# ---------------------------------------------------------------------------
-
 _POSITIVE_WORDS: frozenset[str] = frozenset({
-    # generic positive
     "good", "great", "excellent", "amazing", "wonderful", "fantastic",
     "superb", "awesome", "outstanding", "perfect", "best", "top", "loved",
     "love", "like", "liked", "enjoy", "enjoyed", "pleasant", "pleasing",
@@ -58,7 +22,6 @@ _POSITIVE_WORDS: frozenset[str] = frozenset({
 })
 
 _NEGATIVE_WORDS: frozenset[str] = frozenset({
-    # generic negative
     "bad", "terrible", "awful", "horrible", "poor", "worst", "disappointing",
     "disappointed", "disappoints", "disappoint", "unpleasant", "disgusting",
     "dirty", "messy", "noisy", "rude", "unhelpful", "unfriendly",
@@ -88,68 +51,37 @@ _INTENSIFIER_WORDS: frozenset[str] = frozenset({
     "exceptionally", "remarkably",
 })
 
-# Thresholds (VADER-compatible)
 _POSITIVE_THRESHOLD = 0.05
 _NEGATIVE_THRESHOLD = -0.05
-_NEGATION_WINDOW = 3   # look-back distance for negation detection
-
+_NEGATION_WINDOW = 3
 
 @dataclass(frozen=True)
 class SentimentResult:
-    """Immutable result of sentiment analysis."""
-    label: str          # 'positive' | 'neutral' | 'negative'
-    score: float        # compound score in [-1.0, +1.0]
-    token_count: int    # number of recognised sentiment tokens
-
+    label: str
+    score: float
+    token_count: int
 
 def _tokenise(text: str) -> list[str]:
-    """Lowercase, strip accents, split on non-alphabetic characters."""
-    # Normalise unicode to strip accents
     text = unicodedata.normalize("NFKD", text)
     text = text.lower()
-    # Split on whitespace and punctuation
     return re.findall(r"[a-z']+", text)
 
-
 def _soft_clamp(raw: float, token_count: int) -> float:
-    """Normalise raw score to [-1, +1] using token count as denominator.
-
-    We divide by token_count (which counts raw tokens before intensifier
-    multiplication) to normalise, then clamp to [-1, +1].
-    """
     if token_count == 0:
         return 0.0
     normalised = raw / max(token_count, 1)
-    # Hard clamp to [-1, +1]
     return max(-1.0, min(1.0, normalised))
 
-
 def analyse(text: Optional[str]) -> SentimentResult:
-    """
-    Analyse *text* and return a :class:`SentimentResult`.
-
-    Parameters
-    ----------
-    text:
-        The review body.  ``None``, empty string, or whitespace-only text
-        returns a neutral result with score 0.0 and token_count 0.
-
-    Returns
-    -------
-    SentimentResult
-        Always returns a valid result; never raises.
-    """
     if not text or not text.strip():
         return SentimentResult(label="neutral", score=0.0, token_count=0)
-
     tokens = _tokenise(text)
     raw_score = 0.0
     scored_token_count = 0
-    negated_window = 0     # count-down until negation expires
-    intensify = 1.0        # multiplier applied to next scored token
+    negated_window = 0
+    intensify = 1.0
 
     for i, token in enumerate(tokens):
-        # Decay negation window
         if negated_window > 0:
             negated_window -= 1
 
@@ -173,7 +105,6 @@ def analyse(text: Optional[str]) -> SentimentResult:
             raw_score += valence * intensify
             scored_token_count += 1
 
-        # Reset intensifier after it's been consumed (or after any non-ignore token)
         if token not in _INTENSIFIER_WORDS:
             intensify = 1.0
 
@@ -188,14 +119,7 @@ def analyse(text: Optional[str]) -> SentimentResult:
 
     return SentimentResult(label=label, score=round(compound, 4), token_count=scored_token_count)
 
-
 def classify_by_rating(rating: float) -> SentimentResult:
-    """
-    Rating-only fallback used when review_text is empty.
-    rating >= 4.0 -> positive, >= 3.0 -> neutral, < 3.0 -> negative.
-    score is normalised linearly to [-1, +1] and clamped.
-    """
-    # Map [1,5] -> [-1,+1]: (rating - 3) / 2, then clamp
     score = round(max(-1.0, min(1.0, (rating - 3.0) / 2.0)), 4)
     if rating >= 4.0:
         label = "positive"
@@ -205,20 +129,272 @@ def classify_by_rating(rating: float) -> SentimentResult:
         label = "negative"
     return SentimentResult(label=label, score=score, token_count=0)
 
-
 def classify_review(text: Optional[str], rating: Optional[float] = None) -> SentimentResult:
-    """
-    Main entry point.  Analyses *text*; falls back to rating-based
-    classification if text is blank.
-
-    Parameters
-    ----------
-    text:
-        Review body (may be None or empty).
-    rating:
-        Numeric star rating (1–5); used as fallback only.
-    """
     result = analyse(text)
     if result.token_count == 0 and rating is not None:
         return classify_by_rating(rating)
     return result
+
+_NEGATION_PREFIX_PATTERN = re.compile(
+    r"\b(?:not|never|no|hardly|barely|scarcely|without|wasn't|was\s+not|weren't|were\s+not|isn't|is\s+not|aren't|are\s+not|don't|doesn't|didn't|won't|wouldn't|neither|nor)\s+(?:very\s+|extremely\s+|at\s+all\s+|too\s+|that\s+|particularly\s+|especially\s+)?$",
+    re.IGNORECASE,
+)
+
+def _is_negated(text: str, match_start: int, window: int = 50) -> bool:
+    prefix = text[max(0, match_start - window):match_start]
+    tokens = prefix.strip().split()
+    if not tokens:
+        return False
+    trailing = " ".join(tokens[-4:]) + " "
+    return bool(_NEGATION_PREFIX_PATTERN.search(trailing))
+
+_ASPECT_PRAISE_PATTERNS: list[tuple[str, list[str]]] = [
+    (
+        "Helpful & courteous staff",
+        [
+            r"\bstaff\b.{0,30}\b(?:helpful|friendly|polite|attentive|courteous|welcoming|kind|cooperative)\b",
+            r"\b(?:helpful|friendly|polite|attentive|courteous|welcoming|kind|cooperative)\b.{0,30}\bstaff\b",
+        ],
+    ),
+    (
+        "Comfort & convenience",
+        [
+            r"\b(?:very\s+|extremely\s+|super\s+)?comfortable\b",
+            r"\bconvenient\s+(?:location|stay|access)\b",
+            r"\bcomfortable\s+and\s+convenient\b",
+            r"\bcozy\b",
+            r"\bcosy\b",
+            r"\bspacious\s+(?:room|rooms|stay|hotel)\b",
+        ],
+    ),
+    (
+        "Great value for money",
+        [
+            r"\bvalue for money\b",
+            r"\bgreat value\b",
+            r"\bgood value\b",
+            r"\baffordable\b",
+            r"\bbargain\b",
+            r"\bworth (?:the money|every penny|it|the price|staying|visiting)\b",
+            r"\bwell worth\b",
+        ],
+    ),
+    (
+        "Smooth & seamless experience",
+        [
+            r"\bsmooth experience\b",
+            r"\bfrom start to finish\b",
+            r"\bseamless\b",
+            r"\bwell organized\b",
+            r"\bwell-organized\b",
+        ],
+    ),
+    (
+        "Family-friendly environment",
+        [
+            r"\bwhole family\b",
+            r"\bfamily\s+(?:had a|trip|vacation|stay|loved|enjoyed)\b",
+            r"\bfamily-friendly\b",
+            r"\bgreat for (?:kids|families|family)\b",
+        ],
+    ),
+    (
+        "Cleanliness & hygiene",
+        [
+            r"\b(?:very\s+|extremely\s+|super\s+)?clean\s+(?:room|rooms|hotel|place|bathroom|environment|premises)\b",
+            r"\bspotless\b",
+            r"\bclean and (?:tidy|comfortable|fresh|hygienic)\b",
+            r"\bmaintained\s+cleanliness\b",
+            r"\bsparkling clean\b",
+        ],
+    ),
+    (
+        "Scenic views & peaceful ambience",
+        [
+            r"\bpeaceful\s+(?:ambience|atmosphere|surroundings|stay|environment)\b",
+            r"\bpeaceful\b",
+            r"\bserene\b",
+            r"\brelaxing\s+(?:ambience|atmosphere|stay|vibe)\b",
+            r"\b(?:valley|lake|mountain|scenic|ocean|sea|river)\s+view\b",
+            r"\bbeautiful view\b",
+            r"\bbreathtaking\b",
+        ],
+    ),
+    (
+        "Delicious food & dining",
+        [
+            r"\bdelicious\s+(?:food|breakfast|meal|dinner|cuisine|dishes)\b",
+            r"\bdelicious\b",
+            r"\btasty\s+(?:food|breakfast|meal|dinner|cuisine)\b",
+            r"\bgreat food\b",
+            r"\bgood food\b",
+            r"\bgreat breakfast\b",
+            r"\bexcellent food\b",
+        ],
+    ),
+]
+
+_ASPECT_COMPLAINT_PATTERNS: list[tuple[str, list[str]]] = [
+    (
+        "Cleanliness & hygiene issues",
+        [
+            r"\bissues? with cleanliness\b",
+            r"\bcleanliness.*(?:issue|problem|poor|bad|needs? improvement)\b",
+            r"\bdirty\b",
+            r"\bunclean\b",
+            r"\bsmelly\b",
+            r"\bstained\b",
+            r"\bnot clean\b",
+            r"\bunhygienic\b",
+            r"\bfilthy\b",
+        ],
+    ),
+    (
+        "Service & response delays",
+        [
+            r"\bresponse time could be better\b",
+            r"\bissues? with.*service\b",
+            r"\bslow service\b",
+            r"\bslow response\b",
+            r"\brude staff\b",
+            r"\bpoor service\b",
+            r"\bunhelpful staff\b",
+            r"\bunfriendly staff\b",
+            r"\bunprofessional\b",
+            r"\bhorrible service\b",
+            r"\bterrible service\b",
+        ],
+    ),
+    (
+        "Mismatch with expectations",
+        [
+            r"\bdid not match what was promised\b",
+            r"\bnot match what was promised\b",
+            r"\bdoes not match what was promised\b",
+            r"\bmisleading\b",
+            r"\bnot as described\b",
+            r"\bnot as advertised\b",
+            r"\bdisappointed with\b",
+            r"\bexperience did not match\b",
+        ],
+    ),
+    (
+        "Overall dissatisfaction",
+        [
+            r"\bwould not recommend\b",
+            r"\bnot satisfied\b",
+            r"\bworst\b",
+            r"\bterrible stay\b",
+            r"\bterrible experience\b",
+            r"\bhorrible experience\b",
+            r"\bawful experience\b",
+        ],
+    ),
+    (
+        "Requires general improvement",
+        [
+            r"\bneeds? improvement\b",
+            r"\bthings could be improved\b",
+            r"\bcould be better\b",
+            r"\baverage experience\b",
+            r"\bbelow expectations\b",
+        ],
+    ),
+    (
+        "Overpriced / poor value",
+        [
+            r"\boverpriced\b",
+            r"\bexpensive\b",
+            r"\bwaste of money\b",
+            r"\bnot worth\b",
+            r"\bpoor value\b",
+            r"\bnot value for money\b",
+        ],
+    ),
+    (
+        "Noise disturbance",
+        [
+            r"\bnoisy\b",
+            r"\bloud noise\b",
+            r"\bnoise disturbance\b",
+            r"\btoo loud\b",
+        ],
+    ),
+]
+
+def extract_aspects_and_complaints(
+    texts: list[str],
+) -> tuple[list[str], list[str]]:
+    import collections
+    praises: collections.Counter[str] = collections.Counter()
+    complaints: collections.Counter[str] = collections.Counter()
+
+    for raw in texts:
+        if not raw or not isinstance(raw, str):
+            continue
+        lower = raw.lower()
+
+        complaints_in_review: set[str] = set()
+        for label, patterns in _ASPECT_COMPLAINT_PATTERNS:
+            matched = False
+            for p in patterns:
+                for m in re.finditer(p, lower):
+                    matched_str = m.group(0)
+                    if not re.match(r"^(?:not|did\s+not|does\s+not|is\s+not|was\s+not|un)\b", matched_str):
+                        if _is_negated(lower, m.start()):
+                            continue
+                    if any(fp in lower for fp in ("no issues with", "no complaints", "no problem")):
+                        if "issues" in matched_str or "problem" in matched_str or "complaint" in matched_str:
+                            continue
+
+                    complaints[label] += 1
+                    complaints_in_review.add(label)
+                    matched = True
+                    break
+                if matched:
+                    break
+
+        for label, patterns in _ASPECT_PRAISE_PATTERNS:
+            if label == "Cleanliness & hygiene" and "Cleanliness & hygiene issues" in complaints_in_review:
+                continue
+            if label == "Helpful & courteous staff" and "Service & response delays" in complaints_in_review:
+                continue
+            if label == "Great value for money" and "Overpriced / poor value" in complaints_in_review:
+                continue
+
+            matched = False
+            for p in patterns:
+                for m in re.finditer(p, lower):
+                    if _is_negated(lower, m.start()):
+                        continue
+                    praises[label] += 1
+                    matched = True
+                    break
+                if matched:
+                    break
+
+    praised_list = [label for label, _ in praises.most_common(5)]
+    complaints_list = [label for label, _ in complaints.most_common(5)]
+    return praised_list, complaints_list
+
+def generate_sentiment_summary(
+    total: int,
+    pos: int,
+    neu: int,
+    neg: int,
+) -> Optional[str]:
+    if total == 0:
+        return None
+    pos_pct = round(pos / total * 100, 1)
+    neg_pct = round(neg / total * 100, 1)
+
+    if pos_pct >= 80:
+        return f"Overwhelmingly positive feedback ({pos_pct}% positive across {total} review{'s' if total != 1 else ''})."
+    elif pos_pct >= 60:
+        return f"Mostly positive guest feedback ({pos_pct}% positive across {total} review{'s' if total != 1 else ''})."
+    elif pos_pct >= 40:
+        return f"Mixed guest sentiment with both positive points and areas for improvement ({pos_pct}% positive, {neg_pct}% negative)."
+    elif neg_pct >= 50:
+        return f"Critical reviews indicating noticeable areas for improvement ({neg_pct}% negative across {total} review{'s' if total != 1 else ''})."
+    else:
+        return f"Balanced feedback across {total} review{'s' if total != 1 else ''}."

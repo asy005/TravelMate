@@ -701,7 +701,7 @@ export interface ReviewOut {
 
 export interface ReviewSummaryOut {
   entity_type: string;
-  entity_id: number;
+  entity_id: number | string;
   total_reviews: number;
   average_rating: number | null;
   positive_count: number;
@@ -709,6 +709,9 @@ export interface ReviewSummaryOut {
   negative_count: number;
   positive_pct: number;
   negative_pct: number;
+  sentiment_summary?: string | null;
+  praised_aspects?: string[];
+  recurring_complaints?: string[];
   recent_reviews: ReviewOut[];
 }
 
@@ -738,6 +741,24 @@ export async function getHotelReviews(hotelId: number): Promise<ReviewSummaryOut
 export async function getPackageReviews(packageId: number): Promise<ReviewSummaryOut> {
   const res = await fetch(`${API_BASE_URL}/reviews/package/${packageId}`);
   if (!res.ok) throw new Error("Failed to fetch package reviews");
+  return res.json();
+}
+
+export async function getDestinationReviews(destinationId: number): Promise<ReviewSummaryOut> {
+  const res = await fetch(`${API_BASE_URL}/reviews/destination/${destinationId}`);
+  if (!res.ok) throw new Error("Failed to fetch destination reviews");
+  return res.json();
+}
+
+export async function getAttractionReviews(attractionId: string): Promise<ReviewSummaryOut> {
+  const res = await fetch(`${API_BASE_URL}/reviews/attraction/${encodeURIComponent(attractionId)}`);
+  if (!res.ok) throw new Error("Failed to fetch attraction reviews");
+  return res.json();
+}
+
+export async function getRestaurantReviews(restaurantId: string): Promise<ReviewSummaryOut> {
+  const res = await fetch(`${API_BASE_URL}/reviews/restaurant/${encodeURIComponent(restaurantId)}`);
+  if (!res.ok) throw new Error("Failed to fetch restaurant reviews");
   return res.json();
 }
 
