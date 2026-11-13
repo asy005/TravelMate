@@ -1,10 +1,13 @@
 from pathlib import Path
+import logging
 import sys
 from typing import Dict, List, Optional
 
 import joblib
 import numpy as np
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 SERVICE_DIR = Path(__file__).resolve().parent
 BACKEND_DIR = SERVICE_DIR.parents[1]
@@ -23,6 +26,80 @@ if not ML_DIR.joinpath("recommendation_features.py").is_file():
 if str(ML_DIR) not in sys.path:
     sys.path.insert(0, str(ML_DIR))
 
+
+# ---------------------------------------------------------------------------
+# Startup validation — surface actionable errors early
+# ---------------------------------------------------------------------------
+_cached_model = None
+_cached_destinations = None
+_cached_feature_names = None
+
+
+def validate_ml_artifacts() -> bool:
+    """Validate that all required ML artifacts are present and loadable.
+
+    Returns True when everything looks good, False otherwise.
+    Logs actionable error messages so operators can fix the deployment.
+    """
+    global _cached_model
+    ok = True
+
+    if not MODEL_PATH.is_file():
+        logger.error(
+            "[ML] CRITICAL: Trained model not found at %s. "
+            "The file is required for recommendations to work. "
+            "Ensure 'datasets/ml/travelmate_recommender_final.pkl' is present "
+            "in your deployment (it should be tracked in Git via the .gitignore "
+            "exception). If you cloned without LFS or with a shallow clone, "
+            "re-clone fully or copy the .pkl file manually.",
+            MODEL_PATH,
+        )
+        ok = False
+    else:
+        size_mb = MODEL_PATH.stat().st_size / (1024 * 1024)
+        logger.info("[ML] Model artifact found: %s (%.1f MB)", MODEL_PATH.name, size_mb)
+
+    if not FEATURES_PATH.is_file():
+        logger.error(
+            "[ML] CRITICAL: Destination features not found at %s. "
+            "The file is required for building recommendation input features. "
+            "Ensure 'datasets/ml/destination_features.csv' is tracked in Git "
+            "and present in the deployment.",
+            FEATURES_PATH,
+        )
+        ok = False
+    else:
+        logger.info("[ML] Feature dataset found: %s", FEATURES_PATH.name)
+
+    if ok:
+        # Quick integrity check: can we actually deserialize the model?
+        try:
+            if _cached_model is None:
+                _cached_model = joblib.load(MODEL_PATH)
+            model = _cached_model
+            if not hasattr(model, "predict_proba"):
+                logger.warning(
+                    "[ML] Loaded model does not expose predict_proba(); "
+                    "recommendations may fail at runtime."
+                )
+            else:
+                logger.info("[ML] Model integrity check passed (predict_proba available).")
+        except Exception as exc:
+            logger.error(
+                "[ML] Model file exists but failed to load: %s. "
+                "The file may be corrupted. Re-obtain the artifact from "
+                "the training pipeline or repository.",
+                exc,
+            )
+            ok = False
+            _cached_model = None
+
+    return ok
+
+
+# Run validation at import time so errors surface during startup
+_artifacts_valid = validate_ml_artifacts()
+
 class MLEngine:
     def __init__(self):
         self.model = None
@@ -38,46 +115,67 @@ class MLEngine:
         self.budget_values = BUDGET_VALUES
 
     def _load_artifacts(self):
+        global _cached_model, _cached_destinations, _cached_feature_names
         if self.model is not None and self.destinations is not None:
             return
 
         if not MODEL_PATH.is_file():
-            raise FileNotFoundError(f"Model not found: {MODEL_PATH}")
+            raise FileNotFoundError(
+                f"Model not found: {MODEL_PATH}. "
+                "Ensure 'datasets/ml/travelmate_recommender_final.pkl' is "
+                "present in the deployment. Check startup logs for details."
+            )
 
         if not FEATURES_PATH.is_file():
             raise FileNotFoundError(
-                f"Destination features not found: {FEATURES_PATH}"
+                f"Destination features not found: {FEATURES_PATH}. "
+                "Ensure 'datasets/ml/destination_features.csv' is tracked "
+                "in Git and present in the deployment."
             )
 
-        model = joblib.load(MODEL_PATH)
-        destinations = pd.read_csv(
-            FEATURES_PATH,
-            dtype={"destination_id": str},
-        )
+        if self.model is None:
+            if _cached_model is not None:
+                self.model = _cached_model
+            else:
+                self.model = joblib.load(MODEL_PATH)
+                _cached_model = self.model
 
-        if destinations.empty:
-            raise ValueError("The destination feature dataset is empty.")
-
-        feature_names = getattr(model, "feature_names_in_", None)
-
-        if feature_names is None and hasattr(model, "named_steps"):
-            preprocessor = model.named_steps.get("preprocessing")
-            if preprocessor is not None:
-                feature_names = getattr(
-                    preprocessor, "feature_names_in_", None
+        if self.destinations is None:
+            if _cached_destinations is not None:
+                self.destinations = _cached_destinations
+            else:
+                destinations = pd.read_csv(
+                    FEATURES_PATH,
+                    dtype={"destination_id": str},
                 )
+                if destinations.empty:
+                    raise ValueError("The destination feature dataset is empty.")
+                _cached_destinations = destinations
+                self.destinations = destinations
 
-        if feature_names is None and hasattr(model, "named_steps"):
-            for step in model.named_steps.values():
-                feature_names = getattr(step, "feature_names_in_", None)
-                if feature_names is not None:
-                    break
+        if self._feature_names is None:
+            if _cached_feature_names is not None:
+                self._feature_names = _cached_feature_names
+            else:
+                feature_names = getattr(self.model, "feature_names_in_", None)
 
-        self.model = model
-        self.destinations = destinations
-        self._feature_names = (
-            list(feature_names) if feature_names is not None else None
-        )
+                if feature_names is None and hasattr(self.model, "named_steps"):
+                    preprocessor = self.model.named_steps.get("preprocessing")
+                    if preprocessor is not None:
+                        feature_names = getattr(
+                            preprocessor, "feature_names_in_", None
+                        )
+
+                if feature_names is None and hasattr(self.model, "named_steps"):
+                    for step in self.model.named_steps.values():
+                        feature_names = getattr(step, "feature_names_in_", None)
+                        if feature_names is not None:
+                            break
+
+                self._feature_names = (
+                    list(feature_names) if feature_names is not None else None
+                )
+                _cached_feature_names = self._feature_names
 
     @staticmethod
     def _season_months(season):

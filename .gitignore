@@ -33,6 +33,11 @@ build/
 
 # ---------- ML generated artifacts ----------
 *.pkl
+# Allow the trained recommender model required at runtime
+!datasets/ml/travelmate_recommender_final.pkl
+
+# ---------- RAG FAISS index (derived from PDFs; rebuilt automatically) ----------
+travelmate_backend/app/faiss_index/
 
 # ---------- Temporary files ----------
 *.tmp

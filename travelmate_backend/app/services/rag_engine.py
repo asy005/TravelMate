@@ -1,4 +1,4 @@
-import os, re
+import os, re, hashlib, json, logging, time
 from collections import Counter
 from typing import Dict, Optional
 from dotenv import load_dotenv
@@ -10,10 +10,16 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
+
 PDF_FOLDER = os.path.join(os.path.dirname(__file__), "..", "pdfs")
+FAISS_INDEX_DIR = os.path.join(os.path.dirname(__file__), "..", "faiss_index")
+FAISS_MANIFEST_PATH = os.path.join(FAISS_INDEX_DIR, "manifest.json")
 HF_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+FORCE_RAG_REBUILD = os.getenv("FORCE_RAG_REBUILD", "").strip().lower() in ("1", "true", "yes")
 
 vector_store = None
+
 
 def get_embeddings():
     try:
@@ -27,10 +33,118 @@ def get_embeddings():
             model_kwargs={"device": "cpu"}
         )
 
-def init_vector_store():
+
+# ---------------------------------------------------------------------------
+# FAISS index persistence helpers
+# ---------------------------------------------------------------------------
+def _pdf_manifest() -> dict:
+    """Build a manifest of PDF files: {filename: sha256_hex, ...} + sorted names list."""
+    if not os.path.isdir(PDF_FOLDER):
+        return {"files": {}}
+    manifest: dict = {}
+    for fname in sorted(os.listdir(PDF_FOLDER)):
+        if fname.lower().endswith(".pdf"):
+            fpath = os.path.join(PDF_FOLDER, fname)
+            h = hashlib.sha256()
+            with open(fpath, "rb") as f:
+                for chunk in iter(lambda: f.read(65536), b""):
+                    h.update(chunk)
+            manifest[fname] = h.hexdigest()
+    return {"files": manifest}
+
+
+def _save_manifest(manifest: dict) -> None:
+    """Write manifest JSON alongside the FAISS index."""
+    os.makedirs(FAISS_INDEX_DIR, exist_ok=True)
+    with open(FAISS_MANIFEST_PATH, "w") as f:
+        json.dump(manifest, f, indent=2)
+
+
+def _load_manifest() -> Optional[dict]:
+    """Load saved manifest, or None if missing / corrupt."""
+    if not os.path.isfile(FAISS_MANIFEST_PATH):
+        return None
+    try:
+        with open(FAISS_MANIFEST_PATH, "r") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.warning("[RAG] Could not read FAISS manifest: %s", exc)
+        return None
+
+
+def _index_is_current() -> bool:
+    """Return True if a persisted FAISS index exists and matches the current PDFs."""
+    faiss_file = os.path.join(FAISS_INDEX_DIR, "index.faiss")
+    pkl_file = os.path.join(FAISS_INDEX_DIR, "index.pkl")
+    if not (os.path.isfile(faiss_file) and os.path.isfile(pkl_file)):
+        return False
+    saved = _load_manifest()
+    if saved is None:
+        return False
+    current = _pdf_manifest()
+    return saved.get("files") == current.get("files")
+
+
+def _save_index(vs) -> None:
+    """Persist the FAISS vector store and manifest to disk."""
+    try:
+        os.makedirs(FAISS_INDEX_DIR, exist_ok=True)
+        vs.save_local(FAISS_INDEX_DIR)
+        _save_manifest(_pdf_manifest())
+        logger.info("[RAG] FAISS index saved to %s", FAISS_INDEX_DIR)
+    except Exception as exc:
+        logger.error("[RAG] Failed to save FAISS index: %s", exc)
+
+
+def _load_index():
+    """Load a persisted FAISS index. Returns the vector store or None."""
+    faiss_file = os.path.join(FAISS_INDEX_DIR, "index.faiss")
+    if not os.path.isfile(faiss_file):
+        return None
+    try:
+        embeddings = get_embeddings()
+        vs = FAISS.load_local(
+            FAISS_INDEX_DIR,
+            embeddings,
+            allow_dangerous_deserialization=True,
+        )
+        logger.info("[RAG] FAISS index loaded from disk.")
+        return vs
+    except Exception as exc:
+        logger.error(
+            "[RAG] Failed to load persisted FAISS index (will rebuild): %s", exc
+        )
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Vector store initialization with persistence
+# ---------------------------------------------------------------------------
+def init_vector_store(force_rebuild: bool = False):
     global vector_store
-    if vector_store is not None:
+    env_force = os.getenv("FORCE_RAG_REBUILD", "").strip().lower() in ("1", "true", "yes")
+    should_rebuild = force_rebuild or FORCE_RAG_REBUILD or env_force
+
+    if not should_rebuild and vector_store is not None:
         return
+
+    if not should_rebuild and _index_is_current():
+        t0 = time.time()
+        vs = _load_index()
+        if vs is not None:
+            vector_store = vs
+            elapsed = time.time() - t0
+            logger.info("[RAG] Loaded persisted index in %.2fs", elapsed)
+            print(f"[RAG] VectorDB loaded from persisted index in {elapsed:.2f}s")
+            return
+        else:
+            logger.warning("[RAG] Persisted index failed to load; rebuilding.")
+
+    if should_rebuild:
+        logger.info("[RAG] Forced rebuild requested.")
+
+    # -- Build from PDFs --
+    t0 = time.time()
     docs = []
 
     splitter = RecursiveCharacterTextSplitter(
@@ -51,7 +165,10 @@ def init_vector_store():
 
     if docs:
         vector_store = FAISS.from_documents(docs, get_embeddings())
-        print(f"[RAG] VectorDB initialized with {len(docs)} chunks")
+        elapsed = time.time() - t0
+        print(f"[RAG] VectorDB initialized with {len(docs)} chunks in {elapsed:.2f}s")
+        logger.info("[RAG] VectorDB built from PDFs with %d chunks in %.2fs", len(docs), elapsed)
+        _save_index(vector_store)
     else:
         vector_store = None
         print("[RAG] No PDFs found -> VectorDB NOT initialized")
