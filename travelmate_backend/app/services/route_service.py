@@ -1,4 +1,3 @@
-# app/services/route_service.py
 import requests
 from math import radians, sin, cos, sqrt, atan2
 
@@ -15,7 +14,6 @@ def haversine(lat1, lon1, lat2, lon2):
 def get_route_osrm(source_lat, source_lon, dest_lat, dest_lon):
     url = OSRM_URL.format(lat1=source_lat, lon1=source_lon, lat2=dest_lat, lon2=dest_lon,
                           lon1_param=source_lon, lat1_param=source_lat, lon2_param=dest_lon, lat2_param=dest_lat)
-    # Use the formatted string above
     url = OSRM_URL.format(lon1=source_lon, lat1=source_lat, lon2=dest_lon, lat2=dest_lat)
     try:
         r = requests.get(url, timeout=6)
@@ -32,7 +30,49 @@ def get_route_osrm(source_lat, source_lon, dest_lat, dest_lon):
             }
     except Exception as e:
         print(f"[OSRM] error: {e}")
-    # fallback
     d_km = round(haversine(source_lat, source_lon, dest_lat, dest_lon), 2)
     eta_hours = round(d_km / 50.0, 2)
     return {"distance_km": d_km, "eta_hours": eta_hours, "raw": None, "notes": "OSRM fallback used"}
+
+
+def get_osrm_multi_stop_route(coords, timeout=6):
+    if not coords or len(coords) < 2:
+        return None
+
+    pairs = []
+    for pt in coords:
+        if isinstance(pt, dict):
+            lat, lon = pt.get("lat"), pt.get("lon")
+        elif isinstance(pt, (list, tuple)) and len(pt) >= 2:
+            lat, lon = pt[0], pt[1]
+        else:
+            lat, lon = None, None
+        if lat is not None and lon is not None:
+            pairs.append((float(lat), float(lon)))
+
+    if len(pairs) < 2:
+        return None
+
+    loc_str = ";".join(f"{lon},{lat}" for lat, lon in pairs)
+    url = f"https://router.project-osrm.org/route/v1/driving/{loc_str}?overview=full&geometries=geojson"
+
+    try:
+        r = requests.get(url, timeout=timeout)
+        r.raise_for_status()
+        j = r.json()
+        if j.get("code") == "Ok" and j.get("routes"):
+            route = j["routes"][0]
+            distance_m = route.get("distance", 0.0)
+            duration_s = route.get("duration", 0.0)
+            geojson_coords = route.get("geometry", {}).get("coordinates", [])
+            leaflet_coords = [[pt[1], pt[0]] for pt in geojson_coords if len(pt) >= 2]
+            return {
+                "distance_km": round(distance_m / 1000.0, 2),
+                "duration_min": round(duration_s / 60.0, 1),
+                "geometry": leaflet_coords,
+                "source": "OSRM OpenStreetMap Driving Router",
+            }
+    except Exception as exc:
+        print(f"[OSRM] Multi-stop road routing notice: {exc}")
+
+    return None

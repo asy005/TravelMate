@@ -95,7 +95,20 @@ def chat_completion(
 
         if json_mode:
             try:
-                parsed = json.loads(content)
+                clean_content = content.strip()
+                if clean_content.startswith("```"):
+                    lines = clean_content.splitlines()
+                    if lines and lines[0].startswith("```"):
+                        lines = lines[1:]
+                    if lines and lines[-1].strip() == "```":
+                        lines = lines[:-1]
+                    clean_content = "\n".join(lines).strip()
+                first_brace = clean_content.find("{")
+                last_brace = clean_content.rfind("}")
+                if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
+                    clean_content = clean_content[first_brace : last_brace + 1]
+                parsed = json.loads(clean_content)
+                content = clean_content
             except json.JSONDecodeError as exc:
                 raise LLMGatewayError(
                     f"The LLM provider returned invalid JSON: {exc}"

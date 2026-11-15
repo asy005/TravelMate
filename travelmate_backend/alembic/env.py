@@ -16,7 +16,8 @@ sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 )
 
-from app.database import Base, engine
+from app.database import Base, engine, get_database_url
+
 from app.models import (
     user,
     conversation,
@@ -27,11 +28,13 @@ from app.models import (
     partner,
     package,
     review,
+    destination,
+    saved_trip,
 )
 
 target_metadata = Base.metadata
 
-def get_database_url():
+def _resolve_db_url():
     database_url = os.getenv("DATABASE_URL")
 
     if database_url:
@@ -40,11 +43,11 @@ def get_database_url():
             parsed = parsed._replace(scheme="postgresql")
         return urlunparse(parsed)
 
-    return str(engine.url)
+    return engine.url.render_as_string(hide_password=False)
 
 def run_migrations_offline() -> None:
     context.configure(
-        url=get_database_url(),
+        url=_resolve_db_url(),
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -55,7 +58,7 @@ def run_migrations_offline() -> None:
 
 def run_migrations_online() -> None:
     connectable = engine_from_config(
-        {"sqlalchemy.url": get_database_url()},
+        {"sqlalchemy.url": _resolve_db_url()},
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
@@ -68,7 +71,6 @@ def run_migrations_online() -> None:
 
         with context.begin_transaction():
             context.run_migrations()
-
 
 if context.is_offline_mode():
     run_migrations_offline()

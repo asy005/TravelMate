@@ -12,27 +12,54 @@ export const HighlightsBox = ({ destination, query }: HighlightsBoxProps) => {
   const [highlights, setHighlights] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasGenerated, setHasGenerated] = useState(false);
 
   const targetQuery =
     (typeof destination === "string" ? destination : destination?.name) || query || "";
+  const destId = typeof destination === "object" ? destination?.id || destination?.csv_destination_id : undefined;
 
   useEffect(() => {
     setHighlights([]);
     setError(null);
+    setHasGenerated(false);
   }, [destination?.id, destination?.name, query]);
 
   const fetchHighlights = async () => {
     if (!targetQuery) return;
     setLoading(true);
     setError(null);
+    setHasGenerated(true);
 
     try {
-      const data = await getHighlights(targetQuery, targetQuery);
-      setHighlights(data.highlights || []);
+      const data = await getHighlights(targetQuery, targetQuery, destId);
+      let list = data.highlights || [];
+
+      // If backend returned empty but destination has verified attractions on frontend
+      if (list.length === 0 && Array.isArray(destination?.attractions) && destination.attractions.length > 0) {
+        list = destination.attractions.slice(0, 4).map((att: any) => {
+          const cat = att.category ? `— ${att.category}` : "";
+          const rating = att.rating ? ` (${att.rating}★)` : "";
+          const fee = att.entry_fee === 0 ? " • Free entry" : (att.entry_fee ? ` • Entry ₹${att.entry_fee}` : "");
+          return `${att.name} ${cat}${rating}${fee} in ${att.city || targetQuery}.`;
+        });
+      }
+
+      setHighlights(list);
     } catch (err: any) {
       console.error("Highlights error:", err);
-      setError("Unable to load destination highlights. Click retry to try again.");
-      setHighlights([]);
+      // Graceful fallback from client-side verified attractions if API fails
+      if (Array.isArray(destination?.attractions) && destination.attractions.length > 0) {
+        const list = destination.attractions.slice(0, 4).map((att: any) => {
+          const cat = att.category ? `— ${att.category}` : "";
+          const rating = att.rating ? ` (${att.rating}★)` : "";
+          const fee = att.entry_fee === 0 ? " • Free entry" : (att.entry_fee ? ` • Entry ₹${att.entry_fee}` : "");
+          return `${att.name} ${cat}${rating}${fee} in ${att.city || targetQuery}.`;
+        });
+        setHighlights(list);
+      } else {
+        setError("Unable to load destination highlights. Click retry to try again.");
+        setHighlights([]);
+      }
     } finally {
       setLoading(false);
     }
@@ -83,7 +110,7 @@ export const HighlightsBox = ({ destination, query }: HighlightsBoxProps) => {
       {loading && (
         <div className="py-6 flex items-center justify-center text-xs text-muted-foreground gap-2">
           <Loader2 className="h-4 w-4 animate-spin text-primary" />
-          <span>Analyzing knowledge base for {targetQuery}...</span>
+          <span>Extracting verified attraction highlights for {targetQuery}...</span>
         </div>
       )}
 
@@ -101,9 +128,20 @@ export const HighlightsBox = ({ destination, query }: HighlightsBoxProps) => {
         </ul>
       )}
 
-      {!loading && !error && highlights.length === 0 && (
+      {!loading && !error && hasGenerated && highlights.length === 0 && (
+        <div className="py-6 px-4 bg-muted/20 border border-dashed border-border rounded-xl text-center space-y-1.5">
+          <p className="text-sm font-semibold text-foreground">
+            No Verified Attraction Highlights Available
+          </p>
+          <p className="text-xs text-muted-foreground max-w-md mx-auto">
+            No verified attraction records are currently documented for {targetQuery}. Explore regional landmarks or check back as more attractions are added.
+          </p>
+        </div>
+      )}
+
+      {!loading && !error && !hasGenerated && highlights.length === 0 && (
         <p className="text-xs text-muted-foreground italic py-2">
-          Click "Generate Highlights" to extract curated cultural and tourist highlights for {targetQuery || "this destination"}.
+          Click "Generate Highlights" to view curated highlights from verified attraction records for {targetQuery || "this destination"}.
         </p>
       )}
     </div>

@@ -18,14 +18,14 @@ import { translateText, chatWithBot } from "@/lib/api";
 export default function Chatbot() {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
+
   const [prompt, setPrompt] = useState("");
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedLang, setSelectedLang] = useState<string>(getStoredLanguage());
   const [translationError, setTranslationError] = useState<string | null>(null);
-  const isSendingRef = useRef(false);
 
-  // Hook up browser Web Speech API with active language support
+  const isSendingRef = useRef(false);
   const voice = useVoiceAssistant({
     lang: selectedLang,
     onTranscriptComplete: (finalText) => {
@@ -34,15 +34,22 @@ export default function Chatbot() {
   });
 
   useEffect(() => {
-    const dest = searchParams.get("destination");
-    if (dest) {
-      setPrompt((prev) => {
-        if (!prev || !prev.includes(dest)) {
-          return `I want to plan a trip to ${dest}. `;
-        }
+    const dest = searchParams.get("destination")?.trim();
+
+    if (!dest) return;
+
+    setPrompt((prev) => {
+      const normalizedPrompt = prev.trim().toLowerCase();
+      const normalizedDestination = dest.toLowerCase();
+
+      if (normalizedPrompt.includes(normalizedDestination)) {
         return prev;
-      });
-    }
+      }
+
+      return prev.trim()
+        ? `${prev.trim()} I want to plan a trip to ${dest}. `
+        : `I want to plan a trip to ${dest}. `;
+    });
   }, [searchParams]);
 
   const handleLanguageChange = (newLang: string) => {
@@ -52,6 +59,7 @@ export default function Chatbot() {
 
   const send = async () => {
     if (!prompt.trim() || loading || isSendingRef.current) return;
+
     isSendingRef.current = true;
 
     voice.stopListening();
@@ -62,28 +70,38 @@ export default function Chatbot() {
     setTranslationError(null);
 
     try {
-      const j = await chatWithBot(prompt);
-      let responseText = j.reply || j.error || "No response";
+      const response = await chatWithBot(prompt.trim());
+      let responseText = response.reply || response.error || "No response";
 
       if (selectedLang !== "en" && responseText) {
         try {
-          const trans = await translateText(responseText, selectedLang);
-          if (trans.translated_text) {
-            responseText = trans.translated_text;
-          } else if (trans.error) {
-            setTranslationError(`Translation to ${selectedLang.toUpperCase()} failed: ${trans.error}`);
-            responseText = `${responseText}\n\n[⚠️ Note: Translation to ${selectedLang.toUpperCase()} failed. Showing English response.]`;
+          const translation = await translateText(responseText, selectedLang);
+
+          if (translation.translated_text) {
+            responseText = translation.translated_text;
+          } else if (translation.error) {
+            setTranslationError(
+              `Translation to ${selectedLang.toUpperCase()} failed: ${translation.error}`
+            );
+
+            responseText += `\n\n[⚠️ Note: Translation to ${selectedLang.toUpperCase()} failed. Showing English response.]`;
           }
-        } catch (err: any) {
-          setTranslationError(`Translation service unreachable for ${selectedLang.toUpperCase()}`);
-          responseText = `${responseText}\n\n[⚠️ Note: Translation to ${selectedLang.toUpperCase()} failed. Showing English response.]`;
+        } catch {
+          setTranslationError(
+            `Translation service unreachable for ${selectedLang.toUpperCase()}`
+          );
+
+          responseText += `\n\n[⚠️ Note: Translation to ${selectedLang.toUpperCase()} failed. Showing English response.]`;
         }
       }
 
       setReply(responseText);
 
-      // Speak assistant reply if voice output is active and not muted
-      if (!voice.isMuted && voice.isSpeechSynthesisSupported && responseText) {
+      if (
+        !voice.isMuted &&
+        voice.isSpeechSynthesisSupported &&
+        responseText
+      ) {
         voice.speak(responseText, selectedLang);
       }
     } catch {
@@ -102,9 +120,13 @@ export default function Chatbot() {
     <div className="min-h-screen container mx-auto px-6 max-w-3xl pt-28 pb-16">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
         <div className="flex items-center gap-2">
-          <MessageCircle className="h-6 w-6 text-coral" aria-hidden="true" />
+          <MessageCircle
+            className="h-6 w-6 text-coral"
+            aria-hidden="true"
+          />
           <h1 className="text-3xl font-bold">TravelMate AI Chat</h1>
         </div>
+
         <LanguageSelector
           value={selectedLang}
           onChange={handleLanguageChange}
@@ -114,7 +136,9 @@ export default function Chatbot() {
 
       <Card className="p-6 bg-card/95 backdrop-blur-md border border-white/20 animate-fade-up">
         <div className="flex items-center justify-between mb-2">
-          <Label htmlFor="chat-prompt">Ask anything about your trip or use voice</Label>
+          <Label htmlFor="chat-prompt">
+            Ask anything about your trip or use voice
+          </Label>
         </div>
 
         {/* Translation error notification */}
@@ -125,7 +149,7 @@ export default function Chatbot() {
           </div>
         )}
 
-        {/* Voice status & feedback */}
+        {/* Voice status */}
         <VoiceStatusBanner voice={voice} />
 
         <Textarea
@@ -142,14 +166,10 @@ export default function Chatbot() {
           }
           className="mt-2 text-base"
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              if (e.shiftKey) {
-                // Allow Shift+Enter for multiline newline insertion
-                return;
-              }
-              // Submit message without default page scroll or newline
+            if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               e.stopPropagation();
+
               if (!loading && !isSendingRef.current && prompt.trim()) {
                 send();
               }
@@ -160,34 +180,51 @@ export default function Chatbot() {
         <div className="mt-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <VoiceInputButton voice={voice} disabled={loading} />
+
             <span className="text-xs text-muted-foreground hidden sm:inline">
               {voice.isListening ? "Listening..." : "Click mic to speak"}
             </span>
           </div>
 
-          <Button variant="hero" onClick={send} disabled={loading || !prompt.trim()}>
+          <Button
+            variant="hero"
+            onClick={send}
+            disabled={loading || !prompt.trim()}
+          >
             <Send className="h-4 w-4 mr-2" />
             {loading ? "Sending..." : "Send"}
           </Button>
         </div>
       </Card>
 
+      {/* Assistant response */}
       <Card className="mt-5 p-6 bg-card/70 backdrop-blur-md border border-white/10 min-h-[120px]">
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5 text-coral" /> Reply
+            <Sparkles className="h-3.5 w-3.5 text-coral" />
+            Reply
           </p>
+
           {reply && !loading && (
-            <SpeechPlaybackControls voice={voice} textToSpeak={reply} />
+            <SpeechPlaybackControls
+              voice={voice}
+              textToSpeak={reply}
+            />
           )}
         </div>
 
         {loading ? (
-          <p className="text-sm text-muted-foreground animate-pulse">Thinking...</p>
+          <p className="text-sm text-muted-foreground animate-pulse">
+            Thinking...
+          </p>
         ) : reply ? (
-          <p className="text-sm leading-relaxed animate-fade-up whitespace-pre-wrap">{reply}</p>
+          <p className="text-sm leading-relaxed animate-fade-up whitespace-pre-wrap">
+            {reply}
+          </p>
         ) : (
-          <p className="text-sm text-muted-foreground">Your assistant's reply will appear here.</p>
+          <p className="text-sm text-muted-foreground">
+            Your assistant's reply will appear here.
+          </p>
         )}
       </Card>
     </div>

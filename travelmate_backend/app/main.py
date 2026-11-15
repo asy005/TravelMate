@@ -34,11 +34,12 @@ from app.routes import voice_routes
 from app.routes import ocr_routes  # Phase 6
 from app.routes import translation_routes
 from app.routes import currency_routes  # Phase 7  # Phase 6  # Phase 5
+from app.routes import saved_trip_routes
 
 app = FastAPI()
 
 # ----------------------------
-# CORS — restricted to configured origins (see ALLOWED_ORIGINS in .env)
+# CORS â€” restricted to configured origins (see ALLOWED_ORIGINS in .env)
 # ----------------------------
 app.add_middleware(
     CORSMiddleware,
@@ -86,6 +87,7 @@ app.include_router(voice_routes.router)  # Phase 5
 app.include_router(ocr_routes.router)  # Phase 6
 app.include_router(translation_routes.router)  # Phase 6
 app.include_router(currency_routes.router)  # Phase 7
+app.include_router(saved_trip_routes.router)
 
 # ----------------------------
 # Static file serving for uploads (partner photos, etc.)

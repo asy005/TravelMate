@@ -1,5 +1,6 @@
 # travelmate_backend/tests/test_route_optimization.py
 import pytest
+from unittest.mock import patch
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -269,7 +270,13 @@ class TestPipelineNonRegression:
 class TestRouteEndpointsAndTripBuilder:
     """Verifies FastAPI /routes/ endpoint and Trip Builder integration."""
 
-    def test_routes_api_endpoint(self):
+    @patch("app.routes.route_routes.get_osrm_multi_stop_route", return_value=None)
+    def test_routes_api_endpoint(self, mock_osrm):
+        """
+        Validates the /routes/ endpoint returns correct structure with haversine-only
+        proxy distances. OSRM is mocked to None for network isolation — the endpoint
+        should gracefully fall back to straight-line proxy distance.
+        """
         payload = {
             "points": [
                 {"name": "India Gate", "lat": 28.6129, "lon": 77.2295},
@@ -285,6 +292,44 @@ class TestRouteEndpointsAndTripBuilder:
         assert len(data["ordered_points"]) == 2
         assert data["total_distance_km"] > 0
         assert data["distance_as_proxy"] is True
+        # When OSRM is unavailable, road-specific fields should be absent
+        assert data["road_distance_km"] is None
+        assert data["route_geometry"] is None
+        assert data["routing_service"] is None
+
+    @patch("app.routes.route_routes.get_osrm_multi_stop_route")
+    def test_routes_api_endpoint_with_road_geometry(self, mock_osrm):
+        """
+        Validates the /routes/ endpoint returns real road distance and geometry
+        when OSRM returns a successful response. Mocked for determinism.
+        """
+        mock_osrm.return_value = {
+            "distance_km": 3.42,
+            "duration_min": 8.5,
+            "geometry": [[28.6129, 77.2295], [28.6050, 77.2400], [28.5933, 77.2507]],
+            "source": "OSRM OpenStreetMap Driving Router",
+        }
+        payload = {
+            "points": [
+                {"name": "India Gate", "lat": 28.6129, "lon": 77.2295},
+                {"name": "Humayun's Tomb", "lat": 28.5933, "lon": 77.2507},
+            ],
+            "return_to_start": False,
+        }
+        response = client.post("/routes/", json=payload)
+        assert response.status_code == 200
+        data = response.json()
+        assert "summary" in data
+        assert "ordered_points" in data
+        assert len(data["ordered_points"]) == 2
+        assert data["total_distance_km"] > 0
+        # With successful OSRM, road distance should be present and distance_as_proxy is False
+        assert data["distance_as_proxy"] is False
+        assert data["road_distance_km"] == 3.42
+        assert data["duration_min"] == 8.5
+        assert data["route_geometry"] is not None
+        assert len(data["route_geometry"]) == 3
+        assert data["routing_service"] == "OSRM OpenStreetMap Driving Router"
 
     def test_trip_builder_plan_optimization(self):
         plan = {

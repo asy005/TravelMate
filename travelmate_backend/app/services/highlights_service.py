@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Optional, Any
 import re
 
 DESTINATION_ACTIVITIES = {
@@ -156,6 +156,125 @@ def extract_sentences(text: str, max_sentences: int = 3) -> List[str]:
             break
 
     return results
+
+def get_destination_highlights(
+    destination_name: str = "",
+    destination_id: Optional[str] = None,
+    max_items: int = 4,
+    db: Optional[Any] = None,
+) -> List[str]:
+    """
+    Generates a clean list of meaningful destination highlights strictly
+    from verified attraction records. Returns an empty list if no attraction
+    records are available, avoiding fabricated or irrelevant highlights.
+    """
+    max_items = max(1, min(int(max_items or 4), 10))
+    clean_name = (destination_name or "").strip()
+
+    csv_dest_id = None
+    if destination_id:
+        clean_id = str(destination_id).strip().upper()
+        if clean_id.startswith("D") and len(clean_id) <= 6:
+            csv_dest_id = clean_id
+
+    # If csv_dest_id not directly provided, resolve from DB
+    if not csv_dest_id and db is not None:
+        try:
+            from app.models.destination import Destination
+            dest_record = None
+            if destination_id and str(destination_id).isdigit():
+                dest_record = db.query(Destination).filter(Destination.id == int(destination_id)).first()
+            if not dest_record and clean_name:
+                dest_record = db.query(Destination).filter(Destination.name.ilike(f"%{clean_name}%")).first()
+            if dest_record and dest_record.csv_destination_id:
+                csv_dest_id = dest_record.csv_destination_id
+        except Exception:
+            pass
+
+    # If still not found, check destinations.csv directly
+    if not csv_dest_id and clean_name:
+        import csv
+        from pathlib import Path
+        for p in [
+            Path(__file__).resolve().parents[3] / "datasets" / "destinations.csv",
+            Path("datasets/destinations.csv"),
+            Path(__file__).resolve().parent.parent.parent.parent / "datasets" / "destinations.csv",
+        ]:
+            if p.exists() and p.is_file():
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        for row in csv.DictReader(f):
+                            dname = (row.get("destination_name") or "").strip().lower()
+                            if dname == clean_name.lower() or clean_name.lower() in dname:
+                                csv_dest_id = (row.get("destination_id") or "").strip().upper()
+                                break
+                except Exception:
+                    pass
+                if csv_dest_id:
+                    break
+
+    # Retrieve verified attractions
+    from app.routes.destination_routes import _get_dest_attractions
+    attractions = _get_dest_attractions(csv_dest_id) if csv_dest_id else []
+
+    if not attractions and clean_name:
+        # Check if destination_name matches city in attractions.csv
+        from app.services.route_optimizer import AttractionCoordinateResolver
+        resolver = AttractionCoordinateResolver.get_instance()
+        norm_city = clean_name.casefold()
+        city_attractions = [
+            info for (c, _), info in resolver._by_city_and_name.items()
+            if c == norm_city or norm_city in c
+        ]
+        if city_attractions:
+            city_attractions.sort(key=lambda x: x.get("rating", 0.0), reverse=True)
+            attractions = city_attractions
+
+    if not attractions:
+        return []
+
+    # Build clean, informative highlights from verified attraction records
+    highlights: List[str] = []
+    seen_names = set()
+
+    for att in attractions:
+        att_name = (att.get("name") or "").strip()
+        if not att_name or att_name.lower() in seen_names:
+            continue
+        seen_names.add(att_name.lower())
+
+        cat = (att.get("category") or "").strip()
+        rating = att.get("rating")
+        fee = att.get("entry_fee", 0.0)
+        city = (att.get("city") or clean_name).strip()
+
+        desc_parts = [att_name]
+        descriptors = []
+        if cat:
+            descriptors.append(cat)
+        if rating and float(rating) > 0:
+            descriptors.append(f"{float(rating):.1f}★")
+        if fee is not None:
+            try:
+                fee_val = float(fee)
+                if fee_val == 0:
+                    descriptors.append("Free entry")
+                elif fee_val > 0:
+                    descriptors.append(f"Entry ₹{int(fee_val)}")
+            except (ValueError, TypeError):
+                pass
+
+        if descriptors:
+            desc_parts.append(f"— {', '.join(descriptors)}")
+
+        desc_parts.append(f"in {city}.")
+        highlights.append(" ".join(desc_parts))
+
+        if len(highlights) >= max_items:
+            break
+
+    return highlights
+
 
 def top_highlights_from_rag(
     rag_result: Dict,

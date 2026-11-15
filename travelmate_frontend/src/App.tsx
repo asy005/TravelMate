@@ -12,6 +12,7 @@ import Signup from "./pages/Auth/Signup";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Favorites from "./pages/Favorites";
+import SavedTrips from "./pages/SavedTrips";
 import Chatbot from "./pages/Chatbot";
 import HotelDetails from "./pages/HotelDetails";
 import PackageDetails from "./pages/PackageDetails";
@@ -56,6 +57,9 @@ const App = () => (
 
           {/* Favorites */}
           <Route path="/favorites" element={<PageTransition><Favorites /></PageTransition>} />
+
+          {/* Saved Trips */}
+          <Route path="/saved-trips" element={<PageTransition><SavedTrips /></PageTransition>} />
 
           {/* AI Chat */}
           <Route path="/chat" element={<PageTransition><Chatbot /></PageTransition>} />

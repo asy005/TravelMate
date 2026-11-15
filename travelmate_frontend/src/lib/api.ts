@@ -394,6 +394,89 @@ export async function removeFavorite(destinationId: number | string) {
   return fallback.json();
 }
 
+// ─── Saved Trips (Customized Destination Trips) ──────────────────────────────
+
+export interface SavedTrip {
+  id?: number;
+  user_id?: number;
+  destination_id?: number | null;
+  destination_name: string;
+  trip_title?: string | null;
+  trip_duration_days?: number;
+  travel_dates?: string | null;
+  destination_data?: any;
+  itinerary?: any;
+  selected_attractions?: any[];
+  selected_activities?: any[];
+  route_stops?: any[];
+  route_details?: any;
+  packing_checklist?: Record<string, boolean>;
+  custom_packing_items?: string[];
+  trip_preferences?: any;
+  notes?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export async function getSavedTrips(): Promise<SavedTrip[]> {
+  const res = await fetch(`${API_BASE_URL}/saved-trips/`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to load saved trips");
+  return res.json();
+}
+
+export async function getSavedTripById(tripId: number | string): Promise<SavedTrip> {
+  const res = await fetch(`${API_BASE_URL}/saved-trips/${tripId}`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) throw new Error("Saved trip not found");
+  return res.json();
+}
+
+export async function getSavedTripByDestination(destId: number | string): Promise<SavedTrip | null> {
+  const res = await fetch(`${API_BASE_URL}/saved-trips/by-destination/${destId}`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) return null;
+  return res.json();
+}
+
+export async function saveTrip(payload: SavedTrip): Promise<SavedTrip> {
+  const res = await fetch(`${API_BASE_URL}/saved-trips/`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || "Failed to save trip");
+  }
+  return res.json();
+}
+
+export async function updateSavedTrip(tripId: number | string, payload: Partial<SavedTrip>): Promise<SavedTrip> {
+  const res = await fetch(`${API_BASE_URL}/saved-trips/${tripId}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || "Failed to update saved trip");
+  }
+  return res.json();
+}
+
+export async function deleteSavedTrip(tripId: number | string): Promise<{ message: string; id: number }> {
+  const res = await fetch(`${API_BASE_URL}/saved-trips/${tripId}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to delete saved trip");
+  return res.json();
+}
+
 // ─── Image Landmark & Photo Mood ─────────────────────────────────────────────
 
 export async function predictLandmark(file: File) {
@@ -430,11 +513,13 @@ export async function predictPhotoMood(file: File) {
 
 // ─── Highlights, Nearby & Route Optimization ─────────────────────────────────
 
-export async function getHighlights(query: string, destination?: string) {
+export async function getHighlights(query: string, destination?: string, destinationId?: string | number) {
   const target = destination || query;
-  const res = await fetch(
-    `${API_BASE_URL}/highlights/?query=${encodeURIComponent(query)}&destination=${encodeURIComponent(target)}`
-  );
+  let url = `${API_BASE_URL}/highlights/?query=${encodeURIComponent(query)}&destination=${encodeURIComponent(target)}`;
+  if (destinationId) {
+    url += `&destination_id=${encodeURIComponent(String(destinationId))}`;
+  }
+  const res = await fetch(url);
   if (!res.ok) throw new Error(`Highlights service error (${res.status})`);
   return res.json();
 }
@@ -474,14 +559,21 @@ export async function generatePackingList(payload: {
   return res.json();
 }
 
-export async function generatePlan(destination: string, days: number) {
+export async function generatePlan(destination: string, days: number, destinationId?: string | number) {
+  const payload: any = { destination, days };
+  if (destinationId) {
+    payload.destination_id = destinationId;
+  }
   const res = await fetch(`${API_BASE_URL}/plan/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ destination, days }),
+    body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error(`Plan generation failed (${res.status})`);
-  return res.json();
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(extractErrorMessage(data, `Plan generation failed (${res.status})`));
+  }
+  return data;
 }
 
 // ─── Authentication Endpoints ────────────────────────────────────────────────

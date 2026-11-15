@@ -1,18 +1,25 @@
 # app/routes/highlight_routes.py
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from typing import Optional
 from sqlalchemy.orm import Session
-from app.services.rag_engine import query_knowledge_base, ensure_initialized
-from app.services.highlights_service import top_highlights_from_rag
+from app.database import get_db
+from app.services.highlights_service import get_destination_highlights
 
 router = APIRouter(prefix="/highlights", tags=["highlights"])
-ensure_initialized()
 
 @router.get("/")
-def get_highlights(query: str, top: int = 3, destination: Optional[str] = None):
+def get_highlights(
+    query: str,
+    top: int = 4,
+    destination: Optional[str] = None,
+    destination_id: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
     target_dest = destination or query
-    rag = query_knowledge_base(query, destination_name=target_dest)
-    if "error" in rag:
-        rag = {"fallback": rag.get("fallback", {}), "snippets": rag.get("snippets", []), "context": rag.get("context", "")}
-    highlights = top_highlights_from_rag(rag, max_items=top, destination_name=target_dest)
-    return {"query": query, "highlights": highlights}
+    highlights = get_destination_highlights(
+        destination_name=target_dest,
+        destination_id=destination_id,
+        max_items=top,
+        db=db,
+    )
+    return {"query": query, "destination": target_dest, "highlights": highlights}

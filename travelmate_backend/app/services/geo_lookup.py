@@ -48,6 +48,8 @@ def guess_coordinates(name: str):
         "kerala": (10.8505, 76.2711),
         "pondicherry": (11.9416, 79.8083),
         "puducherry": (11.9416, 79.8083),
+        "agonda": (15.0514, 73.9844),
+        "tarkarli": (16.0357, 73.4908),
         "varanasi": (25.3176, 82.9739),
         "rann of kutch": (23.7337, 69.8597),
         "vadodara": (22.3072, 73.1812),

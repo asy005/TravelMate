@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   Loader2,
   ExternalLink,
@@ -23,18 +23,28 @@ import {
   CheckCircle2,
   MessageCircle,
   Utensils,
+  Bookmark,
+  BookmarkCheck,
+  Check,
+  Plus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 
 import { ReviewsSection } from "@/components/ReviewsSection";
-import { HighlightsBox } from "@/components/HighlightsBox";
 import { PackingListBox } from "@/components/PackingListBox";
-import { RouteOptimizerBox } from "@/components/RouteOptimizerBox";
+import { RouteOptimizerBox, Point } from "@/components/RouteOptimizerBox";
 import { SmartItineraryBox } from "@/components/SmartItineraryBox";
 import { LanguageSelector, getStoredLanguage } from "@/components/LanguageSelector";
-import { translateText, getDestinationById, resolveImageUrl } from "@/lib/api";
+import {
+  translateText,
+  getDestinationById,
+  resolveImageUrl,
+  saveTrip,
+  getSavedTripByDestination,
+  SavedTrip,
+} from "@/lib/api";
 import { DESTINATIONS } from "@/data/destinations";
 
 const WEATHER_CODE_MAP: Record<number, { label: string; icon: string }> = {
@@ -69,6 +79,7 @@ const DestinationPage = () => {
   const navigate = useNavigate();
   const [destination, setDestination] = useState<any>(null);
   const [weather, setWeather] = useState<any>(null);
+  const [dailyForecast, setDailyForecast] = useState<any>(null);
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -77,17 +88,37 @@ const DestinationPage = () => {
   const [isTranslatingDesc, setIsTranslatingDesc] = useState(false);
   const [activeImage, setActiveImage] = useState<string>(DEFAULT_IMAGE);
 
+  // Saved trip states
+  const [savedTripId, setSavedTripId] = useState<number | null>(null);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveStatusMsg, setSaveStatusMsg] = useState<string | null>(null);
+
+  // User customizations to persist
+  const [selectedActivities, setSelectedActivities] = useState<any[]>([]);
+  const [packingState, setPackingState] = useState<{
+    packingList: string[];
+    packedItems: Record<string, boolean>;
+    customItems: string[];
+  }>({ packingList: [], packedItems: {}, customItems: [] });
+  const [itineraryPlan, setItineraryPlan] = useState<Record<string, string[]> | null>(null);
+  const [itineraryDays, setItineraryDays] = useState(3);
+  const [routeStops, setRouteStops] = useState<Point[]>([]);
+  const [userNotes, setUserNotes] = useState("");
+
   const fetchWeather = async (lat: number, lon: number) => {
     setWeatherLoading(true);
     setWeatherError(null);
     try {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`;
       const res = await axios.get(url, { timeout: 8000 });
       setWeather(res.data?.current_weather || null);
+      setDailyForecast(res.data?.daily || null);
     } catch (err: any) {
       console.warn("Weather fetch failed:", err);
       setWeatherError("Weather service temporarily unreachable. Click retry to update.");
       setWeather(null);
+      setDailyForecast(null);
     } finally {
       setWeatherLoading(false);
     }
@@ -99,20 +130,27 @@ const DestinationPage = () => {
 
     const loadData = async () => {
       let foundDest: any = null;
+      const decodedId = id ? decodeURIComponent(id) : "";
 
       try {
         const landmarkSaved = localStorage.getItem("travelmate_landmark_history");
         if (landmarkSaved) {
           const landmarkList = JSON.parse(landmarkSaved);
           foundDest = landmarkList.find(
-            (d: any) => String(d.id) === id || (d.name && String(d.name) === id)
+            (d: any) =>
+              String(d.id) === id ||
+              String(d.id) === decodedId ||
+              (d.name && String(d.name).toLowerCase() === decodedId.toLowerCase())
           );
         }
       } catch {}
 
       if (!foundDest) {
         foundDest = DESTINATIONS.find(
-          (d) => String(d.id) === id || d.name.toLowerCase() === id?.toLowerCase()
+          (d) =>
+            String(d.id) === id ||
+            String(d.id) === decodedId ||
+            d.name.toLowerCase() === decodedId.toLowerCase()
         );
       }
 
@@ -121,7 +159,31 @@ const DestinationPage = () => {
           const recSaved = localStorage.getItem("travelmate_recommendations");
           if (recSaved) {
             const parsed = JSON.parse(recSaved);
-            foundDest = (parsed.destinations || []).find((d: any) => String(d.id) === id);
+            foundDest = (parsed.destinations || []).find(
+              (d: any) =>
+                String(d.id) === id ||
+                String(d.id) === decodedId ||
+                (d.name && d.name.toLowerCase() === decodedId.toLowerCase())
+            );
+          }
+        } catch {}
+      }
+
+      if (!foundDest) {
+        try {
+          const localTrips: any[] = JSON.parse(
+            localStorage.getItem("travelmate_saved_trips") || "[]"
+          );
+          const savedMatch = localTrips.find(
+            (t: any) =>
+              String(t.destination_id) === id ||
+              String(t.destination_id) === decodedId ||
+              (t.destination_name &&
+                t.destination_name.toLowerCase() === decodedId.toLowerCase()) ||
+              (t.destination && t.destination.toLowerCase() === decodedId.toLowerCase())
+          );
+          if (savedMatch && savedMatch.destination_data) {
+            foundDest = { ...savedMatch.destination_data };
           }
         } catch {}
       }
@@ -148,6 +210,55 @@ const DestinationPage = () => {
         if (foundDest.lat && foundDest.lon) {
           fetchWeather(foundDest.lat, foundDest.lon);
         }
+
+        // Try restoring saved trip if one exists
+        try {
+          const token = localStorage.getItem("travelmate_token") || localStorage.getItem("access_token");
+          let existingTrip: SavedTrip | null = null;
+          if (token && foundDest.id) {
+            existingTrip = await getSavedTripByDestination(foundDest.id);
+          }
+          if (!existingTrip) {
+            try {
+              const localTrips: any[] = JSON.parse(localStorage.getItem("travelmate_saved_trips") || "[]");
+              existingTrip = localTrips.find(
+                (t: any) =>
+                  (t.destination_id && String(t.destination_id) === String(foundDest.id)) ||
+                  (t.destination_name && t.destination_name.toLowerCase() === foundDest.name.toLowerCase()) ||
+                  (t.destination && t.destination.toLowerCase() === foundDest.name.toLowerCase())
+              ) || null;
+            } catch {}
+          }
+
+          if (existingTrip && isMounted) {
+            setSavedTripId(existingTrip.id || null);
+            setIsSaved(true);
+            if (existingTrip.itinerary) {
+              setItineraryPlan(existingTrip.itinerary);
+            }
+            if (existingTrip.trip_duration_days) {
+              setItineraryDays(existingTrip.trip_duration_days);
+            }
+            if (existingTrip.route_stops && Array.isArray(existingTrip.route_stops)) {
+              setRouteStops(existingTrip.route_stops);
+            }
+            if (existingTrip.selected_activities && Array.isArray(existingTrip.selected_activities)) {
+              setSelectedActivities(existingTrip.selected_activities);
+            }
+            if (existingTrip.packing_checklist || existingTrip.custom_packing_items) {
+              setPackingState({
+                packingList: [],
+                packedItems: existingTrip.packing_checklist || {},
+                customItems: existingTrip.custom_packing_items || [],
+              });
+            }
+            if (existingTrip.notes) {
+              setUserNotes(existingTrip.notes);
+            }
+          }
+        } catch (err) {
+          console.warn("Notice: Saved trip check completed without saved record:", err);
+        }
       } else {
         setDestination(null);
         setLoading(false);
@@ -160,6 +271,101 @@ const DestinationPage = () => {
       isMounted = false;
     };
   }, [id]);
+
+  const handleSaveTrip = async () => {
+    if (!destination) return;
+    setIsSaving(true);
+    setSaveStatusMsg(null);
+
+    const token = localStorage.getItem("travelmate_token") || localStorage.getItem("access_token");
+    const destId = Number(destination.id) || null;
+    const destName = destination.name;
+
+    const payload: SavedTrip = {
+      id: savedTripId || undefined,
+      destination_id: destId,
+      destination_name: destName,
+      trip_title: `Custom Trip to ${destName}`,
+      trip_duration_days: itineraryDays || Number(destination.ideal_duration) || 3,
+      destination_data: {
+        id: destination.id,
+        name: destination.name,
+        state: destination.state,
+        country: destination.country,
+        category: destination.category,
+        average_budget: destination.average_budget || destination.budget,
+        lat: destination.lat,
+        lon: destination.lon,
+      },
+      itinerary: itineraryPlan,
+      selected_attractions: destination.attractions || [],
+      selected_activities: selectedActivities,
+      route_stops: routeStops,
+      packing_checklist: packingState.packedItems,
+      custom_packing_items: packingState.customItems,
+      trip_preferences: {
+        climate: weather?.temperature ? `${weather.temperature}°C` : "moderate",
+        duration: itineraryDays,
+      },
+      notes: userNotes || null,
+    };
+
+    if (token) {
+      try {
+        const saved = await saveTrip(payload);
+        if (saved) {
+          setSavedTripId(saved.id || null);
+          setIsSaved(true);
+          setSaveStatusMsg("Trip saved to your account!");
+          setTimeout(() => setSaveStatusMsg(null), 4000);
+        }
+      } catch (err: any) {
+        console.error("Save error:", err);
+        saveLocalTrip(payload);
+        setIsSaved(true);
+        setSaveStatusMsg("Saved locally to device!");
+        setTimeout(() => setSaveStatusMsg(null), 4000);
+      }
+    } else {
+      saveLocalTrip(payload);
+      setIsSaved(true);
+      setSaveStatusMsg("Saved to this device! Log in to sync across devices.");
+      setTimeout(() => setSaveStatusMsg(null), 4000);
+    }
+    setIsSaving(false);
+  };
+
+  const saveLocalTrip = (tripPayload: SavedTrip) => {
+    try {
+      const savedTrips: any[] = JSON.parse(localStorage.getItem("travelmate_saved_trips") || "[]");
+      const existingIdx = savedTrips.findIndex(
+        (t: any) =>
+          (t.destination_id && String(t.destination_id) === String(tripPayload.destination_id)) ||
+          (t.destination_name && t.destination_name.toLowerCase() === tripPayload.destination_name.toLowerCase())
+      );
+      if (existingIdx >= 0) {
+        savedTrips[existingIdx] = { ...savedTrips[existingIdx], ...tripPayload, updated_at: new Date().toISOString() };
+      } else {
+        savedTrips.push({
+          session_id: `local_trip_${Date.now()}`,
+          ...tripPayload,
+          saved_at: new Date().toISOString(),
+        });
+      }
+      localStorage.setItem("travelmate_saved_trips", JSON.stringify(savedTrips));
+    } catch {}
+  };
+
+  const toggleActivitySelection = (act: any) => {
+    setSelectedActivities((prev) => {
+      const exists = prev.some((a) => (a.id && a.id === act.id) || a.name === act.name);
+      if (exists) {
+        return prev.filter((a) => (a.id && a.id !== act.id) || a.name !== act.name);
+      } else {
+        return [...prev, act];
+      }
+    });
+  };
 
   const handleDescLangChange = async (newLang: string) => {
     setDescLang(newLang);
@@ -180,17 +386,6 @@ const DestinationPage = () => {
   };
 
   const handlePlanTrip = () => {
-    navigate(`/?destination=${encodeURIComponent(destination?.name || "")}#trip-chat-input`);
-    setTimeout(() => {
-      const inputEl = document.getElementById("trip-chat-input");
-      if (inputEl) {
-        inputEl.scrollIntoView({ behavior: "smooth", block: "center" });
-        inputEl.focus();
-      }
-    }, 150);
-  };
-
-  const handleOpenAIChat = () => {
     navigate(`/chat?destination=${encodeURIComponent(destination?.name || "")}`);
   };
 
@@ -258,15 +453,48 @@ const DestinationPage = () => {
           </span>
 
           <div className="flex items-center gap-2">
+            {isSaved && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/saved-trips")}
+                className="text-xs h-8 text-primary hover:text-primary/80 flex items-center gap-1.5"
+                title="Open Saved Trips"
+              >
+                <BookmarkCheck className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Saved Trips</span>
+              </Button>
+            )}
+
             <Button
-              variant="outline"
               size="sm"
-              onClick={handleOpenAIChat}
-              className="text-xs h-8 flex items-center gap-1.5"
+              variant={isSaved ? "outline" : "default"}
+              onClick={handleSaveTrip}
+              disabled={isSaving}
+              className={`text-xs h-8 flex items-center gap-1.5 font-medium transition-all ${
+                isSaved
+                  ? "border-emerald-500/50 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20"
+                  : ""
+              }`}
             >
-              <MessageCircle className="h-3.5 w-3.5 text-primary" />
-              <span className="hidden sm:inline">AI Chat</span>
+              {isSaving ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" />
+                  <span>Saving...</span>
+                </>
+              ) : isSaved ? (
+                <>
+                  <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 mr-1" />
+                  <span>Trip Saved ✓</span>
+                </>
+              ) : (
+                <>
+                  <Bookmark className="h-3.5 w-3.5 mr-1" />
+                  <span>Save Trip</span>
+                </>
+              )}
             </Button>
+
             <Button
               size="sm"
               onClick={handlePlanTrip}
@@ -447,32 +675,65 @@ const DestinationPage = () => {
               <span>Loading live meteorological forecast...</span>
             </div>
           ) : weather ? (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-              <div className="bg-muted/40 p-4 rounded-xl border border-border/40 flex items-center gap-3">
-                <span className="text-2xl">{weatherInfo?.icon || "🌤️"}</span>
-                <div>
-                  <p className="text-xs text-muted-foreground font-medium">Temperature</p>
-                  <p className="text-lg font-bold text-foreground">{weather.temperature}°C</p>
+            <div className="space-y-4 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-muted/40 p-4 rounded-xl border border-border/40 flex items-center gap-3">
+                  <span className="text-2xl">{weatherInfo?.icon || "🌤️"}</span>
+                  <div>
+                    <p className="text-xs text-muted-foreground font-medium">Temperature</p>
+                    <p className="text-lg font-bold text-foreground">{weather.temperature}°C</p>
+                  </div>
+                </div>
+
+                <div className="bg-muted/40 p-4 rounded-xl border border-border/40 flex items-center gap-3">
+                  <Wind className="h-6 w-6 text-sky-500" />
+                  <div>
+                    <p className="text-xs text-muted-foreground font-medium">Wind Speed</p>
+                    <p className="text-lg font-bold text-foreground">{weather.windspeed} km/h</p>
+                  </div>
+                </div>
+
+                <div className="bg-muted/40 p-4 rounded-xl border border-border/40 flex items-center gap-3">
+                  <Cloud className="h-6 w-6 text-primary" />
+                  <div>
+                    <p className="text-xs text-muted-foreground font-medium">Conditions</p>
+                    <p className="text-base font-semibold text-foreground">
+                      {weatherInfo?.label || `Code ${weather.weathercode}`}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="bg-muted/40 p-4 rounded-xl border border-border/40 flex items-center gap-3">
-                <Wind className="h-6 w-6 text-sky-500" />
-                <div>
-                  <p className="text-xs text-muted-foreground font-medium">Wind Speed</p>
-                  <p className="text-lg font-bold text-foreground">{weather.windspeed} km/h</p>
+              {/* 7-Day Forecast Strip */}
+              {dailyForecast && Array.isArray(dailyForecast.time) && dailyForecast.time.length > 0 && (
+                <div className="pt-3 border-t border-border/40 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-foreground">7-Day Meteorological Outlook</span>
+                    <span className="text-[10px] text-muted-foreground italic">Open-Meteo Meteorological Service</span>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                    {dailyForecast.time.slice(0, 7).map((dateStr: string, idx: number) => {
+                      const code = dailyForecast.weathercode?.[idx];
+                      const maxT = Math.round(Number(dailyForecast.temperature_2m_max?.[idx] ?? 0));
+                      const minT = Math.round(Number(dailyForecast.temperature_2m_min?.[idx] ?? 0));
+                      const icon = WEATHER_CODE_MAP[code]?.icon || "🌤️";
+                      const dayName = new Date(dateStr).toLocaleDateString("en-US", { weekday: "short" });
+                      return (
+                        <div
+                          key={dateStr}
+                          className="p-2.5 rounded-xl bg-muted/30 border border-border/40 text-center space-y-1"
+                        >
+                          <span className="text-[11px] font-semibold text-muted-foreground block">{dayName}</span>
+                          <span className="text-xl block my-0.5">{icon}</span>
+                          <div className="text-[11px] font-medium text-foreground">
+                            <span className="font-bold">{maxT}°</span> / <span className="text-muted-foreground">{minT}°</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-
-              <div className="bg-muted/40 p-4 rounded-xl border border-border/40 flex items-center gap-3">
-                <Cloud className="h-6 w-6 text-primary" />
-                <div>
-                  <p className="text-xs text-muted-foreground font-medium">Conditions</p>
-                  <p className="text-base font-semibold text-foreground">
-                    {weatherInfo?.label || `Code ${weather.weathercode}`}
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           ) : weatherError ? (
             <div className="p-3 bg-destructive/10 text-destructive rounded-xl text-xs flex items-center justify-between">
@@ -489,9 +750,12 @@ const DestinationPage = () => {
               )}
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground italic">
-              Live weather requires coordinates for this location.
-            </p>
+            <div className="p-3 bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 rounded-xl text-xs flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
+              <span>
+                Live weather requires coordinates for this location. Regional climate and seasonal recommendations are provided in the packing section below.
+              </span>
+            </div>
           )}
         </div>
 
@@ -636,40 +900,72 @@ const DestinationPage = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
-              {activities.map((act: any) => (
-                <div
-                  key={act.id || act.name}
-                  className="p-4 rounded-xl border border-border/60 bg-muted/20 hover:border-coral/40 transition-colors space-y-2 flex flex-col justify-between"
-                >
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-semibold text-sm text-foreground">{act.name}</span>
-                      {act.price > 0 ? (
-                        <span className="text-xs font-bold text-foreground">₹{act.price}</span>
-                      ) : (
-                        <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                          Free
-                        </span>
+              {activities.map((act: any) => {
+                const isSelected = selectedActivities.some(
+                  (sa) => (sa.id && sa.id === act.id) || sa.name === act.name
+                );
+
+                return (
+                  <div
+                    key={act.id || act.name}
+                    className={`p-4 rounded-xl border transition-all space-y-2.5 flex flex-col justify-between ${
+                      isSelected
+                        ? "bg-coral/5 border-coral/50 shadow-xs ring-1 ring-coral/20"
+                        : "bg-muted/20 border-border/60 hover:border-coral/40"
+                    }`}
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-semibold text-sm text-foreground">{act.name}</span>
+                        {act.price > 0 ? (
+                          <span className="text-xs font-bold text-foreground">₹{act.price}</span>
+                        ) : (
+                          <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                            Free
+                          </span>
+                        )}
+                      </div>
+
+                      {act.category && (
+                        <p className="text-xs text-muted-foreground">{act.category}</p>
                       )}
                     </div>
 
-                    {act.category && (
-                      <p className="text-xs text-muted-foreground">{act.category}</p>
-                    )}
-                  </div>
+                    <div className="pt-2 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3.5 w-3.5" /> {act.duration}h
+                        </span>
+                        {act.best_season && (
+                          <span className="flex items-center gap-1 truncate max-w-[120px]">
+                            <Calendar className="h-3.5 w-3.5 text-primary" /> {act.best_season}
+                          </span>
+                        )}
+                      </div>
 
-                  <div className="pt-2 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" /> {act.duration}h
-                    </span>
-                    {act.best_season && (
-                      <span className="flex items-center gap-1 truncate max-w-[140px]">
-                        <Calendar className="h-3 w-3 text-primary" /> {act.best_season}
-                      </span>
-                    )}
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={isSelected ? "default" : "outline"}
+                        onClick={() => toggleActivitySelection(act)}
+                        className={`text-[11px] h-7 px-2 font-medium shrink-0 ${
+                          isSelected ? "bg-coral hover:bg-coral/90 text-white" : ""
+                        }`}
+                      >
+                        {isSelected ? (
+                          <>
+                            <Check className="h-3 w-3 mr-1" /> Selected
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="h-3 w-3 mr-1" /> Add to Trip
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -766,70 +1062,130 @@ const DestinationPage = () => {
           />
         )}
 
-        {/* AI Highlights Box */}
-        <HighlightsBox destination={destination} />
-
-        {/* AI Packing List Box */}
-        <PackingListBox destination={destination} weather={weather} />
-
-        {/* AI Smart Itinerary Box */}
-        <SmartItineraryBox destination={destination} />
-
-        {/* AI Route Optimizer Box */}
-        <RouteOptimizerBox
-          points={[
-            {
-              name: destination.name,
-              lat: destination.lat,
-              lon: destination.lon,
-            },
-            ...(attractions.slice(0, 4).map((a: any) => ({
-              name: a.name,
-              lat: a.lat,
-              lon: a.lon,
-            }))),
-          ]}
-          destinationName={destination.name}
+        {/* Smart Packing List Box */}
+        <PackingListBox
+          destination={destination}
+          weather={weather}
+          selectedActivities={selectedActivities}
+          initialPackingList={packingState.packingList}
+          initialPackedItems={packingState.packedItems}
+          initialCustomItems={packingState.customItems}
+          onStateChange={(st) => setPackingState(st)}
         />
 
-        {/* Route Map & Navigation */}
-        <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/60 space-y-4">
-          <h2 className="text-xl font-bold text-foreground">Route Map &amp; Navigation</h2>
+        {/* Smart Day-by-Day Itinerary Box */}
+        <SmartItineraryBox
+          destination={destination}
+          initialPlan={itineraryPlan}
+          initialDays={itineraryDays}
+          onPlanChange={(plan, days) => {
+            setItineraryPlan(plan);
+            setItineraryDays(days);
+          }}
+        />
 
-          <div className="w-full rounded-xl border border-dashed border-border bg-muted/20 flex flex-col items-center justify-center gap-3 p-8 text-center">
-            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-              <Compass className="h-5 w-5" />
-            </div>
+        {/* Interactive Route Map & Optimizer */}
+        <RouteOptimizerBox
+          destination={destination}
+          attractions={attractions}
+          points={
+            routeStops.length > 0
+              ? routeStops
+              : [
+                  {
+                    name: destination.name,
+                    lat: destination.lat,
+                    lon: destination.lon,
+                  },
+                  ...attractions.slice(0, 4).map((a: any) => ({
+                    name: a.name,
+                    lat: a.lat,
+                    lon: a.lon,
+                    category: a.category,
+                    rating: a.rating,
+                  })),
+                ]
+          }
+          destinationName={destination.name}
+          onRouteStopsChange={(stops) => setRouteStops(stops)}
+        />
+
+        {/* Save Customized Trip & Notes Card */}
+        <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/60 space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
-              <p className="font-semibold text-base text-foreground mb-1">
-                Directions for {destination.name}
-              </p>
-              <p className="text-xs text-muted-foreground max-w-md">
-                Direct external navigation is active. Use the links below to view live terrain, traffic, and step-by-step turn directions.
+              <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
+                <Bookmark className="h-5 w-5 text-primary" />
+                <span>Save Your Customized Trip</span>
+              </h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Preserve your itinerary, selected activities, optimized route stops, and packing checklist.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3 justify-center mt-2">
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  destination.name + (destination.country ? ", " + destination.country : "")
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground px-4 py-2 rounded-xl text-xs font-semibold shadow-sm hover:opacity-90 transition"
+
+            <div className="flex items-center gap-2 flex-wrap">
+              {isSaved && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate("/saved-trips")}
+                  className="text-xs font-semibold px-3 h-9 shadow-sm border-primary/40 text-primary hover:bg-primary/10 flex items-center gap-1.5"
+                >
+                  <BookmarkCheck className="h-3.5 w-3.5" />
+                  View in Saved Trips
+                </Button>
+              )}
+
+              <Button
+                onClick={handleSaveTrip}
+                disabled={isSaving}
+                size="sm"
+                className={`text-xs font-semibold px-4 h-9 shadow-sm flex items-center gap-1.5 ${
+                  isSaved ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""
+                }`}
               >
-                <ExternalLink className="h-3.5 w-3.5" /> View on Google Maps
-              </a>
-              <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-                  destination.name + (destination.country ? ", " + destination.country : "")
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 bg-green-600 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-sm hover:opacity-90 transition"
-              >
-                <ExternalLink className="h-3.5 w-3.5" /> Get Directions
-              </a>
+              {isSaving ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" />
+                  Saving...
+                </>
+              ) : isSaved ? (
+                <>
+                  <Check className="h-3.5 w-3.5 text-white mr-1" />
+                  Trip Saved ✓ (Click to Update)
+                </>
+              ) : (
+                <>
+                  <Bookmark className="h-3.5 w-3.5 mr-1" />
+                  Save Customized Trip
+                </>
+              )}
+            </Button>
             </div>
+          </div>
+
+          {saveStatusMsg && (
+            <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-800 dark:text-emerald-300">
+              <span className="font-medium">{saveStatusMsg}</span>
+              <Link
+                to="/saved-trips"
+                className="font-semibold underline hover:text-emerald-900 dark:hover:text-emerald-100 flex items-center gap-1 shrink-0 ml-2"
+              >
+                View in Saved Trips →
+              </Link>
+            </div>
+          )}
+
+          <div>
+            <label className="text-xs font-medium text-muted-foreground block mb-1">
+              Personal Trip Notes &amp; Reminders (Optional)
+            </label>
+            <textarea
+              value={userNotes}
+              onChange={(e) => setUserNotes(e.target.value)}
+              placeholder="e.g., booked beachfront cottage, remember scuba certification card, sunset photography spots..."
+              className="w-full text-xs p-3 rounded-xl border border-border/60 bg-muted/20 focus:outline-none focus:ring-1 focus:ring-primary/40 min-h-[72px]"
+            />
           </div>
         </div>
 
@@ -900,15 +1256,6 @@ const DestinationPage = () => {
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0 flex-wrap justify-center">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleOpenAIChat}
-              className="text-xs h-9 px-3.5 flex items-center gap-1.5"
-            >
-              <MessageCircle className="h-4 w-4 text-primary" />
-              <span>Open in AI Chat</span>
-            </Button>
             <Button
               size="sm"
               onClick={handlePlanTrip}

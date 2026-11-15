@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { convertBudgetData } from "@/lib/api";
+import { convertBudgetData, saveTrip } from "@/lib/api";
 import {
   Tabs,
   TabsContent,
@@ -28,6 +28,9 @@ import {
   BedDouble,
   AlertTriangle,
   Briefcase,
+  Bookmark,
+  BookmarkCheck,
+  Check,
 } from "lucide-react";
 
 interface TripDashboardProps {
@@ -47,11 +50,75 @@ export const TripDashboard = ({ plan, sessionId }: TripDashboardProps) => {
   const [convertedBudget, setConvertedBudget] = useState<any | null>(null);
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const [conversionError, setConversionError] = useState<string | null>(null);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const overview = plan.trip_overview || {};
   const destinations = plan.destinations || [];
   const itinerary = plan.day_wise_itinerary || [];
   const budget = plan.budget;
+
+  useEffect(() => {
+    try {
+      const saved: any[] = JSON.parse(localStorage.getItem("travelmate_saved_trips") || "[]");
+      const currentDest = overview.primary_destination || destinations[0]?.name;
+      const exists = saved.some(
+        (t) =>
+          (sessionId && t.session_id === sessionId) ||
+          (currentDest && (t.destination === currentDest || t.destination_name === currentDest))
+      );
+      if (exists) setIsSaved(true);
+    } catch {}
+  }, [sessionId, overview.primary_destination, destinations]);
+
+  const handleSaveTrip = async () => {
+    setIsSaving(true);
+    const currentDest = overview.primary_destination || destinations[0]?.name || "Travel Plan";
+    const sid = sessionId || `session_${Date.now()}`;
+    const token = localStorage.getItem("travelmate_token") || localStorage.getItem("access_token");
+
+    // 1. Save locally to travelmate_saved_trips
+    try {
+      const savedTrips: any[] = JSON.parse(localStorage.getItem("travelmate_saved_trips") || "[]");
+      const filtered = savedTrips.filter((t) => t.session_id !== sid);
+      filtered.unshift({
+        session_id: sid,
+        destination: currentDest,
+        plan,
+        saved_at: new Date().toISOString(),
+      });
+      localStorage.setItem("travelmate_saved_trips", JSON.stringify(filtered));
+      setIsSaved(true);
+    } catch (e) {
+      console.warn("Could not save trip locally:", e);
+    }
+
+    // 2. If logged in, optionally sync to backend database
+    if (token) {
+      try {
+        const primaryDestObj = destinations[0] || {};
+        await saveTrip({
+          destination_id: primaryDestObj.id || null,
+          destination_name: currentDest,
+          trip_title: `AI Trip to ${currentDest}`,
+          trip_duration_days: overview.duration_days || 3,
+          destination_data: primaryDestObj,
+          itinerary: plan.day_wise_itinerary || null,
+          packing_checklist: checkedItems,
+          trip_preferences: {
+            budget: overview.budget,
+            travelers: overview.travelers,
+            travel_style: overview.travel_style,
+          },
+          notes: primaryDestObj?.explanation || null,
+        });
+      } catch (err) {
+        console.warn("Backend save skipped or failed, local save active:", err);
+      }
+    }
+
+    setIsSaving(false);
+  };
 
   useEffect(() => {
     if (selectedCurrency !== "INR" && budget) {
@@ -127,6 +194,35 @@ export const TripDashboard = ({ plan, sessionId }: TripDashboardProps) => {
             <h2 className="text-3xl font-bold">
               Trip to {overview.primary_destination || "your destination"}
             </h2>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {isSaved ? (
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => navigate("/saved-trips")}
+                  className="text-xs font-semibold h-8 rounded-xl border-primary/30 text-primary hover:bg-primary/10 gap-1.5"
+                >
+                  <BookmarkCheck className="h-3.5 w-3.5" />
+                  View Saved Trips
+                </Button>
+                <Badge className="bg-emerald-600/90 text-white border-0 text-xs py-1 px-2.5 flex items-center gap-1">
+                  <Check className="h-3 w-3" /> Saved ✓
+                </Badge>
+              </div>
+            ) : (
+              <Button
+                size="sm"
+                onClick={handleSaveTrip}
+                disabled={isSaving}
+                className="text-xs font-semibold h-8 rounded-xl shadow-sm gap-1.5"
+              >
+                <Bookmark className="h-3.5 w-3.5" />
+                {isSaving ? "Saving..." : "Save Trip"}
+              </Button>
+            )}
           </div>
         </div>
 

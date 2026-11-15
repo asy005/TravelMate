@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useContext } from "react";
-import { Menu, MapPin, Home, Heart, Building2, LogIn, LogOut, UserPlus, X } from "lucide-react";
+import { Menu, MapPin, Home, Heart, BookmarkCheck, Building2, LogIn, LogOut, UserPlus, X } from "lucide-react";
 import { AuthContext } from "@/hooks/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +13,7 @@ import {
 const BASE_NAV_LINKS = [
   { to: "/", label: "Home", icon: Home },
   { to: "/favorites", label: "Favorites", icon: Heart },
+  { to: "/saved-trips", label: "Saved Trips", icon: BookmarkCheck },
 ];
 
 const PARTNER_NAV_LINK = {
